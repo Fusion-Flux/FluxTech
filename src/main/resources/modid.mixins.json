@@ -4,12 +4,12 @@
   "package": "com.fusionflux.fluxtech.mixin",
   "compatibilityLevel": "JAVA_8",
   "mixins": [
+    "EntityMixin",
+    "PlayerEntityMixin"
   ],
   "client": [
-    "PlayerEntityMixin",
     "EntityRenderDispatcherMixin",
-    "CameraMixin",
-    "EntityMixin"
+    "GameRendererMixin"
   ],
   "injectors": {
     "defaultRequire": 1
