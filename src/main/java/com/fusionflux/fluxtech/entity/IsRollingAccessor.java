@@ -8,8 +8,7 @@ public interface IsRollingAccessor {
 
     void setRolling(boolean rolling);
 
-Direction getDirection();
+    Direction getDirection();
 
-void setDirection(Direction direction);
-
+    void setDirection(Direction direction);
 }

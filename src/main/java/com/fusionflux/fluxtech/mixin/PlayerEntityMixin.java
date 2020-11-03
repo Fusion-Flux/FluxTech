@@ -31,6 +31,7 @@ import java.util.List;
 
 @Mixin(PlayerEntity.class)
 public abstract class PlayerEntityMixin extends LivingEntity {
+
     @Shadow
     @Final
     public PlayerAbilities abilities;

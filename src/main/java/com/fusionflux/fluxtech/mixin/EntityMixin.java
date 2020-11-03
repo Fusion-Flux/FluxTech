@@ -17,8 +17,10 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(Entity.class)
 public abstract class EntityMixin implements IsRollingAccessor {
+
     private static final TrackedData<Boolean> IS_ROLLING = DataTracker.registerData(Entity.class, TrackedDataHandlerRegistry.BOOLEAN);
     private static final TrackedData<Direction> DIRECTION = DataTracker.registerData(Entity.class, TrackedDataHandlerRegistry.FACING);
+
     @Shadow
     @Final
     protected DataTracker dataTracker;
@@ -26,6 +28,11 @@ public abstract class EntityMixin implements IsRollingAccessor {
     @Override
     public boolean isRolling() {
         return dataTracker.get(IS_ROLLING);
+    }
+
+    @Override
+    public void setRolling(boolean rolling) {
+        dataTracker.set(IS_ROLLING, rolling);
     }
 
     @Override
@@ -38,15 +45,9 @@ public abstract class EntityMixin implements IsRollingAccessor {
         dataTracker.set(DIRECTION, direction);
     }
 
-    @Override
-    public void setRolling(boolean rolling) {
-        dataTracker.set(IS_ROLLING, rolling);
-    }
-
     @Inject(method = "<init>", at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/Entity;initDataTracker()V"))
-    public void Entity(EntityType<?> type, World world, CallbackInfo ci) {
+    public void Entity(EntityType<?> type, World world, CallbackInfo callbackInfo) {
         this.dataTracker.startTracking(IS_ROLLING, false);
+        this.dataTracker.startTracking(DIRECTION, Direction.UP);
     }
-
-
 }
