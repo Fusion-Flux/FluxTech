@@ -2,7 +2,7 @@ package com.fusionflux.fluxtech.entity;
 
 import net.minecraft.util.math.Direction;
 
-public interface IsRollingAccessor {
+public interface EntityAttachments {
 
     boolean isRolling();
 
@@ -11,4 +11,10 @@ public interface IsRollingAccessor {
     Direction getDirection();
 
     void setDirection(Direction direction);
+
+    double getMaxFallSpeed();
+
+    void setMaxFallSpeed(double maxFallSpeed);
+
+
 }

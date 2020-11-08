@@ -52,11 +52,6 @@ public abstract class PlayerEntityMixin extends LivingEntity {
     @Shadow
     public abstract ItemStack getEquippedStack(EquipmentSlot slot);
 
-    @Shadow
-    public abstract void sendMessage(Text message, boolean actionBar);
-
-    @Shadow
-    protected abstract void spawnParticles(ParticleEffect parameters);
 
     /*@Inject(method = "isInvulnerableTo", at = @At("HEAD"), cancellable = true)
     public void isInvulnerableTo(DamageSource damageSource, CallbackInfoReturnable<Boolean> cir) {

@@ -1,9 +1,12 @@
 package com.fusionflux.fluxtech.blocks.blockentities;
 
 import com.fusionflux.fluxtech.blocks.FluxTechBlocks;
-import com.fusionflux.fluxtech.entity.IsRollingAccessor;
+import com.fusionflux.fluxtech.entity.EntityAttachments;
+import com.fusionflux.fluxtech.mixin.EntityAccessor;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityDimensions;
+import net.minecraft.entity.EntityPose;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.Tickable;
 import net.minecraft.util.math.Box;
@@ -31,7 +34,8 @@ public class StarCoreEntity extends BlockEntity implements Tickable {
             List<Entity> listb = this.world.getEntitiesByClass(Entity.class, gravityBox2, null);
 
             for (Entity entity : list) {
-                IsRollingAccessor accessor = ((IsRollingAccessor) entity);
+                EntityAttachments accessor = ((EntityAttachments) entity);
+                EntityAccessor dimention =((EntityAccessor) entity) ;
 
                 Box boundingBox = entity.getBoundingBox();
                 listb.remove(entity);
@@ -82,10 +86,10 @@ public class StarCoreEntity extends BlockEntity implements Tickable {
 
                         Box oldBB = boundingBox.shrink(boundingBox.getXLength(), boundingBox.getYLength(), boundingBox.getZLength());
                         Box newBB = oldBB.expand(width / 2, height / 2, width / 2).offset(width / 2, height / 2, width / 2);
-
                         if (boundingBox != newBB) {
                             entity.setBoundingBox(newBB);
                         }
+
 
                         accessor.setRolling(true);
                         accessor.setDirection(Direction.UP);
@@ -97,6 +101,10 @@ public class StarCoreEntity extends BlockEntity implements Tickable {
                             entity.setVelocity(entity.getVelocity().add(0, 0.07 / decresey, 0));
                         }else{
                             entity.setVelocity(entity.getVelocity().add(0, 0.07, 0));
+                        }
+                        if(entity.verticalCollision)
+                        {
+                            entity.setOnGround(true);
                         }
                         double height = entity.getHeight();
                         double width = entity.getWidth();
@@ -135,10 +143,14 @@ public class StarCoreEntity extends BlockEntity implements Tickable {
                         }else{
                             entity.setVelocity(entity.getVelocity().add(0, 0, -0.07));
                         }
-
+                        if(entity.horizontalCollision)
+                        {
+                            entity.setOnGround(true);
+                        }
                         double height = entity.getHeight();
                         double width = entity.getWidth();
-
+                        EntityDimensions oldDimensions = entity.getDimensions(EntityPose.STANDING);
+                        EntityDimensions newDimensions = new EntityDimensions(oldDimensions.height, oldDimensions.width, false);
                         if (height >= width) {
                             height = entity.getHeight();
                             width = entity.getWidth();
@@ -153,6 +165,9 @@ public class StarCoreEntity extends BlockEntity implements Tickable {
 
                         if (boundingBox != newBB) {
                             entity.setBoundingBox(newBB);
+                            /*((EntityAccessor) entity).setDimensions(newDimensions);
+                            float newEyeHeight = ((EntityAccessor)entity).callGetEyeHeight(EntityPose.STANDING, newDimensions);
+                            ((EntityAccessor)entity).setStandingEyeHeight(newEyeHeight);*/
                         }
 
                         accessor.setRolling(true);
@@ -166,7 +181,10 @@ public class StarCoreEntity extends BlockEntity implements Tickable {
                         }else{
                             entity.setVelocity(entity.getVelocity().add(0, 0, 0.07));
                         }
-
+                        if(entity.horizontalCollision)
+                        {
+                            entity.setOnGround(true);
+                        }
                         double height = entity.getHeight();
                         double width = entity.getWidth();
 
@@ -204,7 +222,10 @@ public class StarCoreEntity extends BlockEntity implements Tickable {
                         }else{
                             entity.setVelocity(entity.getVelocity().add(-0.07, 0, 0));
                         }
-
+                        if(entity.horizontalCollision)
+                        {
+                            entity.setOnGround(true);
+                        }
                         double height = entity.getHeight();
                         double width = entity.getWidth();
 
@@ -234,7 +255,10 @@ public class StarCoreEntity extends BlockEntity implements Tickable {
                         }else{
                             entity.setVelocity(entity.getVelocity().add(0.07, 0, 0));
                         }
-
+                        if(entity.horizontalCollision)
+                        {
+                            entity.setOnGround(true);
+                        }
                         double height = entity.getHeight();
                         double width = entity.getWidth();
 
@@ -279,7 +303,7 @@ public class StarCoreEntity extends BlockEntity implements Tickable {
                     entity.setBoundingBox(newBB);
                 }
 
-                ((IsRollingAccessor) entity).setRolling(false);
+                ((EntityAttachments) entity).setRolling(false);
             }
         }
     }

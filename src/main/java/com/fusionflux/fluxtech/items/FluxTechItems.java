@@ -21,7 +21,7 @@ public class FluxTechItems {
     public static void registerItems() {
         Registry.register(Registry.ITEM, new Identifier(FluxTech.MOD_ID, "handheld_propulsion_device"), HANDHELD_PROPULSION_DEVICE);
         Registry.register(Registry.ITEM, new Identifier(FluxTech.MOD_ID, "gravitrons"), GRAVITRONS);
-        Registry.register(Registry.ITEM, new Identifier(FluxTech.MOD_ID, "unstable_gravitrons"), UNSTABLE_GRAVITRONS);
+        //Registry.register(Registry.ITEM, new Identifier(FluxTech.MOD_ID, "unstable_gravitrons"), UNSTABLE_GRAVITRONS);
         Registry.register(Registry.ITEM, new Identifier(FluxTech.MOD_ID, "custom_material_leggings"), CUSTOM_MATERIAL_LEGGINGS);
     }
 

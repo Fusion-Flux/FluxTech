@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "id": "modid",
+  "id": "fluxtech",
   "version": "${version}",
 
   "name": "Example Mod",
@@ -23,7 +23,7 @@
     ]
   },
   "mixins": [
-    "modid.mixins.json"
+    "fluxtech.mixins.json"
   ],
 
   "depends": {

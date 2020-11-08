@@ -4,6 +4,7 @@
   "package": "com.fusionflux.fluxtech.mixin",
   "compatibilityLevel": "JAVA_8",
   "mixins": [
+    "EntityAccessor",
     "EntityMixin",
     "PlayerEntityMixin"
   ],

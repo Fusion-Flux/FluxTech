@@ -1,6 +1,6 @@
 package com.fusionflux.fluxtech.mixin;
 
-import com.fusionflux.fluxtech.entity.IsRollingAccessor;
+import com.fusionflux.fluxtech.entity.EntityAttachments;
 import net.minecraft.client.render.Camera;
 import net.minecraft.client.render.GameRenderer;
 import net.minecraft.client.util.math.MatrixStack;
@@ -21,7 +21,7 @@ public class GameRendererMixin {
 
     @Inject(method = "renderWorld", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/render/WorldRenderer;render(Lnet/minecraft/client/util/math/MatrixStack;FJZLnet/minecraft/client/render/Camera;Lnet/minecraft/client/render/GameRenderer;Lnet/minecraft/client/render/LightmapTextureManager;Lnet/minecraft/util/math/Matrix4f;)V"))
     private void preWorldRender(float tickDelta, long limitTime, MatrixStack matrix, CallbackInfo callbackInfo) {
-        IsRollingAccessor accessor = (IsRollingAccessor) camera.getFocusedEntity();
+        EntityAttachments accessor = (EntityAttachments) camera.getFocusedEntity();
 
         if (accessor.isRolling()) {
             Quaternion quaternion = accessor.getDirection().getRotationQuaternion();
