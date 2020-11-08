@@ -1,5 +1,7 @@
 package com.fusionflux.fluxtech.blocks;
 
+import com.fusionflux.fluxtech.entity.BlockCollisionLimiter;
+import com.fusionflux.fluxtech.sound.FluxTechSounds;
 import net.minecraft.block.*;
 import net.minecraft.block.piston.PistonBehavior;
 import net.minecraft.entity.Entity;
@@ -7,6 +9,7 @@ import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.item.ItemPlacementContext;
+import net.minecraft.sound.SoundCategory;
 import net.minecraft.state.StateManager;
 import net.minecraft.state.property.BooleanProperty;
 import net.minecraft.state.property.Properties;
@@ -24,6 +27,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class RepulsionGel extends Gel {
+
+    private final BlockCollisionLimiter limiter = new BlockCollisionLimiter();
 
     public RepulsionGel(AbstractBlock.Settings settings) {
         super(settings);
@@ -45,6 +50,16 @@ public class RepulsionGel extends Gel {
             if (!entity.isSneaking()) {
                 if (entity.getVelocity().y < 1.65)
                     entity.setVelocity(entity.getVelocity().add(0, 1.65D, 0));
+                if (limiter.check(world, entity)) {
+                    world.playSound(
+                            entity.getX(),entity.getY(),entity.getZ(),
+                            FluxTechSounds.GEL_BOUNCE_EVENT, // The sound that will play
+                            SoundCategory.BLOCKS, // This determines which of the volume sliders affect this sound
+                            .3f, //Volume multiplier, 1 is normal, 0.5 is half volume, etc
+                            1f, // Pitch multiplier, 1 is normal, 0.5 is half pitch, etc
+                            false
+                    );
+                }
             }
         }
     }

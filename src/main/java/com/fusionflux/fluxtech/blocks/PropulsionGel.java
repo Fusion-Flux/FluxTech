@@ -1,12 +1,15 @@
 package com.fusionflux.fluxtech.blocks;
 
 import com.fusionflux.fluxtech.entity.BlockCollisionLimiter;
+import com.fusionflux.fluxtech.sound.FluxTechSounds;
 import net.minecraft.block.*;
 import net.minecraft.block.piston.PistonBehavior;
+import net.minecraft.client.MinecraftClient;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.item.ItemPlacementContext;
+import net.minecraft.sound.SoundCategory;
 import net.minecraft.state.StateManager;
 import net.minecraft.state.property.BooleanProperty;
 import net.minecraft.state.property.Properties;
@@ -37,6 +40,7 @@ public class PropulsionGel extends Gel {
         this.addCollisionEffects(world, entity);
     }
 
+
     private void addCollisionEffects(World world, Entity entity) {
         if (entity.getType().equals(EntityType.BOAT)) {
             entity.damage(DamageSource.MAGIC, 200);
@@ -48,6 +52,16 @@ public class PropulsionGel extends Gel {
                             entity.setVelocity(entity.getVelocity().multiply(1.7, 1.0D, 1.7));
                         } else if (entity.getVelocity().x > 2 && entity.getVelocity().x < -2 && entity.getVelocity().y > 2 && entity.getVelocity().y < -2) {
                             entity.setVelocity(entity.getVelocity().multiply(1.01, 1.0D, 1.01));
+                        }
+                        if(world.isClient) {
+                            world.playSound(
+                                    entity.getX(),entity.getY(),entity.getZ(),
+                                    FluxTechSounds.GEL_RUN_EVENT, // The sound that will play
+                                    SoundCategory.BLOCKS, // This determines which of the volume sliders affect this sound
+                                    .3f, //Volume multiplier, 1 is normal, 0.5 is half volume, etc
+                                    1f, // Pitch multiplier, 1 is normal, 0.5 is half pitch, etc
+                                    false
+                            );
                         }
                     }
                 }
