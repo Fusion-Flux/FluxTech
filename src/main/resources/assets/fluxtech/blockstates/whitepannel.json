@@ -1,0 +1,15 @@
+{
+  "variants": {
+    "":[ { "model": "fluxtech:block/whitepannel" },
+      { "model": "fluxtech:block/whitepannel2" },
+      { "model": "fluxtech:block/whitepannel3" },
+      { "model": "fluxtech:block/whitepannel4" }
+
+
+    ]
+
+
+
+
+  }
+}
