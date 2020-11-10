@@ -1,4 +1,12 @@
 {
   "subtitles.fluxtech.gelbounce": "Repulsion Gel Bounce",
-  "subtitles.fluxtech.gelrun": "Repulsion Gel Run"
+  "subtitles.fluxtech.gelrun": "Propulsion Gel Run",
+  "subtitles.fluxtech.hpdblast": "HPD Blast",
+
+  "item.fluxtech.handheld_propulsion_device": "Handheld Propulsion Device",
+  "item.fluxtech.gravitrons": "Gravitrons",
+
+  "block.fluxtech.propulsion_gel": "Propulsion Gel",
+  "block.fluxtech.repulsion_gel": "Repulsion Gel",
+  "block.fluxtech.gel": "Gel"
 }

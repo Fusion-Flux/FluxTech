@@ -1,6 +1,9 @@
 package com.fusionflux.fluxtech.mixin;
 
+import com.fusionflux.fluxtech.blocks.FluxTechBlocks;
 import com.fusionflux.fluxtech.entity.EntityAttachments;
+import net.minecraft.block.Blocks;
+import net.minecraft.client.MinecraftClient;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityDimensions;
 import net.minecraft.entity.EntityPose;
@@ -8,6 +11,7 @@ import net.minecraft.entity.EntityType;
 import net.minecraft.entity.data.DataTracker;
 import net.minecraft.entity.data.TrackedData;
 import net.minecraft.entity.data.TrackedDataHandlerRegistry;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
@@ -28,7 +32,7 @@ public abstract class EntityMixin implements EntityAttachments {
     @Final
     protected DataTracker dataTracker;
 
-    public double maxFallSpeed = 1;
+    public double maxFallSpeed = 0;
 
     @Override
     public double getMaxFallSpeed() {
@@ -58,6 +62,12 @@ public abstract class EntityMixin implements EntityAttachments {
     @Shadow
     public abstract boolean isOnGround();
 
+    @Shadow public World world;
+
+    @Shadow public abstract BlockPos getBlockPos();
+
+    @Shadow public abstract Vec3d getPos();
+
     @Override
     public boolean isRolling() {
         return dataTracker.get(IS_ROLLING);
@@ -86,12 +96,14 @@ public abstract class EntityMixin implements EntityAttachments {
 
     @Inject(method = "tick", at = @At("HEAD"), cancellable = true)
     public void tick(CallbackInfo ci) {
-        if (this.getVelocity().y < maxFallSpeed) {
-            maxFallSpeed = (this.getVelocity().y);
-        }
-        if (this.isOnGround()) {
-            maxFallSpeed = 1;
-        }
+            if(maxFallSpeed == 10 && world.getBlockState(this.getBlockPos()).getBlock() == FluxTechBlocks.PROPULSION_GEL){
+                maxFallSpeed = 10;
+            }else{
+                if(maxFallSpeed>0){
+                    maxFallSpeed=maxFallSpeed-1;
+                }
+            }
+
     }
 
     /*@Inject(method = "calculateDimensions", at = @At("TAIL"))

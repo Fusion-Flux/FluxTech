@@ -12,5 +12,13 @@
 		"sounds": [
 			"fluxtech:gelrun"
 		]
+	},
+	"hpdblast": {
+		"subtitle": "subtitles.fluxtech.hpdblast",
+		"sounds": [
+			"fluxtech:hpdblast",
+			"fluxtech:hpdblast2",
+			"fluxtech:hpdblast3"
+		]
 	}
 }

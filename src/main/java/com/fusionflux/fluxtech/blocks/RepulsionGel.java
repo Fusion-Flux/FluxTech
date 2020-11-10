@@ -51,17 +51,11 @@ public class RepulsionGel extends Gel {
                 if (entity.getVelocity().y < 1.65)
                     entity.setVelocity(entity.getVelocity().add(0, 1.65D, 0));
                 if (limiter.check(world, entity)) {
-                    world.playSound(
-                            entity.getX(),entity.getY(),entity.getZ(),
-                            FluxTechSounds.GEL_BOUNCE_EVENT, // The sound that will play
-                            SoundCategory.BLOCKS, // This determines which of the volume sliders affect this sound
-                            .3f, //Volume multiplier, 1 is normal, 0.5 is half volume, etc
-                            1f, // Pitch multiplier, 1 is normal, 0.5 is half pitch, etc
-                            false
-                    );
+                    entity.playSound(FluxTechSounds.GEL_BOUNCE_EVENT, .4F, 1F);
                 }
             }
         }
     }
     }
+
 }
