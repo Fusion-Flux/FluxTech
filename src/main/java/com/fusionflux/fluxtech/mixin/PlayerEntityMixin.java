@@ -11,8 +11,8 @@ import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.player.PlayerAbilities;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
-import net.minecraft.particle.ParticleEffect;
-import net.minecraft.text.Text;
+import net.minecraft.sound.SoundEvent;
+import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.Hand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Box;
@@ -44,7 +44,7 @@ public abstract class PlayerEntityMixin extends LivingEntity {
     private double experimental = 0;
     private double launchd = .7;
     private boolean wasOnGround = ((PlayerEntity) (Object) this).isOnGround();
-
+public boolean contactMade = false;
     protected PlayerEntityMixin(EntityType<? extends LivingEntity> entityType, World world) {
         super(entityType, world);
     }
@@ -61,6 +61,8 @@ public abstract class PlayerEntityMixin extends LivingEntity {
             cir.setReturnValue(true);
         }
     }*/
+
+    @Shadow public abstract void playSound(SoundEvent sound, float volume, float pitch);
 
     @Inject(method = "isInvulnerableTo", at = @At("HEAD"), cancellable = true)
     public void isInvulnerableTo(DamageSource damageSource, CallbackInfoReturnable<Boolean> cir) {
@@ -87,6 +89,14 @@ public abstract class PlayerEntityMixin extends LivingEntity {
         }
     }
 
+    @Inject(method="getFallSound", at = @At("HEAD"), cancellable = true)
+    protected void getFallSound(int distance, CallbackInfoReturnable<SoundEvent> cir){
+        ItemStack itemFeet = this.getEquippedStack(EquipmentSlot.FEET);
+        if(itemFeet.getItem().equals(FluxTechItems.GRAVITRONS)){
+            cir.setReturnValue(SoundEvents.BLOCK_NETHERITE_BLOCK_FALL);
+        }
+    }
+
     @Inject(method = "tick", at = @At("HEAD"), cancellable = true)
     public void tick(CallbackInfo ci) {
 
@@ -101,19 +111,27 @@ public abstract class PlayerEntityMixin extends LivingEntity {
 
         boolean isOnGround = ((PlayerEntity) (Object) this).isOnGround();
         //if(wasOnGround != isOnGround && isOnGround) {
-        if (this.isOnGround() && groundpound == 1) {
+        if (groundpound == 1) {
             groundpound = 0;
             //double launchd = .7;
-            double test = experimental * 4;
-            Box shockwaveBox = this.getBoundingBox();
+            //double test = experimental * 4;
+            //Box shockwaveBox = this.getBoundingBox();
             List<Entity> listc = this.world.getEntitiesByClass(Entity.class, this.getBoundingBox(), null);
             listc.remove(this);
             for (Entity entity : listc) {
                 this.targetEntity = entity;
+                this.playSound(SoundEvents.ENTITY_TURTLE_EGG_CRACK, 1, 1);
+                this.playSound(SoundEvents.BLOCK_HONEY_BLOCK_STEP, 2, 1);
                 this.targetEntity.damage(DamageSource.ANVIL, 20);
+
+                    //this.setVelocity(this.getVelocity().x, this.getVelocity().y *-.5, this.getVelocity().z);
+
+
             }
 
-            BlockPos playerPos = ((PlayerEntity) (Object) this).getBlockPos();
+
+
+            /*BlockPos playerPos = ((PlayerEntity) (Object) this).getBlockPos();
             if (!itemStack5.getItem().equals(FluxTechItems.GRAVITRONS)) {
                 DelayedForLoopManager.add(new DelayedForLoop((a) -> {
                     if (a % 2 == 0) {
@@ -142,7 +160,7 @@ public abstract class PlayerEntityMixin extends LivingEntity {
                                         double dx = playerPos.getX() - x;
                                         double dz = playerPos.getZ() - z;
                                         pos.set(x, y - 1, z);
-                                        //double horizDist = Math.sqrt(dx * dx + dz * dz);
+                                        //double horizDist = Math.sqrt(dx * dx + dz * dz);*/
                                     /*if (horizDist > t-1 && horizDist < t){
                                         FallingBlockEntity f = new FallingBlockEntity(world, pos.getX()+0.5D, pos.getY(), pos.getZ()+0.5D, world.getBlockState(pos));
                                         f.timeFalling = 1;
@@ -152,7 +170,7 @@ public abstract class PlayerEntityMixin extends LivingEntity {
                                         world.spawnEntity(f);
                                     }*/
                                         //double distance = (x)+(z); &&((dx+dz)<t || (dx-dz)<t || (-dx-dz)<t ||(-dx+dz)<t)
-                                        BlockState h = world.getBlockState(pos);
+                                        /*BlockState h = world.getBlockState(pos);
                                         if ((h != Blocks.AIR.getDefaultState()) && ((dx + dz) > t - 1 || (dx - dz) > t - 1 || (-dx - dz) > t - 1 || (-dx + dz) > t - 1) && t > 1) {
                                             FallingBlockEntity f = new FallingBlockEntity(world, pos.getX() + .5, pos.getY(), pos.getZ() + 0.5D, world.getBlockState(pos));
                                             world.setBlockState(pos, Blocks.AIR.getDefaultState());
@@ -177,7 +195,7 @@ public abstract class PlayerEntityMixin extends LivingEntity {
                         }
                     }
                 }, 1, (test + 1) * 2));
-            }
+            }*/
             launchd = .7;
             //experimental = 0;
         }

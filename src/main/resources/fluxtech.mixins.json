@@ -6,7 +6,8 @@
   "mixins": [
     "EntityAccessor",
     "EntityMixin",
-    "PlayerEntityMixin"
+    "PlayerEntityMixin",
+    "ArmorItemMixin"
   ],
   "client": [
     "EntityRenderDispatcherMixin",
