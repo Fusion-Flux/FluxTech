@@ -1,6 +1,5 @@
 package com.fusionflux.fluxtech.mixin;
 
-
 import com.fusionflux.fluxtech.items.FluxTechItems;
 import net.minecraft.entity.*;
 import net.minecraft.entity.damage.DamageSource;
@@ -28,7 +27,8 @@ public abstract class PlayerEntityMixin extends LivingEntity {
     @Final
     public PlayerAbilities abilities;
     private int groundpound = 0;
-    private double experimental = 0;
+    private double fallSpeedMax = 0;
+
     protected PlayerEntityMixin(EntityType<? extends LivingEntity> entityType, World world) {
         super(entityType, world);
     }
@@ -77,18 +77,29 @@ public abstract class PlayerEntityMixin extends LivingEntity {
         ItemStack itemStack5 = this.getEquippedStack(EquipmentSlot.FEET);
         if (!this.isOnGround() && this.getVelocity().y < -1 && (itemStack5.getItem().equals(FluxTechItems.GRAVITRONS) || itemStack5.getItem().equals(FluxTechItems.UNSTABLE_GRAVITRONS))) {
             groundpound = 1;
-            if (this.getVelocity().y < experimental) {
-                experimental = (this.getVelocity().y) * -1;
+            if (this.getVelocity().y < fallSpeedMax) {
+                fallSpeedMax = (this.getVelocity().y) * -1;
             }
         }
         if (groundpound == 1) {
-            groundpound = 0;
-            List<Entity> listhurt = this.world.getEntitiesByClass(Entity.class, this.getBoundingBox(), null);
+            List<LivingEntity> listhurt = this.world.getEntitiesByClass(LivingEntity.class, this.getBoundingBox(), null);
             listhurt.remove(this);
-            for (Entity entity : listhurt) {
-                this.playSound(SoundEvents.ENTITY_TURTLE_EGG_CRACK, 1, 1);
-                this.playSound(SoundEvents.BLOCK_HONEY_BLOCK_STEP, 2, 1);
-                entity.damage(DamageSource.ANVIL, 20);
+            for (LivingEntity entity : listhurt) {
+                entity.damage(DamageSource.GENERIC, 30);
+                if(entity.getHealth()<=0)
+                {
+                    this.playSound(SoundEvents.ENTITY_TURTLE_EGG_CRACK, 1, 1);
+                    this.playSound(SoundEvents.BLOCK_HONEY_BLOCK_STEP, 2, 1);
+                }
+                this.setVelocity(this.getVelocity().x, fallSpeedMax/1.5, this.getVelocity().z);
+                groundpound = 0;
+                fallSpeedMax = 0;
+                break;
+            }
+            if(this.isOnGround())
+            {
+                groundpound = 0;
+                fallSpeedMax = 0;
             }
         }
     }
