@@ -27,7 +27,7 @@ public class FabricItem extends Item {
             Vec3d velocity = context.getPlayer().getVelocity();
             context.getPlayer().getItemCooldownManager().set(this, 2);
             context.getPlayer().setVelocity(velocity.x, velocity.y + 2, velocity.z);
-context.getPlayer().playSound(SoundEvents.ENTITY_GENERIC_EXPLODE, 2F,1F);
+context.getPlayer().playSound(SoundEvents.ENTITY_GENERIC_EXPLODE, 2F,3F);
 context.getWorld().addParticle(ParticleTypes.EXPLOSION_EMITTER, context.getPlayer().getX(),context.getPlayer().getY(),context.getPlayer().getZ(),0,0,0);
         }
 
