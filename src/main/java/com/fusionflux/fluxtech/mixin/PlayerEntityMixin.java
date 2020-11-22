@@ -92,7 +92,7 @@ public abstract class PlayerEntityMixin extends LivingEntity {
                     this.playSound(SoundEvents.ENTITY_TURTLE_EGG_CRACK, 1, 1);
                     this.playSound(SoundEvents.BLOCK_HONEY_BLOCK_STEP, 2, 1);
                 }
-                this.setVelocity(this.getVelocity().x, fallSpeedMax/1.5, this.getVelocity().z);
+                this.setVelocity(this.getVelocity().x, fallSpeedMax/FluxTechConfig.VALUES.CRUSH_BOUNCE_MULTIPLIER.getValue(), this.getVelocity().z);
                 groundpound = 0;
                 fallSpeedMax = 0;
                 break;

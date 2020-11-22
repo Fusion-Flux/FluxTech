@@ -47,6 +47,7 @@
   "config.fluxtech.values": "Values",
   "config.fluxtech.values.aeroarmor_flight_boost": "Aeroarmor Flight Boost",
   "config.fluxtech.values.hpd_launch_power": "HPD Launch Power",
+  "config.fluxtech.values.crush_bounce_multiplier": "Gravitron Crush Bounce Multiplier",
 
   "config.fluxtech.integer_values": "Integer Values",
   "config.fluxtech.integer_values.gravitrion_crush_damage": "Gravitron Crush Damage",
@@ -57,5 +58,6 @@
   "config.fluxtech.enabled.gel_enabler": "Enable Gel",
   "config.fluxtech.enabled.gravitrons_enabler": "Enable Gravitrons",
   "config.fluxtech.enabled.aeroarmor_enabler": "Enable Aeroarmor",
-  "config.fluxtech.enabled.portal_blocks_enabler": "Enable Portal 2 Blocks"
+  "config.fluxtech.enabled.portal_blocks_enabler": "Enable Portal 2 Blocks",
+  "config.fluxtech.enabled.handheld_propulsion_device_preventer_enabler": "HPD Launch Preventer"
 }

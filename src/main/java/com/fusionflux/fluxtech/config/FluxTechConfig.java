@@ -18,8 +18,10 @@ public final class FluxTechConfig extends Config {
 				"config.fluxtech.values.hpd_launch_power");
 		public static final ConfigItem<Double> AEROARMOR_FLIGHT_BOOST = new ConfigItem<>("aeroarmor_flight_boost", 1.5D,
 				"config.fluxtech.values.aeroarmor_flight_boost");
+		public static final ConfigItem<Double> CRUSH_BOUNCE_MULTIPLIER = new ConfigItem<>("crush_bounce_multiplier", 1.5D,
+				"config.fluxtech.values.crush_bounce_multiplier");
 
-		public static final List<ConfigItem<?>> OPTIONS = ImmutableList.of(AEROARMOR_FLIGHT_BOOST,HPD_LAUNCH_POWER);
+		public static final List<ConfigItem<?>> OPTIONS = ImmutableList.of(AEROARMOR_FLIGHT_BOOST,HPD_LAUNCH_POWER,CRUSH_BOUNCE_MULTIPLIER);
 
 		public VALUES() {
 			super(OPTIONS, "values");
