@@ -1,5 +1,6 @@
 package com.fusionflux.fluxtech.mixin;
 
+import com.fusionflux.fluxtech.config.FluxTechConfig;
 import com.fusionflux.fluxtech.items.FluxTechItems;
 import net.minecraft.entity.*;
 import net.minecraft.entity.damage.DamageSource;
@@ -51,7 +52,7 @@ public abstract class PlayerEntityMixin extends LivingEntity {
         ItemStack itemStack3 = this.getEquippedStack(EquipmentSlot.LEGS);
         ItemStack itemStack5 = this.getEquippedStack(EquipmentSlot.FEET);
         if (!this.isOnGround() && (itemStack3.getItem().equals(FluxTechItems.AEROARMOR))) {
-            this.flyingSpeed = this.abilities.getFlySpeed() * (float) (this.isSprinting() ? 1.5 : 1);
+            this.flyingSpeed = this.abilities.getFlySpeed() * (float) (this.isSprinting() ? FluxTechConfig.VALUES.AEROARMOR_FLIGHT_BOOST.getValue() : 1);
         }
         if (!this.isOnGround() && this.getVelocity().y < -1 && (itemStack5.getItem().equals(FluxTechItems.GRAVITRONS) || itemStack5.getItem().equals(FluxTechItems.UNSTABLE_GRAVITRONS))) {
             super.travel(movementInput);
@@ -85,7 +86,7 @@ public abstract class PlayerEntityMixin extends LivingEntity {
             List<LivingEntity> listhurt = this.world.getEntitiesByClass(LivingEntity.class, this.getBoundingBox(), null);
             listhurt.remove(this);
             for (LivingEntity entity : listhurt) {
-                entity.damage(DamageSource.GENERIC, 30);
+                entity.damage(DamageSource.GENERIC, FluxTechConfig.INTEGER_VALUES.GRAVITRON_CRUSH_DAMAGE.getValue());
                 if(entity.getHealth()<=0)
                 {
                     this.playSound(SoundEvents.ENTITY_TURTLE_EGG_CRACK, 1, 1);

@@ -3,10 +3,10 @@
   "id": "fluxtech",
   "version": "${version}",
 
-  "name": "Example Mod",
-  "description": "This is an example description! Tell everyone what your mod is about!",
+  "name": "FluxTech",
+  "description": "A \"tech\" mod focused around cool movement",
   "authors": [
-    "Me!"
+    "Fusion Flux"
   ],
   "contact": {
     "homepage": "https://fabricmc.net/",
@@ -20,6 +20,9 @@
   "entrypoints": {
     "main": [
       "com.fusionflux.fluxtech.FluxTech"
+    ],
+    "modmenu" : [
+      "com.fusionflux.fluxtech.compatability.ModMenuIntegration"
     ]
   },
   "mixins": [
