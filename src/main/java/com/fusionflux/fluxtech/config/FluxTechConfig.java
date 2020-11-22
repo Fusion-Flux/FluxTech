@@ -61,7 +61,7 @@ public final class FluxTechConfig extends Config {
 
 		public static final ConfigItem<Integer> GRAVITRON_CRUSH_DAMAGE = new ConfigItem<>("gravitrion_crush_damage", 30,
 				"config.fluxtech.integer_values.gravitrion_crush_damage");
-		public static final ConfigItem<Integer> HPD_COOLDOWN = new ConfigItem<>("hpd_cooldown", 5,
+		public static final ConfigItem<Integer> HPD_COOLDOWN = new ConfigItem<>("hpd_cooldown", 10,
 				"config.fluxtech.integer_values.hpd_cooldown");
 		public static final List<ConfigItem<?>> OPTIONS = ImmutableList.of(GRAVITRON_CRUSH_DAMAGE, HPD_COOLDOWN);
 

@@ -20,8 +20,8 @@ import net.minecraft.world.World;
 import java.util.Objects;
 import java.util.Random;
 
-public class FabricItem extends Item {
-    public FabricItem(Settings settings) {
+public class HandheldPropulsionDevice extends Item {
+    public HandheldPropulsionDevice(Settings settings) {
         super(settings);
     }
 

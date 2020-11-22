@@ -5,7 +5,7 @@
   "subtitles.fluxtech.gelrun": "Propulsion Gel Run",
   "subtitles.fluxtech.hpdblast": "HPD Blast",
 
-  "item.fluxtech.handheld_propulsion_device": "Handheld Propulsion Device",
+  "item.fluxtech.handheld_propulsion_device": "HPD",
   "item.fluxtech.gravitrons": "Gravitrons",
   "item.fluxtech.aeroarmor": "Aeroarmor",
 
@@ -43,6 +43,7 @@
   "block.fluxtech.bottom_2x2_padded_grey_panel": "Bottom 2X2 Padded Grey Panel",
 
 
+  "config.fluxtech": "FluxTech Config",
 
   "config.fluxtech.values": "Values",
   "config.fluxtech.values.aeroarmor_flight_boost": "Aeroarmor Flight Boost",

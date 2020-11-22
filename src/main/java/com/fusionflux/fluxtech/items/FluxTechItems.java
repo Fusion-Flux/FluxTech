@@ -7,14 +7,13 @@ import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.item.ArmorItem;
 import net.minecraft.item.ArmorMaterial;
 import net.minecraft.item.Item;
-import net.minecraft.item.ItemGroup;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
 
 public class FluxTechItems {
     public static final ArmorMaterial FluxTechArmor = new FluxTechArmor();
     public static final ArmorMaterial ExperimentalArmor = new ExperimentalArmor();
-    public static final FabricItem HANDHELD_PROPULSION_DEVICE = new FabricItem(new FabricItemSettings().group(FluxTech.FLUXTECH_GROUP).maxCount(1).fireproof());
+    public static final HandheldPropulsionDevice HANDHELD_PROPULSION_DEVICE = new HandheldPropulsionDevice(new FabricItemSettings().group(FluxTech.FLUXTECH_GROUP).maxCount(1).fireproof());
     public static final Item GRAVITRONS = new ArmorItem(FluxTechArmor, EquipmentSlot.FEET, new Item.Settings().group(FluxTech.FLUXTECH_GROUP).fireproof());
     public static final Item UNSTABLE_GRAVITRONS = new ArmorItem(FluxTechArmor, EquipmentSlot.FEET, new Item.Settings().group(FluxTech.FLUXTECH_GROUP).fireproof());
     public static final Item AEROARMOR = new ArmorItem(FluxTechArmor, EquipmentSlot.LEGS, new Item.Settings().group(FluxTech.FLUXTECH_GROUP).fireproof());
