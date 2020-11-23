@@ -36,7 +36,7 @@ public class HandheldPropulsionDevice extends Item {
                     !blockUsedOn.isOf(FluxTechBlocks.TOP_SMOOTH_GREY_PANEL) && !blockUsedOn.isOf(FluxTechBlocks.PADDED_GREY_PANEL) &&
                     !blockUsedOn.isOf(FluxTechBlocks.BOTTOM_2X2_PADDED_GREY_PANEL) && !blockUsedOn.isOf(FluxTechBlocks.BOTTOM_PADDED_GREY_PANEL) &&
                     !blockUsedOn.isOf(FluxTechBlocks.CHISELED_PADDED_GREY_PANEL) && !blockUsedOn.isOf(FluxTechBlocks.TOP_2X2_PADDED_GREY_PANEL) &&
-                    !blockUsedOn.isOf(FluxTechBlocks.TOP_PADDED_GREY_PANEL) && !blockUsedOn.isOf(FluxTechBlocks.GEL) && !blockUsedOn.isOf(FluxTechBlocks.REPULSION_GEL)) {
+                    !blockUsedOn.isOf(FluxTechBlocks.TOP_PADDED_GREY_PANEL) && !blockUsedOn.isOf(FluxTechBlocks.PROPULSION_GEL) && !blockUsedOn.isOf(FluxTechBlocks.REPULSION_GEL)) {
                 Vec3d velocity = context.getPlayer().getVelocity();
                 context.getPlayer().getItemCooldownManager().set(this, FluxTechConfig.INTEGER_VALUES.HPD_COOLDOWN.getValue());
                 context.getPlayer().setVelocity(velocity.x, velocity.y + FluxTechConfig.VALUES.HPD_LAUNCH_POWER.getValue(), velocity.z);
