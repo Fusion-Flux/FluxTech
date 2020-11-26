@@ -14,7 +14,7 @@
     "issues": "https://github.com/Fusion-Flux/FluxTech/issues"
   },
 
-  "license": "CC0-1.0",
+  "license": "MIT",
   "icon": "assets/fluxtech/icon.png",
 
   "environment": "*",
