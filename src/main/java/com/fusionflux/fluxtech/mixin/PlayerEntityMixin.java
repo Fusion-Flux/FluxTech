@@ -70,7 +70,7 @@ public abstract class PlayerEntityMixin extends LivingEntity {
             cir.setReturnValue(SoundEvents.BLOCK_NETHERITE_BLOCK_FALL);
         }
         if(itemFeet.getItem().equals(FluxTechItems.SLIME_COATED_NETHERITE_BOOTS)){
-            cir.setReturnValue(SoundEvents.BLOCK_SLIME_BLOCK_FALL);
+            cir.setReturnValue(SoundEvents.BLOCK_SLIME_BLOCK_PLACE);
         }
     }
 
@@ -94,6 +94,7 @@ public abstract class PlayerEntityMixin extends LivingEntity {
             if (vec3d.y < 0.0D) {
                 //double d = this instanceof LivingEntity ? 1.0D : 1.8D;
                 this.setVelocity(vec3d.x, fallSpeedMax * .8, vec3d.z);
+                this.playSound(SoundEvents.BLOCK_SLIME_BLOCK_PLACE, 1, 1);
                 if (this.isOnGround() || this.isFallFlying() || this.isSneaking()) {
                     groundpound = 0;
                     fallSpeedMax = 0;
