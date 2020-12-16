@@ -42,7 +42,7 @@ public abstract class PlayerEntityMixin extends LivingEntity {
     @Inject(method = "isInvulnerableTo", at = @At("HEAD"), cancellable = true)
     public void isInvulnerableTo(DamageSource damageSource, CallbackInfoReturnable<Boolean> cir) {
         ItemStack itemStack5 = this.getEquippedStack(EquipmentSlot.FEET);
-        if (damageSource == DamageSource.FALL && (itemStack5.getItem().equals(FluxTechItems.GRAVITRONS) || itemStack5.getItem().equals(FluxTechItems.UNSTABLE_GRAVITRONS))) {
+        if (damageSource == DamageSource.FALL && (itemStack5.getItem().equals(FluxTechItems.GRAVITRONS) /*|| itemStack5.getItem().equals(FluxTechItems.UNSTABLE_GRAVITRONS)*/)) {
             cir.setReturnValue(true);
         }
     }
@@ -54,10 +54,10 @@ public abstract class PlayerEntityMixin extends LivingEntity {
         if (!this.isOnGround() && (itemStack3.getItem().equals(FluxTechItems.AEROARMOR))) {
             this.flyingSpeed = this.abilities.getFlySpeed() * (float) (this.isSprinting() ? FluxTechConfig.VALUES.AEROARMOR_FLIGHT_BOOST.getValue() : 1);
         }
-        if (!this.isOnGround() && this.getVelocity().y < -1 && (itemStack5.getItem().equals(FluxTechItems.GRAVITRONS) || itemStack5.getItem().equals(FluxTechItems.UNSTABLE_GRAVITRONS))) {
+        if (!this.isOnGround() && this.getVelocity().y < -1 && (itemStack5.getItem().equals(FluxTechItems.GRAVITRONS) /*|| itemStack5.getItem().equals(FluxTechItems.UNSTABLE_GRAVITRONS)*/)) {
             super.travel(movementInput);
         }
-        if (!this.isOnGround() && this.getVelocity().y < -2.5 && (itemStack5.getItem().equals(FluxTechItems.GRAVITRONS) || itemStack5.getItem().equals(FluxTechItems.UNSTABLE_GRAVITRONS))) {
+        if (!this.isOnGround() && this.getVelocity().y < -2.5 && (itemStack5.getItem().equals(FluxTechItems.GRAVITRONS) /*|| itemStack5.getItem().equals(FluxTechItems.UNSTABLE_GRAVITRONS)*/)) {
             super.travel(movementInput);
             super.travel(movementInput);
         }
@@ -69,6 +69,9 @@ public abstract class PlayerEntityMixin extends LivingEntity {
         if(itemFeet.getItem().equals(FluxTechItems.GRAVITRONS)){
             cir.setReturnValue(SoundEvents.BLOCK_NETHERITE_BLOCK_FALL);
         }
+        if(itemFeet.getItem().equals(FluxTechItems.SLIME_COATED_NETHERITE_BOOTS)){
+            cir.setReturnValue(SoundEvents.BLOCK_SLIME_BLOCK_FALL);
+        }
     }
 
     @Inject(method = "tick", at = @At("HEAD"), cancellable = true)
@@ -76,13 +79,32 @@ public abstract class PlayerEntityMixin extends LivingEntity {
 
 
         ItemStack itemStack5 = this.getEquippedStack(EquipmentSlot.FEET);
-        if (!this.isOnGround() && this.getVelocity().y < -1 && (itemStack5.getItem().equals(FluxTechItems.GRAVITRONS) || itemStack5.getItem().equals(FluxTechItems.UNSTABLE_GRAVITRONS))) {
-            groundpound = 1;
-            if (this.getVelocity().y < fallSpeedMax) {
+        if (!this.isOnGround() && (itemStack5.getItem().equals(FluxTechItems.GRAVITRONS) || (itemStack5.getItem().equals(FluxTechItems.SLIME_COATED_NETHERITE_BOOTS) /*|| itemStack5.getItem().equals(FluxTechItems.UNSTABLE_GRAVITRONS)*/))) {
+
+            if (this.getVelocity().y < fallSpeedMax /*&& ((!this.isSneaking() && itemStack5.getItem().equals(FluxTechItems.SLIME_COATED_NETHERITE_BOOTS) || itemStack5.getItem().equals(FluxTechItems.GRAVITRONS)))*/) {
                 fallSpeedMax = (this.getVelocity().y) * -1;
             }
+            if(this.getVelocity().y < -1)
+            {
+                groundpound = 1;
+            }
         }
-        if (groundpound == 1) {
+        Vec3d vec3d = this.getVelocity();
+        if(!this.isTouchingWater()&&!this.isSneaking()&&fallSpeedMax>.3 && this.isOnGround() && itemStack5.getItem().equals(FluxTechItems.SLIME_COATED_NETHERITE_BOOTS)) {
+            if (vec3d.y < 0.0D) {
+                //double d = this instanceof LivingEntity ? 1.0D : 1.8D;
+                this.setVelocity(vec3d.x, fallSpeedMax * .8, vec3d.z);
+                if (this.isOnGround() || this.isFallFlying() || this.isSneaking()) {
+                    groundpound = 0;
+                    fallSpeedMax = 0;
+                }
+            }
+        }else{
+            if(this.isSneaking()|| this.isTouchingWater()) {
+                fallSpeedMax = 0;
+            }
+        }
+        if (groundpound == 1 && itemStack5.getItem().equals(FluxTechItems.GRAVITRONS)) {
             List<LivingEntity> listhurt = this.world.getEntitiesByClass(LivingEntity.class, this.getBoundingBox(), null);
             listhurt.remove(this);
             for (LivingEntity entity : listhurt) {
@@ -97,7 +119,7 @@ public abstract class PlayerEntityMixin extends LivingEntity {
                 fallSpeedMax = 0;
                 break;
             }
-            if(this.isOnGround())
+            if(this.isOnGround()||this.isFallFlying())
             {
                 groundpound = 0;
                 fallSpeedMax = 0;

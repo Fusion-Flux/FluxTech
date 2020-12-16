@@ -12,11 +12,11 @@ import net.minecraft.util.registry.Registry;
 
 public class FluxTechItems {
     public static final ArmorMaterial FluxTechArmor = new FluxTechArmor();
-    public static final ArmorMaterial ExperimentalArmor = new ExperimentalArmor();
+    public static final ArmorMaterial FluxTechArmor2 = new FluxTechArmor2();
     public static final HandheldPropulsionDevice HANDHELD_PROPULSION_DEVICE = new HandheldPropulsionDevice(new FabricItemSettings().group(FluxTech.FLUXTECH_GROUP).maxCount(1).fireproof());
     public static final Item GRAVITRONS = new ArmorItem(FluxTechArmor, EquipmentSlot.FEET, new Item.Settings().group(FluxTech.FLUXTECH_GROUP).fireproof());
-    public static final Item UNSTABLE_GRAVITRONS = new ArmorItem(FluxTechArmor, EquipmentSlot.FEET, new Item.Settings().group(FluxTech.FLUXTECH_GROUP).fireproof());
     public static final Item AEROARMOR = new ArmorItem(FluxTechArmor, EquipmentSlot.LEGS, new Item.Settings().group(FluxTech.FLUXTECH_GROUP).fireproof());
+    public static final Item SLIME_COATED_NETHERITE_BOOTS = new ArmorItem(FluxTechArmor2, EquipmentSlot.FEET, new Item.Settings().group(FluxTech.FLUXTECH_GROUP).fireproof());
 
     public static void registerItems() {
         if (FluxTechConfig.ENABLED.ENABLED_HPD.getValue())
@@ -25,6 +25,8 @@ public class FluxTechItems {
             Registry.register(Registry.ITEM, new Identifier(FluxTech.MOD_ID, "gravitrons"), GRAVITRONS);
         if (FluxTechConfig.ENABLED.ENABLED_AEROARMOR.getValue())
             Registry.register(Registry.ITEM, new Identifier(FluxTech.MOD_ID, "aeroarmor"), AEROARMOR);
+
+        Registry.register(Registry.ITEM, new Identifier(FluxTech.MOD_ID, "slime_coated_netherite_boots"), SLIME_COATED_NETHERITE_BOOTS);
     }
 
 

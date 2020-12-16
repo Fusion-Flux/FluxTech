@@ -2,19 +2,20 @@ package com.fusionflux.fluxtech.items;
 
 import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.item.ArmorMaterial;
+import net.minecraft.item.Items;
 import net.minecraft.recipe.Ingredient;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.sound.SoundEvents;
 
-public class ExperimentalArmor implements ArmorMaterial {
+public class FluxTechArmor2 implements ArmorMaterial {
 
     private static final int[] BASE_DURABILITY = new int[]{13, 15, 16, 11};
-    private static final int[] PROTECTION_VALUES = new int[]{20, 20, 20, 20};
+    private static final int[] PROTECTION_VALUES = new int[]{3, 6, 8, 3};
 
 
     @Override
     public int getDurability(EquipmentSlot slot) {
-        return BASE_DURABILITY[slot.getEntitySlotId()] * 20;
+        return BASE_DURABILITY[slot.getEntitySlotId()] * 37;
     }
 
     @Override
@@ -24,22 +25,22 @@ public class ExperimentalArmor implements ArmorMaterial {
 
     @Override
     public int getEnchantability() {
-        return 0;
+        return 15;
     }
 
     @Override
     public SoundEvent getEquipSound() {
-        return SoundEvents.ITEM_ARMOR_EQUIP_TURTLE;
+        return SoundEvents.ITEM_ARMOR_EQUIP_NETHERITE;
     }
 
     @Override
     public Ingredient getRepairIngredient() {
-        return null;
+        return Ingredient.ofItems(Items.NETHERITE_INGOT);
     }
 
     @Override
     public String getName() {
-        return "name";
+        return "movementarmor2";
     }
 
     @Override
@@ -49,6 +50,6 @@ public class ExperimentalArmor implements ArmorMaterial {
 
     @Override
     public float getKnockbackResistance() {
-        return 0;
+        return 0.1F;
     }
 }
