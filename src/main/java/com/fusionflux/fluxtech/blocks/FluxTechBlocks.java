@@ -1,6 +1,7 @@
 package com.fusionflux.fluxtech.blocks;
 
 import com.fusionflux.fluxtech.FluxTech;
+import com.fusionflux.fluxtech.blocks.blockentities.HardLightBridgeEmitterBlock;
 import com.fusionflux.fluxtech.blocks.blockentities.StarCoreEntity;
 import com.fusionflux.fluxtech.config.FluxTechConfig;
 import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
@@ -11,7 +12,6 @@ import net.minecraft.block.PillarBlock;
 import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
-import net.minecraft.item.ItemGroup;
 import net.minecraft.sound.BlockSoundGroup;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.tag.Tag;
@@ -23,7 +23,11 @@ public class FluxTechBlocks {
     public static final PropulsionGel PROPULSION_GEL = new PropulsionGel(FabricBlockSettings.of(Material.WATER).hardness(0f).slipperiness(1).nonOpaque().sounds(new BlockSoundGroup(1,-1, SoundEvents.BLOCK_HONEY_BLOCK_BREAK, SoundEvents.BLOCK_HONEY_BLOCK_STEP, SoundEvents.BLOCK_HONEY_BLOCK_PLACE, SoundEvents.BLOCK_HONEY_BLOCK_HIT, SoundEvents.BLOCK_HONEY_BLOCK_FALL)));
     public static final RepulsionGel REPULSION_GEL = new RepulsionGel(FabricBlockSettings.of(Material.WATER).hardness(0f).nonOpaque().sounds(new BlockSoundGroup(1,-1, SoundEvents.BLOCK_HONEY_BLOCK_BREAK, SoundEvents.BLOCK_HONEY_BLOCK_STEP, SoundEvents.BLOCK_HONEY_BLOCK_PLACE, SoundEvents.BLOCK_HONEY_BLOCK_HIT, SoundEvents.BLOCK_HONEY_BLOCK_FALL)));
     public static final Gel GEL = new Gel(FabricBlockSettings.of(Material.WATER).hardness(0f).nonOpaque().sounds(new BlockSoundGroup(1,-1, SoundEvents.BLOCK_HONEY_BLOCK_BREAK, SoundEvents.BLOCK_HONEY_BLOCK_STEP, SoundEvents.BLOCK_HONEY_BLOCK_PLACE, SoundEvents.BLOCK_HONEY_BLOCK_HIT, SoundEvents.BLOCK_HONEY_BLOCK_FALL)));
-    public static final StarCore CORE = new StarCore(FabricBlockSettings.of(Material.METAL).hardness(3.5f));
+    //public static final StarCore CORE = new StarCore(FabricBlockSettings.of(Material.METAL).hardness(3.5f));
+
+    public static final HardLightBridgeEmitterBlock EMITTER_TEST = new HardLightBridgeEmitterBlock(FabricBlockSettings.of(Material.METAL).hardness(3.5f));
+    public static final Block BRIDGE = new Block(FabricBlockSettings.of(Material.WATER).hardness(0f).nonOpaque().sounds(new BlockSoundGroup(1,-1, SoundEvents.BLOCK_HONEY_BLOCK_BREAK, SoundEvents.BLOCK_HONEY_BLOCK_STEP, SoundEvents.BLOCK_HONEY_BLOCK_PLACE, SoundEvents.BLOCK_HONEY_BLOCK_HIT, SoundEvents.BLOCK_HONEY_BLOCK_FALL)));
+
 
     public static final Block SMOOTH_WHITE_PANEL = new Block(FabricBlockSettings.of(Material.METAL).hardness(3.5f));
     public static final Block CHISELED_SMOOTH_WHITE_PANEL = new Block(FabricBlockSettings.of(Material.METAL).hardness(3.5f));
@@ -53,7 +57,7 @@ public class FluxTechBlocks {
     public static final DirectionalBlock BOTTOM_2X2_GRITTY_WHITE_PANEL = new DirectionalBlock(FabricBlockSettings.of(Material.METAL).hardness(3.5f));
     public static final DirectionalBlock TOP_2X2_GRITTY_WHITE_PANEL = new DirectionalBlock(FabricBlockSettings.of(Material.METAL).hardness(3.5f));
 
-    public static Tag<Block> MY_TAG = TagRegistry.block(new Identifier("fluxtech", "hpd_deny_launch"));
+    //public static Tag<Block> MY_TAG = TagRegistry.block(new Identifier("fluxtech", "hpd_deny_launch"));
 
     public static BlockEntityType<StarCoreEntity> STAR_CORE_ENTITY;
 
@@ -66,8 +70,13 @@ public class FluxTechBlocks {
             Registry.register(Registry.BLOCK, new Identifier(FluxTech.MOD_ID, "gel"), GEL);
             Registry.register(Registry.ITEM, new Identifier(FluxTech.MOD_ID, "gel"), new GelBucket(GEL, new Item.Settings().group(FluxTech.FLUXTECH_GROUP).maxCount(1)));
         }
-        STAR_CORE_ENTITY = Registry.register(Registry.BLOCK_ENTITY_TYPE, new Identifier(FluxTech.MOD_ID, "star_core_entity"), BlockEntityType.Builder.create(StarCoreEntity::new, CORE).build(null));
-        Registry.register(Registry.BLOCK, new Identifier(FluxTech.MOD_ID, "core"), CORE);
+        Registry.register(Registry.BLOCK, new Identifier(FluxTech.MOD_ID, "emitter_test"), EMITTER_TEST);
+        Registry.register(Registry.ITEM, new Identifier(FluxTech.MOD_ID, "emitter_test"), new BlockItem(EMITTER_TEST, new Item.Settings().group(FluxTech.FLUXTECH_GROUP)));
+
+        Registry.register(Registry.BLOCK, new Identifier(FluxTech.MOD_ID, "bridge_test"), BRIDGE);
+
+        //STAR_CORE_ENTITY = Registry.register(Registry.BLOCK_ENTITY_TYPE, new Identifier(FluxTech.MOD_ID, "star_core_entity"), BlockEntityType.Builder.create(StarCoreEntity::new, CORE).build(null));
+        //Registry.register(Registry.BLOCK, new Identifier(FluxTech.MOD_ID, "core"), CORE);
         if (FluxTechConfig.ENABLED.ENABLED_PORTAL_BLOCKS.getValue()) {
             Registry.register(Registry.BLOCK, new Identifier(FluxTech.MOD_ID, "smooth_white_panel"), SMOOTH_WHITE_PANEL);
             Registry.register(Registry.ITEM, new Identifier(FluxTech.MOD_ID, "smooth_white_panel"), new BlockItem(SMOOTH_WHITE_PANEL, new Item.Settings().group(FluxTech.FLUXTECH_GROUP)));
