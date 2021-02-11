@@ -37,7 +37,15 @@ import java.util.Random;
 
 public class BridgeTest2BlockEntity extends BlockEntity implements Tickable {
 
+    public final int MAX_RANGE = 27;
+    public final int BLOCKS_PER_TICK = 1;
+    public final int EXTENSION_TIME = MAX_RANGE / BLOCKS_PER_TICK;
 
+    public int extensionTicks = 0;
+
+    public boolean bridgeComplete = false;
+    public boolean alreadyPowered = false;
+    public boolean shouldExtend = false;
 
     public BridgeTest2BlockEntity() {
         super(FluxTechBlocks.EMITTER_TEST_ENTITY);
@@ -45,37 +53,37 @@ public class BridgeTest2BlockEntity extends BlockEntity implements Tickable {
 
 
 
-    public static void updateBridge(BlockState state, ServerWorld world, BlockPos pos) {
-        if( !FluxTechBlocks.EMITTER_TEST.bridgeComplete && FluxTechBlocks.EMITTER_TEST.shouldExtend ) {
+    public void updateBridge(BlockState state, ServerWorld world, BlockPos pos) {
+        if( !bridgeComplete && shouldExtend ) {
             extendBridge(state, world, pos);
         }
         else {
-            FluxTechBlocks.EMITTER_TEST.bridgeComplete = true;
-            FluxTechBlocks.EMITTER_TEST.shouldExtend = false;
-            FluxTechBlocks.EMITTER_TEST.extensionTicks = 0;
+            bridgeComplete = true;
+            shouldExtend = false;
+            extensionTicks = 0;
         }
     }
 
-    private static void extendBridge(BlockState state, ServerWorld world, BlockPos pos) {
-        Direction facing = (Direction)state.get(BridgeTest2Block.FACING);
+    private void extendBridge(BlockState state, ServerWorld world, BlockPos pos) {
+        Direction facing = (Direction)state.get(Properties.FACING);
         Block pumpkinBlock = (Block) FluxTechBlocks.BRIDGE;
-        if( FluxTechBlocks.EMITTER_TEST.extensionTicks < BridgeTest2Block.EXTENSION_TIME) {
+        if( extensionTicks < EXTENSION_TIME) {
             BlockPos.Mutable extendPos = new BlockPos.Mutable(pos.getX(), pos.getY(), pos.getZ());
-            extendPos.move( facing, FluxTechBlocks.EMITTER_TEST.extensionTicks );
-            for(int i = 0; i < BridgeTest2Block.BLOCKS_PER_TICK; i++ ) {
+            extendPos.move( facing, extensionTicks );
+            for(int i = 0; i < BLOCKS_PER_TICK; i++ ) {
                 if( world.isAir( extendPos )) {
                     world.setBlockState( extendPos, pumpkinBlock.getDefaultState(), 3 );
                     System.out.println(extendPos);
                 }
                 else {
                     System.out.println("we broke it");
-                    FluxTechBlocks.EMITTER_TEST.bridgeComplete = true;
-                    FluxTechBlocks.EMITTER_TEST.shouldExtend = false;
+                    bridgeComplete = true;
+                    shouldExtend = false;
                     break;
                 }
                 extendPos.move( facing );
             }
-            ++FluxTechBlocks.EMITTER_TEST.extensionTicks;
+            ++extensionTicks;
         }
     }
 
@@ -85,34 +93,34 @@ public class BridgeTest2BlockEntity extends BlockEntity implements Tickable {
         assert world != null;
         if (!world.isClient) {
 
-                if (world.isReceivingRedstonePower(pos) && !FluxTechBlocks.EMITTER_TEST.alreadyPowered) {
-                    FluxTechBlocks.EMITTER_TEST.alreadyPowered = true;
-                    FluxTechBlocks.EMITTER_TEST.bridgeComplete = false;
-                    FluxTechBlocks.EMITTER_TEST.shouldExtend = true;
+                if (world.isReceivingRedstonePower(pos) && !alreadyPowered) {
+                    alreadyPowered = true;
+                    bridgeComplete = false;
+                    shouldExtend = true;
                     world.getBlockTickScheduler().schedule(pos, FluxTechBlocks.EMITTER_TEST, 1);
                 }
                 if (!world.isReceivingRedstonePower(pos)) {
-                    FluxTechBlocks.EMITTER_TEST.alreadyPowered = false;
-                    FluxTechBlocks.EMITTER_TEST.bridgeComplete = true;
-                    FluxTechBlocks.EMITTER_TEST.shouldExtend = false;
+                    alreadyPowered = false;
+                    bridgeComplete = true;
+                    shouldExtend = false;
 
                     //world.getBlockTickScheduler().schedule(pos, this, 1);
                 }
 
 
             BlockPos.Mutable bridgeStart = new BlockPos.Mutable(pos.getX(), pos.getY(), pos.getZ());
-            bridgeStart.move((Direction) FluxTechBlocks.EMITTER_TEST.getDefaultState().get(BridgeTest2Block.FACING));
+            bridgeStart.move((Direction) FluxTechBlocks.EMITTER_TEST.getDefaultState().get(Properties.FACING));
             if (!world.isReceivingRedstonePower(pos)) {
-                FluxTechBlocks.EMITTER_TEST.bridgeComplete = true;
-                FluxTechBlocks.EMITTER_TEST.shouldExtend = false;
+                bridgeComplete = true;
+                shouldExtend = false;
             }
             if (world.isAir(bridgeStart)) {
                 //world.getBlockTickScheduler().schedule( pos, this, 1);
-                FluxTechBlocks.EMITTER_TEST.shouldExtend = true;
-                FluxTechBlocks.EMITTER_TEST.bridgeComplete = false;
+                shouldExtend = true;
+                bridgeComplete = false;
             }
             updateBridge(FluxTechBlocks.EMITTER_TEST.getDefaultState(), (ServerWorld) world, this.getPos());
-            if (FluxTechBlocks.EMITTER_TEST.bridgeComplete && !world.isReceivingRedstonePower(pos)) {
+            if (bridgeComplete && !world.isReceivingRedstonePower(pos)) {
 
             }
             if (world.isReceivingRedstonePower(pos)) {

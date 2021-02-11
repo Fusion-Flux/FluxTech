@@ -25,16 +25,11 @@ import java.util.Random;
 
 public class BridgeTest2Block extends BlockWithEntity {
 
-    public static final DirectionProperty FACING;
 
-    public static final int MAX_RANGE = 27;
-    public static final int BLOCKS_PER_TICK = 1;
-    public static final int EXTENSION_TIME = MAX_RANGE / BLOCKS_PER_TICK;
 
-    public int extensionTicks = 0;
-    public boolean bridgeComplete = false;
-    public boolean alreadyPowered = false;
-    public boolean shouldExtend = false;
+
+
+
 
     protected BridgeTest2Block(Settings settings) {
         super(settings);
@@ -51,7 +46,7 @@ public class BridgeTest2Block extends BlockWithEntity {
 
     @Override
     public BlockState getPlacementState(ItemPlacementContext ctx) {
-        return (BlockState)FluxTechBlocks.EMITTER_TEST.getDefaultState().with(FACING, ctx.getPlayerLookDirection().getOpposite());
+        return (BlockState)FluxTechBlocks.EMITTER_TEST.getDefaultState().with(Properties.FACING, ctx.getPlayerLookDirection().getOpposite());
     }
 
 
@@ -65,7 +60,7 @@ public class BridgeTest2Block extends BlockWithEntity {
 
     @Override
     public BlockState rotate(BlockState state, BlockRotation rotation) {
-        return (BlockState)state.with(FACING, rotation.rotate((Direction)state.get(FACING)));
+        return (BlockState)state.with(Properties.FACING, rotation.rotate((Direction)state.get(Properties.FACING)));
     }
 
 /*@Override
@@ -110,8 +105,6 @@ public class BridgeTest2Block extends BlockWithEntity {
         //world.getBlockTickScheduler().schedule( pos, this, 1);
     }*/
 
-    static {
-        FACING = FacingBlock.FACING;
-    }
+
 
 }
