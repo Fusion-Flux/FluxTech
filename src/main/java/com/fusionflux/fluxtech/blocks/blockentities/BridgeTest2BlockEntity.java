@@ -44,11 +44,10 @@ public class BridgeTest2BlockEntity extends BlockEntity implements Tickable {
     private void extendBridge(BlockState state, ServerWorld world, BlockPos pos) {
         Direction facing = state.get(Properties.FACING);
         Block pumpkinBlock =  (world.isReceivingRedstonePower(getPos()) ? FluxTechBlocks.BRIDGE : Blocks.AIR) ;
-        if( extensionTicks < EXTENSION_TIME) {
             BlockPos.Mutable extendPos = new BlockPos.Mutable(pos.getX(), pos.getY(), pos.getZ());
             extendPos.move( facing, extensionTicks );
             for(int i = 0; i < BLOCKS_PER_TICK; i++ ) {
-                if( world.isAir( extendPos ) || world.getBlockState(extendPos) == FluxTechBlocks.BRIDGE.getDefaultState()) {
+                if( (world.isAir( extendPos ) || world.getBlockState(extendPos) == FluxTechBlocks.BRIDGE.getDefaultState())&&(extensionTicks < EXTENSION_TIME )) {
                     world.setBlockState( extendPos,pumpkinBlock.getDefaultState(), 3 );
                     System.out.println(extendPos);
                 }
@@ -61,7 +60,6 @@ public class BridgeTest2BlockEntity extends BlockEntity implements Tickable {
                 extendPos.move( facing );
             }
             ++extensionTicks;
-        }
     }
 
 
@@ -74,13 +72,13 @@ public class BridgeTest2BlockEntity extends BlockEntity implements Tickable {
                     alreadyPowered = true;
                     bridgeComplete = false;
                     shouldExtend = true;
-                    world.getBlockTickScheduler().schedule(getPos(), getCachedState().getBlock(), 1);
+                    extensionTicks = 0;
                 }
                 if (!world.isReceivingRedstonePower(getPos())&&alreadyPowered) {
                     alreadyPowered = false;
                     bridgeComplete = false;
                     shouldExtend = true;
-                    world.getBlockTickScheduler().schedule(getPos(), getCachedState().getBlock(), 1);
+                    extensionTicks = 0;
                 }
 
             BlockPos.Mutable bridgeStart = new BlockPos.Mutable(getPos().getX(), getPos().getY(), getPos().getZ());
@@ -94,7 +92,6 @@ public class BridgeTest2BlockEntity extends BlockEntity implements Tickable {
                 bridgeComplete = false;
             }
             updateBridge(getCachedState(), (ServerWorld) world, getPos());
-            world.getBlockTickScheduler().schedule(getPos(), getCachedState().getBlock(), 1);
         }
 
     }

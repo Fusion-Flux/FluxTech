@@ -2,11 +2,9 @@ package com.fusionflux.fluxtech.blocks;
 
 import com.fusionflux.fluxtech.FluxTech;
 import com.fusionflux.fluxtech.blocks.blockentities.BridgeTest2BlockEntity;
-import com.fusionflux.fluxtech.blocks.blockentities.HardLightBridgeEmitterBlock;
 import com.fusionflux.fluxtech.blocks.blockentities.StarCoreEntity;
 import com.fusionflux.fluxtech.config.FluxTechConfig;
 import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
-import net.fabricmc.fabric.api.tag.TagRegistry;
 import net.minecraft.block.Block;
 import net.minecraft.block.Material;
 import net.minecraft.block.PillarBlock;
@@ -15,7 +13,6 @@ import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
 import net.minecraft.sound.BlockSoundGroup;
 import net.minecraft.sound.SoundEvents;
-import net.minecraft.tag.Tag;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
 
@@ -27,7 +24,7 @@ public class FluxTechBlocks {
     //public static final StarCore CORE = new StarCore(FabricBlockSettings.of(Material.METAL).hardness(3.5f));
 
     public static final BridgeTest2Block EMITTER_TEST = new BridgeTest2Block(FabricBlockSettings.of(Material.METAL).hardness(3.5f));
-    public static final Block BRIDGE = new Block(FabricBlockSettings.of(Material.REPLACEABLE_PLANT).hardness(999999f).nonOpaque().luminance(5).resistance(9999999999f).sounds(new BlockSoundGroup(1,1, SoundEvents.BLOCK_NETHERITE_BLOCK_BREAK, SoundEvents.BLOCK_NETHERITE_BLOCK_STEP, SoundEvents.BLOCK_NETHERITE_BLOCK_PLACE, SoundEvents.BLOCK_NETHERITE_BLOCK_HIT, SoundEvents.BLOCK_NETHERITE_BLOCK_FALL)));
+    public static final Block BRIDGE = new Block(FabricBlockSettings.of(Material.PLANT).hardness(999999f).nonOpaque().resistance(9999999999f).sounds(new BlockSoundGroup(1,1, SoundEvents.BLOCK_NETHERITE_BLOCK_BREAK, SoundEvents.BLOCK_NETHERITE_BLOCK_STEP, SoundEvents.BLOCK_NETHERITE_BLOCK_PLACE, SoundEvents.BLOCK_NETHERITE_BLOCK_HIT, SoundEvents.BLOCK_NETHERITE_BLOCK_FALL)));
 
 
     public static final Block SMOOTH_WHITE_PANEL = new Block(FabricBlockSettings.of(Material.METAL).hardness(3.5f));
