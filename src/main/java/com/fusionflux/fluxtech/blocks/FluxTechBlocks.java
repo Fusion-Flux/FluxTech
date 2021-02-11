@@ -27,7 +27,7 @@ public class FluxTechBlocks {
     //public static final StarCore CORE = new StarCore(FabricBlockSettings.of(Material.METAL).hardness(3.5f));
 
     public static final BridgeTest2Block EMITTER_TEST = new BridgeTest2Block(FabricBlockSettings.of(Material.METAL).hardness(3.5f));
-    public static final Block BRIDGE = new Block(FabricBlockSettings.of(Material.AIR).hardness(999999f).nonOpaque().luminance(5).sounds(new BlockSoundGroup(1,1, SoundEvents.BLOCK_NETHERITE_BLOCK_BREAK, SoundEvents.BLOCK_NETHERITE_BLOCK_STEP, SoundEvents.BLOCK_NETHERITE_BLOCK_PLACE, SoundEvents.BLOCK_NETHERITE_BLOCK_HIT, SoundEvents.BLOCK_NETHERITE_BLOCK_FALL)));
+    public static final Block BRIDGE = new Block(FabricBlockSettings.of(Material.REPLACEABLE_PLANT).hardness(999999f).nonOpaque().luminance(5).resistance(9999999999f).sounds(new BlockSoundGroup(1,1, SoundEvents.BLOCK_NETHERITE_BLOCK_BREAK, SoundEvents.BLOCK_NETHERITE_BLOCK_STEP, SoundEvents.BLOCK_NETHERITE_BLOCK_PLACE, SoundEvents.BLOCK_NETHERITE_BLOCK_HIT, SoundEvents.BLOCK_NETHERITE_BLOCK_FALL)));
 
 
     public static final Block SMOOTH_WHITE_PANEL = new Block(FabricBlockSettings.of(Material.METAL).hardness(3.5f));

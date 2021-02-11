@@ -1,39 +1,16 @@
 package com.fusionflux.fluxtech.blocks.blockentities;
 
-import com.fusionflux.fluxtech.FluxTech;
-import com.fusionflux.fluxtech.blocks.BridgeTest2Block;
 import com.fusionflux.fluxtech.blocks.FluxTechBlocks;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
-import net.minecraft.block.FacingBlock;
 import net.minecraft.block.entity.BlockEntity;
-import net.minecraft.block.entity.BlockEntityType;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.item.ItemPlacementContext;
-import net.minecraft.item.ItemStack;
 import net.minecraft.server.world.ServerWorld;
-import net.minecraft.state.StateManager;
 import net.minecraft.state.property.Properties;
-import net.minecraft.util.BlockRotation;
 import net.minecraft.util.Tickable;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
-import net.minecraft.world.World;
-import com.fusionflux.fluxtech.blocks.FluxTechBlocks;
 import net.minecraft.block.*;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.item.ItemPlacementContext;
-import net.minecraft.item.ItemStack;
-import net.minecraft.server.world.ServerWorld;
-import net.minecraft.state.StateManager;
-import net.minecraft.state.property.DirectionProperty;
-import net.minecraft.state.property.Properties;
-import net.minecraft.util.BlockRotation;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Direction;
-import net.minecraft.world.World;
 
-import java.util.Random;
 
 public class BridgeTest2BlockEntity extends BlockEntity implements Tickable {
 
@@ -65,8 +42,8 @@ public class BridgeTest2BlockEntity extends BlockEntity implements Tickable {
     }
 
     private void extendBridge(BlockState state, ServerWorld world, BlockPos pos) {
-        Direction facing = (Direction)state.get(Properties.FACING);
-        Block pumpkinBlock = (Block) (world.isReceivingRedstonePower(getPos()) ? FluxTechBlocks.BRIDGE : Blocks.AIR) ;
+        Direction facing = state.get(Properties.FACING);
+        Block pumpkinBlock =  (world.isReceivingRedstonePower(getPos()) ? FluxTechBlocks.BRIDGE : Blocks.AIR) ;
         if( extensionTicks < EXTENSION_TIME) {
             BlockPos.Mutable extendPos = new BlockPos.Mutable(pos.getX(), pos.getY(), pos.getZ());
             extendPos.move( facing, extensionTicks );
@@ -104,30 +81,22 @@ public class BridgeTest2BlockEntity extends BlockEntity implements Tickable {
                     bridgeComplete = false;
                     shouldExtend = true;
                     world.getBlockTickScheduler().schedule(getPos(), getCachedState().getBlock(), 1);
-                    //world.getBlockTickScheduler().schedule(pos, this, 1);
                 }
 
-
             BlockPos.Mutable bridgeStart = new BlockPos.Mutable(getPos().getX(), getPos().getY(), getPos().getZ());
-            bridgeStart.move((Direction)getCachedState().get(Properties.FACING));
+            bridgeStart.move(getCachedState().get(Properties.FACING));
             if (world.getBlockState(bridgeStart) == FluxTechBlocks.BRIDGE.getDefaultState() && !world.isReceivingRedstonePower(getPos())) {
                 shouldExtend = true;
                 bridgeComplete = false;
             }
             if (world.isAir(bridgeStart) && world.isReceivingRedstonePower(getPos())) {
-                //world.getBlockTickScheduler().schedule( pos, this, 1);
                 shouldExtend = true;
                 bridgeComplete = false;
             }
             updateBridge(getCachedState(), (ServerWorld) world, getPos());
-            if (bridgeComplete && !world.isReceivingRedstonePower(getPos())) {
-
-            }
-          //  if (world.isReceivingRedstonePower(getPos())) {
-                world.getBlockTickScheduler().schedule(getPos(), getCachedState().getBlock(), 1);
-           // }
-            //world.getBlockTickScheduler().schedule( pos, this, 1);
+            world.getBlockTickScheduler().schedule(getPos(), getCachedState().getBlock(), 1);
         }
+
     }
 
 
