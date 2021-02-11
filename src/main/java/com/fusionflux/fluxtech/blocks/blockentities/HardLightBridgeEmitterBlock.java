@@ -52,6 +52,8 @@ public class HardLightBridgeEmitterBlock extends FacingBlock {
     public void onPlaced( World world, BlockPos pos, BlockState state, LivingEntity placer, ItemStack itemStack) {
         if ( world.isReceivingRedstonePower( pos )) {
             world.getBlockTickScheduler().schedule(pos, this, 1);
+        }else{
+
         }
         //world.getBlockTickScheduler().schedule(pos, this, 1);
     }
@@ -66,12 +68,15 @@ public class HardLightBridgeEmitterBlock extends FacingBlock {
         if( !world.isClient ) {
             if( world.isReceivingRedstonePower( pos ) && !this.alreadyPowered ) {
                 this.alreadyPowered = true;
+                this.bridgeComplete = false;
                 this.shouldExtend = true;
                 world.getBlockTickScheduler().schedule(pos, this, 1);
-            }else{
+            }
+            if(!world.isReceivingRedstonePower( pos )){
                 this.alreadyPowered = false;
-                this.shouldExtend = false;
                 this.bridgeComplete = true;
+                this.shouldExtend = false;
+
                 //world.getBlockTickScheduler().schedule(pos, this, 1);
             }
         }
@@ -83,7 +88,7 @@ public class HardLightBridgeEmitterBlock extends FacingBlock {
         bridgeStart.move( (Direction)state.get(FACING) );
         if( !world.isReceivingRedstonePower( pos ) ) {
             this.bridgeComplete = true;
-
+            this.shouldExtend = false;
         }
         if( world.isAir( bridgeStart )) {
             //world.getBlockTickScheduler().schedule( pos, this, 1);
@@ -94,7 +99,10 @@ public class HardLightBridgeEmitterBlock extends FacingBlock {
         if( this.bridgeComplete && !world.isReceivingRedstonePower( pos )) {
 
         }
-        world.getBlockTickScheduler().schedule( pos, this, 1);
+        if( world.isReceivingRedstonePower( pos ) ) {
+            world.getBlockTickScheduler().schedule( pos, this, 1);
+        }
+        //world.getBlockTickScheduler().schedule( pos, this, 1);
     }
 
     private void updateBridge(BlockState state, ServerWorld world, BlockPos pos) {
@@ -115,7 +123,7 @@ public class HardLightBridgeEmitterBlock extends FacingBlock {
             BlockPos.Mutable extendPos = new BlockPos.Mutable(pos.getX(), pos.getY(), pos.getZ());
             extendPos.move( facing, extensionTicks );
             for( int i = 0; i < BLOCKS_PER_TICK; i++ ) {
-                if( world.isAir( extendPos )) {
+                if( world.isAir( extendPos ) || world.getBlockState(extendPos) == FluxTechBlocks.BRIDGE.getDefaultState()) {
                     world.setBlockState( extendPos, pumpkinBlock.getDefaultState(), 3 );
                     System.out.println(extendPos);
                 }
