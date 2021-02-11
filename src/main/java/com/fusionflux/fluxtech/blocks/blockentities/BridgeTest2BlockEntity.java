@@ -66,13 +66,13 @@ public class BridgeTest2BlockEntity extends BlockEntity implements Tickable {
 
     private void extendBridge(BlockState state, ServerWorld world, BlockPos pos) {
         Direction facing = (Direction)state.get(Properties.FACING);
-        Block pumpkinBlock = (Block) FluxTechBlocks.BRIDGE;
+        Block pumpkinBlock = (Block) (world.isReceivingRedstonePower(getPos()) ? FluxTechBlocks.BRIDGE : Blocks.AIR) ;
         if( extensionTicks < EXTENSION_TIME) {
             BlockPos.Mutable extendPos = new BlockPos.Mutable(pos.getX(), pos.getY(), pos.getZ());
             extendPos.move( facing, extensionTicks );
             for(int i = 0; i < BLOCKS_PER_TICK; i++ ) {
-                if( world.isAir( extendPos )) {
-                    world.setBlockState( extendPos, pumpkinBlock.getDefaultState(), 3 );
+                if( world.isAir( extendPos ) || world.getBlockState(extendPos) == FluxTechBlocks.BRIDGE.getDefaultState()) {
+                    world.setBlockState( extendPos,pumpkinBlock.getDefaultState(), 3 );
                     System.out.println(extendPos);
                 }
                 else {
@@ -93,39 +93,39 @@ public class BridgeTest2BlockEntity extends BlockEntity implements Tickable {
         assert world != null;
         if (!world.isClient) {
 
-                if (world.isReceivingRedstonePower(pos) && !alreadyPowered) {
+                if (world.isReceivingRedstonePower(getPos()) && !alreadyPowered) {
                     alreadyPowered = true;
                     bridgeComplete = false;
                     shouldExtend = true;
-                    world.getBlockTickScheduler().schedule(pos, FluxTechBlocks.EMITTER_TEST, 1);
+                    world.getBlockTickScheduler().schedule(getPos(), getCachedState().getBlock(), 1);
                 }
-                if (!world.isReceivingRedstonePower(pos)) {
+                if (!world.isReceivingRedstonePower(getPos())&&alreadyPowered) {
                     alreadyPowered = false;
-                    bridgeComplete = true;
-                    shouldExtend = false;
-
+                    bridgeComplete = false;
+                    shouldExtend = true;
+                    world.getBlockTickScheduler().schedule(getPos(), getCachedState().getBlock(), 1);
                     //world.getBlockTickScheduler().schedule(pos, this, 1);
                 }
 
 
-            BlockPos.Mutable bridgeStart = new BlockPos.Mutable(pos.getX(), pos.getY(), pos.getZ());
-            bridgeStart.move((Direction) FluxTechBlocks.EMITTER_TEST.getDefaultState().get(Properties.FACING));
-            if (!world.isReceivingRedstonePower(pos)) {
-                bridgeComplete = true;
-                shouldExtend = false;
+            BlockPos.Mutable bridgeStart = new BlockPos.Mutable(getPos().getX(), getPos().getY(), getPos().getZ());
+            bridgeStart.move((Direction)getCachedState().get(Properties.FACING));
+            if (world.getBlockState(bridgeStart) == FluxTechBlocks.BRIDGE.getDefaultState() && !world.isReceivingRedstonePower(getPos())) {
+                shouldExtend = true;
+                bridgeComplete = false;
             }
-            if (world.isAir(bridgeStart)) {
+            if (world.isAir(bridgeStart) && world.isReceivingRedstonePower(getPos())) {
                 //world.getBlockTickScheduler().schedule( pos, this, 1);
                 shouldExtend = true;
                 bridgeComplete = false;
             }
-            updateBridge(FluxTechBlocks.EMITTER_TEST.getDefaultState(), (ServerWorld) world, this.getPos());
-            if (bridgeComplete && !world.isReceivingRedstonePower(pos)) {
+            updateBridge(getCachedState(), (ServerWorld) world, getPos());
+            if (bridgeComplete && !world.isReceivingRedstonePower(getPos())) {
 
             }
-            if (world.isReceivingRedstonePower(pos)) {
-                world.getBlockTickScheduler().schedule(pos, FluxTechBlocks.EMITTER_TEST, 1);
-            }
+          //  if (world.isReceivingRedstonePower(getPos())) {
+                world.getBlockTickScheduler().schedule(getPos(), getCachedState().getBlock(), 1);
+           // }
             //world.getBlockTickScheduler().schedule( pos, this, 1);
         }
     }
