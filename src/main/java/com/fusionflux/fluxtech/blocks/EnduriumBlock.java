@@ -84,7 +84,7 @@ public class EnduriumBlock extends FluidBlock {
     @Deprecated
     @Override
     public void onEntityCollision(BlockState state, World world, BlockPos position, Entity entity) {
-        if (entity instanceof LivingEntity) {
+        /*if (entity instanceof LivingEntity) {
             LivingEntity user = (LivingEntity) entity;
             if (!world.isClient) {
                 double d = user.getX();
@@ -109,7 +109,7 @@ public class EnduriumBlock extends FluidBlock {
 
             }
 
-        }
+        }*/
 
         super.onEntityCollision(state, world, position, entity);
     }

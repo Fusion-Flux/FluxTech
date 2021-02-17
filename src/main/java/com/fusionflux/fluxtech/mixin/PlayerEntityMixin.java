@@ -1,5 +1,6 @@
 package com.fusionflux.fluxtech.mixin;
 
+import com.fusionflux.fluxtech.accessor.EnduriumToucher;
 import com.fusionflux.fluxtech.config.FluxTechConfig;
 import com.fusionflux.fluxtech.items.FluxTechItems;
 import net.minecraft.entity.*;

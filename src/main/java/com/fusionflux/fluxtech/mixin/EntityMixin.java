@@ -2,22 +2,26 @@ package com.fusionflux.fluxtech.mixin;
 
 import com.fusionflux.fluxtech.accessor.EnduriumToucher;
 import com.fusionflux.fluxtech.blocks.FluxTechBlocks;
+import com.fusionflux.fluxtech.config.FluxTechConfig;
 import com.fusionflux.fluxtech.entity.EntityAttachments;
 import it.unimi.dsi.fastutil.objects.Object2DoubleMap;
 import net.minecraft.block.Blocks;
 import net.minecraft.client.MinecraftClient;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityDimensions;
-import net.minecraft.entity.EntityPose;
-import net.minecraft.entity.EntityType;
+import net.minecraft.entity.*;
 import net.minecraft.entity.data.DataTracker;
 import net.minecraft.entity.data.TrackedData;
 import net.minecraft.entity.data.TrackedDataHandlerRegistry;
+import net.minecraft.entity.passive.FoxEntity;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.vehicle.BoatEntity;
 import net.minecraft.fluid.Fluid;
+import net.minecraft.sound.SoundCategory;
+import net.minecraft.sound.SoundEvent;
+import net.minecraft.sound.SoundEvents;
 import net.minecraft.tag.Tag;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
+import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
@@ -121,6 +125,37 @@ public abstract class EntityMixin implements EntityAttachments, EnduriumToucher 
 
     @Inject(method = "tick", at = @At("HEAD"), cancellable = true)
     public void tick(CallbackInfo ci) {
+
+            if(((EnduriumToucher)this).getTouchingEndurium()){
+                if (((Entity) (Object) this) instanceof LivingEntity) {
+                    LivingEntity user = (LivingEntity) ((Entity) (Object) this);
+                    if (!world.isClient) {
+                        double d = user.getX();
+                        double e = user.getY();
+                        double f = user.getZ();
+
+                        for(int i = 0; i < 16; ++i) {
+                            double g = user.getX() + (user.getRandom().nextDouble() - 0.5D) * FluxTechConfig.INTEGER_VALUES.ENDURIUM_TP_RANGE.getValue();
+                            double h = MathHelper.clamp(user.getY() + (double)(user.getRandom().nextInt(FluxTechConfig.INTEGER_VALUES.ENDURIUM_TP_RANGE.getValue()) - 16), 0.0D, (double)(world.getDimensionHeight() - 1));
+                            double j = user.getZ() + (user.getRandom().nextDouble() - 0.5D) * FluxTechConfig.INTEGER_VALUES.ENDURIUM_TP_RANGE.getValue();
+                            if (user.hasVehicle()) {
+                                user.stopRiding();
+                            }
+
+                            if (user.teleport(g, h, j, true)) {
+                                SoundEvent soundEvent = user instanceof FoxEntity ? SoundEvents.ENTITY_FOX_TELEPORT : SoundEvents.ENTITY_ENDERMAN_TELEPORT;
+                                world.playSound((PlayerEntity)null, g, h, j, soundEvent, SoundCategory.PLAYERS, 1.0F, 1.0F);
+                                user.playSound(soundEvent, 1.0F, 1.0F);
+                                break;
+                            }
+                        }
+
+                    }
+
+                }
+            }
+
+
             if(maxFallSpeed == 10 && world.getBlockState(this.getBlockPos()).getBlock() == FluxTechBlocks.PROPULSION_GEL){
                 maxFallSpeed = 10;
             }else{
@@ -169,6 +204,9 @@ public abstract class EntityMixin implements EntityAttachments, EnduriumToucher 
             this.touchingEndurium = false;
         }
     }
+
+
+
 
     /*@Inject(method = "calculateDimensions", at = @At("TAIL"))
 public void calculateDimensions(CallbackInfo ci){

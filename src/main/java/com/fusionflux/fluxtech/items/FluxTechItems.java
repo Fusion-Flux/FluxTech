@@ -17,6 +17,8 @@ public class FluxTechItems {
     public static final Item AEROARMOR = new ArmorItem(FluxTechArmor, EquipmentSlot.LEGS, new Item.Settings().group(FluxTech.FLUXTECH_GROUP).fireproof());
     public static final Item SLIME_COATED_NETHERITE_BOOTS = new ArmorItem(FluxTechArmor2, EquipmentSlot.FEET, new Item.Settings().group(FluxTech.FLUXTECH_GROUP).fireproof());
 
+    public static final Item MELTEDPEARL = new Item(new FabricItemSettings().group(FluxTech.FLUXTECH_GROUP).maxCount(16));
+
     public static final Item ENDURIUM_BUCKET = new BucketItem(FluxTechBlocks.ENDURIUM, new Item.Settings()
             .recipeRemainder(Items.BUCKET).maxCount(1).group(FluxTech.FLUXTECH_GROUP));
 
@@ -27,9 +29,12 @@ public class FluxTechItems {
             Registry.register(Registry.ITEM, new Identifier(FluxTech.MOD_ID, "gravitrons"), GRAVITRONS);
         if (FluxTechConfig.ENABLED.ENABLED_AEROARMOR.getValue())
             Registry.register(Registry.ITEM, new Identifier(FluxTech.MOD_ID, "aeroarmor"), AEROARMOR);
-
+        if (FluxTechConfig.ENABLED.ENABLED_SCNB.getValue())
         Registry.register(Registry.ITEM, new Identifier(FluxTech.MOD_ID, "slime_coated_netherite_boots"), SLIME_COATED_NETHERITE_BOOTS);
-        Registry.register(Registry.ITEM, new Identifier(FluxTech.MOD_ID, "endurium_bucket"), ENDURIUM_BUCKET);
+        if (FluxTechConfig.ENABLED.ENABLED_ENDURIUM.getValue()) {
+            Registry.register(Registry.ITEM, new Identifier(FluxTech.MOD_ID, "melted_ender_pearl"), MELTEDPEARL);
+            Registry.register(Registry.ITEM, new Identifier(FluxTech.MOD_ID, "endurium_bucket"), ENDURIUM_BUCKET);
+        }
     }
 
 

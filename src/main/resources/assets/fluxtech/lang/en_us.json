@@ -9,6 +9,7 @@
   "item.fluxtech.gravitrons": "Gravitrons",
   "item.fluxtech.aeroarmor": "Aeroarmor",
   "item.fluxtech.slime_coated_netherite_boots": "Slime Coated Netherite Boots",
+  "item.fluxtech.melted_ender_pearl": "Melted Ender Pearl",
 
   "block.fluxtech.propulsion_gel": "Propulsion Gel",
   "block.fluxtech.repulsion_gel": "Repulsion Gel",
@@ -68,5 +69,10 @@
   "config.fluxtech.enabled.aeroarmor_enabler": "Enable Aeroarmor",
   "config.fluxtech.enabled.portal_blocks_enabler": "Enable Portal 2 Blocks",
   "config.fluxtech.enabled.handheld_propulsion_device_preventer_enabler": "HPD Launch Preventer",
-  "config.fluxtech.integer_values.hlb_max_length": "Hardlight Bridge Max Length"
+  "config.fluxtech.integer_values.hlb_max_length": "Hardlight Bridge Max Length",
+  "config.fluxtech.integer_values.endurium_tp_range": "Endurium Tp Range",
+  "config.fluxtech.enabled.enabled_endurium": "Enable Endurium",
+  "config.fluxtech.enabled.enabled_hardlight_bridges": "Enable Hardlight Bridges",
+  "config.fluxtech.enabled.enabled_smooth_end_stone": "Enable Smooth End Stone",
+  "config.fluxtech.enabled.enabled_scnb": "Enable Slime Coated Netherite Boots"
 }

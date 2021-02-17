@@ -46,10 +46,23 @@ public final class FluxTechConfig extends Config {
 		public static final ConfigItem<Boolean> ENABLED_AEROARMOR = new ConfigItem<>("aeroarmor_enabler", true,
 				"config.fluxtech.enabled.aeroarmor_enabler");
 
+		public static final ConfigItem<Boolean> ENABLED_SCNB = new ConfigItem<>("enabled_scnb", true,
+				"config.fluxtech.enabled.enabled_scnb");
+
 		public static final ConfigItem<Boolean> ENABLED_PORTAL_BLOCKS = new ConfigItem<>("portal_blocks_enabler", true,
 				"config.fluxtech.enabled.portal_blocks_enabler");
 
-		public static final List<ConfigItem<?>> OPTIONS = ImmutableList.of(ENABLED_AEROARMOR, ENABLED_GRAVITRONS, ENABLED_GELS, ENABLED_HPD,ENABLED_PORTAL_BLOCKS,ENABLED_HPD_LAUNCH_PREVENTER);
+		public static final ConfigItem<Boolean> ENABLED_ENDURIUM = new ConfigItem<>("enabled_endurium", true,
+				"config.fluxtech.enabled.enabled_endurium");
+
+		public static final ConfigItem<Boolean> ENABLED_HLB = new ConfigItem<>("enabled_hardlight_bridges", true,
+				"config.fluxtech.enabled.enabled_hardlight_bridges");
+
+		public static final ConfigItem<Boolean> ENABLED_SMOOTH_END_STONE = new ConfigItem<>("enabled_smooth_end_stone", true,
+				"config.fluxtech.enabled.enabled_smooth_end_stone");
+
+
+		public static final List<ConfigItem<?>> OPTIONS = ImmutableList.of(ENABLED_AEROARMOR, ENABLED_GRAVITRONS,ENABLED_SCNB, ENABLED_GELS, ENABLED_HPD,ENABLED_PORTAL_BLOCKS,ENABLED_HPD_LAUNCH_PREVENTER,ENABLED_ENDURIUM,ENABLED_HLB,ENABLED_SMOOTH_END_STONE);
 
 		public ENABLED() {
 			super(OPTIONS, "enabled");
@@ -65,7 +78,9 @@ public final class FluxTechConfig extends Config {
 				"config.fluxtech.integer_values.hpd_cooldown");
 		public static final ConfigItem<Integer> HLB_MAX_LENGTH = new ConfigItem<>("hlb_max_length", 127,
 				"config.fluxtech.integer_values.hlb_max_length");
-		public static final List<ConfigItem<?>> OPTIONS = ImmutableList.of(GRAVITRON_CRUSH_DAMAGE, HPD_COOLDOWN,HLB_MAX_LENGTH);
+		public static final ConfigItem<Integer> ENDURIUM_TP_RANGE = new ConfigItem<>("endurium_tp_range", 64,
+				"config.fluxtech.integer_values.endurium_tp_range");
+		public static final List<ConfigItem<?>> OPTIONS = ImmutableList.of(GRAVITRON_CRUSH_DAMAGE, HPD_COOLDOWN,HLB_MAX_LENGTH,ENDURIUM_TP_RANGE);
 
 		public INTEGER_VALUES() {
 			super(OPTIONS, "integer_values");
