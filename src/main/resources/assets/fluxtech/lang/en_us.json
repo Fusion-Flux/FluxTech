@@ -8,7 +8,7 @@
   "item.fluxtech.handheld_propulsion_device": "HPD",
   "item.fluxtech.gravitrons": "Gravitrons",
   "item.fluxtech.aeroarmor": "Aeroarmor",
-
+  "item.fluxtech.slime_coated_netherite_boots": "Slime Coated Netherite Boots",
 
   "block.fluxtech.propulsion_gel": "Propulsion Gel",
   "block.fluxtech.repulsion_gel": "Repulsion Gel",
@@ -42,6 +42,13 @@
   "block.fluxtech.top_2x2_padded_grey_panel": "Top 2X2 Padded Grey Panel",
   "block.fluxtech.bottom_2x2_padded_grey_panel": "Bottom 2X2 Padded Grey Panel",
 
+  "item.fluxtech.endurium_bucket": "Endurium Bucket",
+  "block.fluxtech.smooth_end_stone": "Smooth End Stone",
+  "block.fluxtech.smooth_end_stone_stairs": "Smooth End Stone Stairs",
+  "block.fluxtech.smooth_end_stone_slab": "Smooth End Stone Slab",
+  "block.fluxtech.smooth_end_stone_wall": "Smooth End Stone Wall",
+
+  "block.fluxtech.emitter": "Hardlight Bridge Emitter",
 
   "config.fluxtech": "FluxTech Config",
 
@@ -60,5 +67,6 @@
   "config.fluxtech.enabled.gravitrons_enabler": "Enable Gravitrons",
   "config.fluxtech.enabled.aeroarmor_enabler": "Enable Aeroarmor",
   "config.fluxtech.enabled.portal_blocks_enabler": "Enable Portal 2 Blocks",
-  "config.fluxtech.enabled.handheld_propulsion_device_preventer_enabler": "HPD Launch Preventer"
+  "config.fluxtech.enabled.handheld_propulsion_device_preventer_enabler": "HPD Launch Preventer",
+  "config.fluxtech.integer_values.hlb_max_length": "Hardlight Bridge Max Length"
 }

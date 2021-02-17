@@ -7,7 +7,11 @@
     "EntityAccessor",
     "EntityMixin",
     "PlayerEntityMixin",
-    "ArmorItemMixin"
+    "ArmorItemMixin",
+    "FluidBlockMixin",
+    "LavaFluidMixin",
+    "ItemEntityMixin",
+    "AbstractMinecartEntityMixin"
   ],
   "client": [
     "EntityRenderDispatcherMixin",

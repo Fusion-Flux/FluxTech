@@ -16,7 +16,7 @@ public final class FluxTechConfig extends Config {
 
 		public static final ConfigItem<Double> HPD_LAUNCH_POWER = new ConfigItem<>("hpd_launch_power", 2D,
 				"config.fluxtech.values.hpd_launch_power");
-		public static final ConfigItem<Double> AEROARMOR_FLIGHT_BOOST = new ConfigItem<>("aeroarmor_flight_boost", 1.5D,
+		public static final ConfigItem<Double> AEROARMOR_FLIGHT_BOOST = new ConfigItem<>("aeroarmor_flight_boost", 2.0D,
 				"config.fluxtech.values.aeroarmor_flight_boost");
 		public static final ConfigItem<Double> CRUSH_BOUNCE_MULTIPLIER = new ConfigItem<>("crush_bounce_multiplier", 1.5D,
 				"config.fluxtech.values.crush_bounce_multiplier");
@@ -63,7 +63,9 @@ public final class FluxTechConfig extends Config {
 				"config.fluxtech.integer_values.gravitrion_crush_damage");
 		public static final ConfigItem<Integer> HPD_COOLDOWN = new ConfigItem<>("hpd_cooldown", 10,
 				"config.fluxtech.integer_values.hpd_cooldown");
-		public static final List<ConfigItem<?>> OPTIONS = ImmutableList.of(GRAVITRON_CRUSH_DAMAGE, HPD_COOLDOWN);
+		public static final ConfigItem<Integer> HLB_MAX_LENGTH = new ConfigItem<>("hlb_max_length", 127,
+				"config.fluxtech.integer_values.hlb_max_length");
+		public static final List<ConfigItem<?>> OPTIONS = ImmutableList.of(GRAVITRON_CRUSH_DAMAGE, HPD_COOLDOWN,HLB_MAX_LENGTH);
 
 		public INTEGER_VALUES() {
 			super(OPTIONS, "integer_values");
