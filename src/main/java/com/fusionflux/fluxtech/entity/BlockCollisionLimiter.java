@@ -22,7 +22,7 @@ public class BlockCollisionLimiter {
         long currentWorldTime = world.getTime();
         Pair<Long, UUID> last = this.lastCollidingEntity.get();
         if (last == null || last.getLeft() != currentWorldTime || !last.getRight().equals(entity.getUuid())) {
-            this.lastCollidingEntity.set(new Pair(currentWorldTime, entity.getUuid()));
+            this.lastCollidingEntity.set(new Pair<>(currentWorldTime, entity.getUuid()));
             return true;
         }
         return false;

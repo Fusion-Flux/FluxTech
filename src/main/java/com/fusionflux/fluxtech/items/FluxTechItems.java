@@ -20,6 +20,8 @@ public class FluxTechItems {
 
     public static final Item MELTEDPEARL = new Item(new FabricItemSettings().group(FluxTech.FLUXTECH_GROUP).maxCount(16));
 
+    public static final CreeperAbility CREEPERABILITY = new CreeperAbility(new FabricItemSettings().group(FluxTech.FLUXTECH_GROUP).maxCount(1));
+
     public static final Item ENDURIUM_BUCKET = new BucketItem(FluxTechBlocks.ENDURIUM, new Item.Settings()
             .recipeRemainder(Items.BUCKET).maxCount(1).group(FluxTech.FLUXTECH_GROUP));
 
@@ -36,6 +38,7 @@ public class FluxTechItems {
             Registry.register(Registry.ITEM, new Identifier(FluxTech.MOD_ID, "melted_ender_pearl"), MELTEDPEARL);
             Registry.register(Registry.ITEM, new Identifier(FluxTech.MOD_ID, "endurium_bucket"), ENDURIUM_BUCKET);
         }
+        Registry.register(Registry.ITEM, new Identifier(FluxTech.MOD_ID, "creeper_ability"), CREEPERABILITY);
     }
 
 

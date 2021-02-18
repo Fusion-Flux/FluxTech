@@ -30,7 +30,7 @@ public class HandheldPropulsionDevice extends Item {
     public ActionResult useOnBlock(ItemUsageContext context) {
         Random random = new Random();
         BlockState blockUsedOn = context.getWorld().getBlockState(context.getBlockPos());
-        if (FluxTechConfig2.get().enabled.enableHLBLaunchPreventer) {
+        if (FluxTechConfig2.get().numbers.enableHPDLaunchPreventer) {
             if (Objects.requireNonNull(context.getPlayer()).pitch > 49.9 && !blockUsedOn.isOf(FluxTechBlocks.SMOOTH_GREY_PANEL) &&
                     !blockUsedOn.isOf(FluxTechBlocks.BOTTOM_2X2_SMOOTH_GREY_PANEL) && !blockUsedOn.isOf(FluxTechBlocks.BOTTOM_SMOOTH_GREY_PANEL) &&
                     !blockUsedOn.isOf(FluxTechBlocks.CHISELED_SMOOTH_GREY_PANEL) && !blockUsedOn.isOf(FluxTechBlocks.TOP_2X2_SMOOTH_GREY_PANEL) &&

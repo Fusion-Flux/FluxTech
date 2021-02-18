@@ -1,16 +1,17 @@
 package com.fusionflux.fluxtech.mixin;
 
-import com.fusionflux.fluxtech.accessor.EnduriumToucher;
-import com.fusionflux.fluxtech.config.FluxTechConfig;
+import com.fusionflux.fluxtech.accessor.PlayerEntityExtensions;
 import com.fusionflux.fluxtech.config.FluxTechConfig2;
 import com.fusionflux.fluxtech.items.FluxTechItems;
 import net.minecraft.entity.*;
 import net.minecraft.entity.damage.DamageSource;
+import net.minecraft.entity.decoration.EndCrystalEntity;
 import net.minecraft.entity.player.PlayerAbilities;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.sound.SoundEvents;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 import org.spongepowered.asm.mixin.Final;
@@ -21,16 +22,25 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
+import java.util.Iterator;
 import java.util.List;
 
 @Mixin(PlayerEntity.class)
-public abstract class PlayerEntityMixin extends LivingEntity {
+public abstract class PlayerEntityMixin extends LivingEntity implements PlayerEntityExtensions {
 
     @Shadow
     @Final
     public PlayerAbilities abilities;
     private int groundpound = 0;
     private double fallSpeedMax = 0;
+
+
+    private EndCrystalEntity connectedCrystal;
+
+    @Override
+    public EndCrystalEntity fluxtech_getConnectedCrystal() {
+        return connectedCrystal;
+    }
 
     protected PlayerEntityMixin(EntityType<? extends LivingEntity> entityType, World world) {
         super(entityType, world);
@@ -49,12 +59,14 @@ public abstract class PlayerEntityMixin extends LivingEntity {
         }
     }
 
+
+
     @Inject(method = "travel", at = @At("HEAD"), cancellable = true)
     public void travel(Vec3d movementInput, CallbackInfo ci) {
         ItemStack itemStack3 = this.getEquippedStack(EquipmentSlot.LEGS);
         ItemStack itemStack5 = this.getEquippedStack(EquipmentSlot.FEET);
         if (!this.isOnGround() && (itemStack3.getItem().equals(FluxTechItems.AEROARMOR))) {
-            this.flyingSpeed = this.abilities.getFlySpeed() * (float) (this.isSprinting() ? FluxTechConfig2.get().numbers.aeroArmorFlightBoost : 1);
+            this.flyingSpeed = this.abilities.getFlySpeed() * (float) (this.isSprinting() ? FluxTechConfig2.get().numbers.aeroarmorFlightBoost : 1);
         }
         if (!this.isOnGround() && this.getVelocity().y < -1 && (itemStack5.getItem().equals(FluxTechItems.GRAVITRONS) /*|| itemStack5.getItem().equals(FluxTechItems.UNSTABLE_GRAVITRONS)*/)) {
             super.travel(movementInput);
@@ -79,6 +91,34 @@ public abstract class PlayerEntityMixin extends LivingEntity {
     @Inject(method = "tick", at = @At("HEAD"), cancellable = true)
     public void tick(CallbackInfo ci) {
 
+BlockPos testpos = new BlockPos(this.getPos().x,this.getPos().y-1.5,this.getPos().z);
+        if (this.connectedCrystal != null) {
+            if (this.connectedCrystal.removed) {
+                this.connectedCrystal = null;
+            } else if (this.age % 10 == 0 && this.getHealth() < this.getMaxHealth()) {
+                this.setHealth(this.getHealth() + 1.0F);
+            }
+        }
+
+        //if (this.random.nextInt(10) == 0) {
+            List<EndCrystalEntity> list = this.world.getNonSpectatingEntities(EndCrystalEntity.class, this.getBoundingBox().expand(32.0D));
+            EndCrystalEntity endCrystalEntity = null;
+            double d = 1000;
+            Iterator var5 = list.iterator();
+
+            while(var5.hasNext()) {
+                EndCrystalEntity endCrystalEntity2 = (EndCrystalEntity)var5.next();
+                double e = endCrystalEntity2.squaredDistanceTo(this);
+
+                if (e < d) {
+                    d = e;
+                    endCrystalEntity = endCrystalEntity2;
+                   // endCrystalEntity.setBeamTarget(testpos);
+                }
+            }
+
+            this.connectedCrystal = endCrystalEntity;
+        //}
 
         ItemStack itemStack5 = this.getEquippedStack(EquipmentSlot.FEET);
         if (!this.isOnGround() && (itemStack5.getItem().equals(FluxTechItems.GRAVITRONS) || (itemStack5.getItem().equals(FluxTechItems.SLIME_COATED_NETHERITE_BOOTS) /*|| itemStack5.getItem().equals(FluxTechItems.UNSTABLE_GRAVITRONS)*/))) {

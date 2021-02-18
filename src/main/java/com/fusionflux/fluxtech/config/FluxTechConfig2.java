@@ -26,26 +26,27 @@ public class FluxTechConfig2 implements ConfigData {
     }
 
     public static class Enabled {
-        public boolean enableGels = true;
         public boolean enableHPD = true;
-        public boolean enablePortal2Blocks = true;
-        public boolean enableHLB = true;
-        public boolean enableEndurium = true;
-        public boolean enableSmoothEndStone = true;
-        public boolean enableGravitrons = true;
         public boolean enableAeroArmor = true;
+        public boolean enableGravitrons = true;
         public boolean enableSCNB = true;
-        public boolean enableHLBLaunchPreventer = true;
+        public boolean enableHLB = true;
+        public boolean enableGels = true;
+        public boolean enableEndurium = true;
+        public boolean enablePortal2Blocks = true;
+        public boolean enableSmoothEndStone = true;
     }
     public static class Numbers {
-        public int maxBridgeLength = 127;
-        public int hPDCooldown = 10;
         public double hPDLaunchPower = 2;
-        public double aeroArmorFlightBoost = 2;
-        public double crushBounceMultiplier = 1.5;
-        public int enduriumTpRange = 64;
+        public int hPDCooldown = 10;
+        public boolean enableHPDLaunchPreventer = true;
+        public double aeroarmorFlightBoost = 2;
         public int gravitronCrushDamage = 30;
-
+        public double crushBounceMultiplier = 1.5;
+    }
+    public static class NumbersBlock {
+        public int maxBridgeLength = 127;
+        public int enduriumTpRange = 64;
     }
     @ConfigEntry.Gui.TransitiveObject
     @ConfigEntry.Category("enabled")
@@ -54,5 +55,9 @@ public class FluxTechConfig2 implements ConfigData {
     @ConfigEntry.Gui.TransitiveObject
     @ConfigEntry.Category("numbers")
     public Numbers numbers = new Numbers();
+
+    @ConfigEntry.Gui.TransitiveObject
+    @ConfigEntry.Category("numbersblock")
+    public NumbersBlock numbersblock = new NumbersBlock();
 }
 

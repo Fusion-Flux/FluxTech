@@ -51,28 +51,29 @@
 
   "block.fluxtech.emitter": "Hardlight Bridge Emitter",
 
-  "config.fluxtech": "FluxTech Config",
+  "text.autoconfig.fluxtech.title": "FluxTech Config",
 
-  "config.fluxtech.values": "Values",
-  "config.fluxtech.values.aeroarmor_flight_boost": "Aeroarmor Flight Boost",
-  "config.fluxtech.values.hpd_launch_power": "HPD Launch Power",
-  "config.fluxtech.values.crush_bounce_multiplier": "Gravitron Crush Bounce Multiplier",
+  "text.autoconfig.fluxtech.category.numbers": "Item Config",
+  "text.autoconfig.fluxtech.option.numbers.aeroarmorFlightBoost": "Aeroarmor Flight Boost",
+  "text.autoconfig.fluxtech.option.numbers.hPDLaunchPower": "HPD Launch Power",
+  "text.autoconfig.fluxtech.option.numbers.enableHPDLaunchPreventer": "HPD Launch Preventer",
+  "text.autoconfig.fluxtech.option.numbers.crushBounceMultiplier": "Gravitron Crush Bounce Multiplier",
+  "text.autoconfig.fluxtech.option.numbers.gravitronCrushDamage": "Gravitron Crush Damage",
+  "text.autoconfig.fluxtech.option.numbers.hPDCooldown": "HPD Cooldown",
 
-  "config.fluxtech.integer_values": "Integer Values",
-  "config.fluxtech.integer_values.gravitrion_crush_damage": "Gravitron Crush Damage",
-  "config.fluxtech.integer_values.hpd_cooldown": "HPD Cooldown",
 
-  "config.fluxtech.enabled": "Enabled Features",
-  "config.fluxtech.enabled.handheld_propulsion_device_enabler": "Enable Handheld Propulsion Device",
-  "config.fluxtech.enabled.gel_enabler": "Enable Gel",
-  "config.fluxtech.enabled.gravitrons_enabler": "Enable Gravitrons",
-  "config.fluxtech.enabled.aeroarmor_enabler": "Enable Aeroarmor",
-  "config.fluxtech.enabled.portal_blocks_enabler": "Enable Portal 2 Blocks",
-  "config.fluxtech.enabled.handheld_propulsion_device_preventer_enabler": "HPD Launch Preventer",
-  "config.fluxtech.integer_values.hlb_max_length": "Hardlight Bridge Max Length",
-  "config.fluxtech.integer_values.endurium_tp_range": "Endurium Tp Range",
-  "config.fluxtech.enabled.enabled_endurium": "Enable Endurium",
-  "config.fluxtech.enabled.enabled_hardlight_bridges": "Enable Hardlight Bridges",
-  "config.fluxtech.enabled.enabled_smooth_end_stone": "Enable Smooth End Stone",
-  "config.fluxtech.enabled.enabled_scnb": "Enable Slime Coated Netherite Boots"
+  "text.autoconfig.fluxtech.category.numbersblock": "Block Config",
+  "text.autoconfig.fluxtech.option.numbersblock.maxBridgeLength": "Hardlight Bridge Max Length",
+  "text.autoconfig.fluxtech.option.numbersblock.enduriumTpRange": "Endurium Tp Range",
+
+  "text.autoconfig.fluxtech.category.enabled": "Enabled Features",
+  "text.autoconfig.fluxtech.option.enabled.enableHPD": "Enable HPD",
+  "text.autoconfig.fluxtech.option.enabled.enableGels": "Enable Gels",
+  "text.autoconfig.fluxtech.option.enabled.enableGravitrons": "Enable Gravitrons",
+  "text.autoconfig.fluxtech.option.enabled.enableAeroArmor": "Enable Aeroarmor",
+  "text.autoconfig.fluxtech.option.enabled.enablePortal2Blocks": "Enable Portal 2 Blocks",
+  "text.autoconfig.fluxtech.option.enabled.enableEndurium": "Enable Endurium",
+  "text.autoconfig.fluxtech.option.enabled.enableHLB": "Enable Hardlight Bridges",
+  "text.autoconfig.fluxtech.option.enabled.enableSmoothEndStone": "Enable Smooth End Stone",
+  "text.autoconfig.fluxtech.option.enabled.enableSCNB": "Enable Slime Coated Netherite Boots"
 }

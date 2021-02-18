@@ -29,7 +29,7 @@ import java.util.Objects;
  */
 public class HardLightBridgeEmitterBlockEntity extends BlockEntity implements Tickable {
 
-    public final int MAX_RANGE = FluxTechConfig2.get().numbers.maxBridgeLength;
+    public final int MAX_RANGE = FluxTechConfig2.get().numbersblock.maxBridgeLength;
     public final int BLOCKS_PER_TICK = 1;
     public final int EXTENSION_TIME = MAX_RANGE / BLOCKS_PER_TICK;
 

@@ -127,6 +127,9 @@ public abstract class EntityMixin implements EntityAttachments, EnduriumToucher 
     @Inject(method = "tick", at = @At("HEAD"), cancellable = true)
     public void tick(CallbackInfo ci) {
 
+
+
+
             if(((EnduriumToucher)this).getTouchingEndurium()){
                 if (((Entity) (Object) this) instanceof LivingEntity) {
                     LivingEntity user = (LivingEntity) ((Entity) (Object) this);
@@ -136,9 +139,9 @@ public abstract class EntityMixin implements EntityAttachments, EnduriumToucher 
                         double f = user.getZ();
 
                         for(int i = 0; i < 16; ++i) {
-                            double g = user.getX() + (user.getRandom().nextDouble() - 0.5D) * FluxTechConfig2.get().numbers.enduriumTpRange;
-                            double h = MathHelper.clamp(user.getY() + (double)(user.getRandom().nextInt(FluxTechConfig2.get().numbers.enduriumTpRange) - 16), 0.0D, (double)(world.getDimensionHeight() - 1));
-                            double j = user.getZ() + (user.getRandom().nextDouble() - 0.5D) * FluxTechConfig2.get().numbers.enduriumTpRange;
+                            double g = user.getX() + (user.getRandom().nextDouble() - 0.5D) * FluxTechConfig2.get().numbersblock.enduriumTpRange;
+                            double h = MathHelper.clamp(user.getY() + (double)(user.getRandom().nextInt(FluxTechConfig2.get().numbersblock.enduriumTpRange) - 16), 0.0D, (double)(world.getDimensionHeight() - 1));
+                            double j = user.getZ() + (user.getRandom().nextDouble() - 0.5D) * FluxTechConfig2.get().numbersblock.enduriumTpRange;
                             if (user.hasVehicle()) {
                                 user.stopRiding();
                             }

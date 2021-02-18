@@ -4,18 +4,19 @@
   "package": "com.fusionflux.fluxtech.mixin",
   "compatibilityLevel": "JAVA_8",
   "mixins": [
+    "AbstractMinecartEntityMixin",
+    "ArmorItemMixin",
     "EntityAccessor",
     "EntityMixin",
-    "PlayerEntityMixin",
-    "ArmorItemMixin",
     "FluidBlockMixin",
-    "LavaFluidMixin",
     "ItemEntityMixin",
-    "AbstractMinecartEntityMixin"
+    "LavaFluidMixin",
+    "PlayerEntityMixin"
   ],
   "client": [
     "EntityRenderDispatcherMixin",
-    "GameRendererMixin"
+    "GameRendererMixin",
+    "PlayerEntityRendererMixin"
   ],
   "injectors": {
     "defaultRequire": 1
