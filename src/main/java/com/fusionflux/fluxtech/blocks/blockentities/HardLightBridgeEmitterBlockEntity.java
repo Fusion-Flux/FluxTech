@@ -2,6 +2,7 @@ package com.fusionflux.fluxtech.blocks.blockentities;
 
 import com.fusionflux.fluxtech.blocks.FluxTechBlocks;
 import com.fusionflux.fluxtech.config.FluxTechConfig;
+import com.fusionflux.fluxtech.config.FluxTechConfig2;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -28,7 +29,7 @@ import java.util.Objects;
  */
 public class HardLightBridgeEmitterBlockEntity extends BlockEntity implements Tickable {
 
-    public final int MAX_RANGE = FluxTechConfig.INTEGER_VALUES.HLB_MAX_LENGTH.getValue();
+    public final int MAX_RANGE = FluxTechConfig2.get().numbers.maxBridgeLength;
     public final int BLOCKS_PER_TICK = 1;
     public final int EXTENSION_TIME = MAX_RANGE / BLOCKS_PER_TICK;
 

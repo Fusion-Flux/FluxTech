@@ -3,6 +3,7 @@ package com.fusionflux.fluxtech.items;
 import com.fusionflux.fluxtech.FluxTech;
 import com.fusionflux.fluxtech.blocks.FluxTechBlocks;
 import com.fusionflux.fluxtech.config.FluxTechConfig;
+import com.fusionflux.fluxtech.config.FluxTechConfig2;
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
 import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.item.*;
@@ -23,15 +24,15 @@ public class FluxTechItems {
             .recipeRemainder(Items.BUCKET).maxCount(1).group(FluxTech.FLUXTECH_GROUP));
 
     public static void registerItems() {
-        if (FluxTechConfig.ENABLED.ENABLED_HPD.getValue())
+        if (FluxTechConfig2.get().enabled.enableHPD)
             Registry.register(Registry.ITEM, new Identifier(FluxTech.MOD_ID, "handheld_propulsion_device"), HANDHELD_PROPULSION_DEVICE);
-        if (FluxTechConfig.ENABLED.ENABLED_GRAVITRONS.getValue())
+        if (FluxTechConfig2.get().enabled.enableGravitrons)
             Registry.register(Registry.ITEM, new Identifier(FluxTech.MOD_ID, "gravitrons"), GRAVITRONS);
-        if (FluxTechConfig.ENABLED.ENABLED_AEROARMOR.getValue())
+        if (FluxTechConfig2.get().enabled.enableAeroArmor)
             Registry.register(Registry.ITEM, new Identifier(FluxTech.MOD_ID, "aeroarmor"), AEROARMOR);
-        if (FluxTechConfig.ENABLED.ENABLED_SCNB.getValue())
+        if (FluxTechConfig2.get().enabled.enableSCNB)
         Registry.register(Registry.ITEM, new Identifier(FluxTech.MOD_ID, "slime_coated_netherite_boots"), SLIME_COATED_NETHERITE_BOOTS);
-        if (FluxTechConfig.ENABLED.ENABLED_ENDURIUM.getValue()) {
+        if (FluxTechConfig2.get().enabled.enableEndurium) {
             Registry.register(Registry.ITEM, new Identifier(FluxTech.MOD_ID, "melted_ender_pearl"), MELTEDPEARL);
             Registry.register(Registry.ITEM, new Identifier(FluxTech.MOD_ID, "endurium_bucket"), ENDURIUM_BUCKET);
         }

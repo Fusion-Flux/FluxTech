@@ -3,6 +3,7 @@ package com.fusionflux.fluxtech.mixin;
 import com.fusionflux.fluxtech.accessor.EnduriumToucher;
 import com.fusionflux.fluxtech.blocks.FluxTechBlocks;
 import com.fusionflux.fluxtech.config.FluxTechConfig;
+import com.fusionflux.fluxtech.config.FluxTechConfig2;
 import com.fusionflux.fluxtech.entity.EntityAttachments;
 import it.unimi.dsi.fastutil.objects.Object2DoubleMap;
 import net.minecraft.block.Blocks;
@@ -135,9 +136,9 @@ public abstract class EntityMixin implements EntityAttachments, EnduriumToucher 
                         double f = user.getZ();
 
                         for(int i = 0; i < 16; ++i) {
-                            double g = user.getX() + (user.getRandom().nextDouble() - 0.5D) * FluxTechConfig.INTEGER_VALUES.ENDURIUM_TP_RANGE.getValue();
-                            double h = MathHelper.clamp(user.getY() + (double)(user.getRandom().nextInt(FluxTechConfig.INTEGER_VALUES.ENDURIUM_TP_RANGE.getValue()) - 16), 0.0D, (double)(world.getDimensionHeight() - 1));
-                            double j = user.getZ() + (user.getRandom().nextDouble() - 0.5D) * FluxTechConfig.INTEGER_VALUES.ENDURIUM_TP_RANGE.getValue();
+                            double g = user.getX() + (user.getRandom().nextDouble() - 0.5D) * FluxTechConfig2.get().numbers.enduriumTpRange;
+                            double h = MathHelper.clamp(user.getY() + (double)(user.getRandom().nextInt(FluxTechConfig2.get().numbers.enduriumTpRange) - 16), 0.0D, (double)(world.getDimensionHeight() - 1));
+                            double j = user.getZ() + (user.getRandom().nextDouble() - 0.5D) * FluxTechConfig2.get().numbers.enduriumTpRange;
                             if (user.hasVehicle()) {
                                 user.stopRiding();
                             }

@@ -3,6 +3,7 @@ package com.fusionflux.fluxtech.blocks;
 import com.fusionflux.fluxtech.FluxTech;
 import com.fusionflux.fluxtech.blocks.blockentities.*;
 import com.fusionflux.fluxtech.config.FluxTechConfig;
+import com.fusionflux.fluxtech.config.FluxTechConfig2;
 import com.fusionflux.fluxtech.fluids.Endurium;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
@@ -81,7 +82,7 @@ public class FluxTechBlocks {
 
 
     public static void registerBlocks() {
-        if (FluxTechConfig.ENABLED.ENABLED_GELS.getValue()) {
+        if (FluxTechConfig2.get().enabled.enableGels) {
             Registry.register(Registry.BLOCK, new Identifier(FluxTech.MOD_ID, "propulsion_gel"), PROPULSION_GEL);
             Registry.register(Registry.ITEM, new Identifier(FluxTech.MOD_ID, "propulsion_gel"), new GelBucket(PROPULSION_GEL, new Item.Settings().group(FluxTech.FLUXTECH_GROUP).maxCount(1)));
             Registry.register(Registry.BLOCK, new Identifier(FluxTech.MOD_ID, "repulsion_gel"), REPULSION_GEL);
@@ -90,7 +91,7 @@ public class FluxTechBlocks {
             Registry.register(Registry.ITEM, new Identifier(FluxTech.MOD_ID, "gel"), new GelBucket(GEL, new Item.Settings().group(FluxTech.FLUXTECH_GROUP).maxCount(1)));
         }
 
-        if (FluxTechConfig.ENABLED.ENABLED_HLB.getValue()) {
+        if (FluxTechConfig2.get().enabled.enableHLB) {
             HLB_EMITTER_ENTITY = Registry.register(Registry.BLOCK_ENTITY_TYPE, new Identifier(FluxTech.MOD_ID, "emitter_test_entity"), BlockEntityType.Builder.create(HardLightBridgeEmitterBlockEntity::new, HLB_EMITTER_BLOCK).build(null));
             Registry.register(Registry.BLOCK, new Identifier(FluxTech.MOD_ID, "emitter"), HLB_EMITTER_BLOCK);
             Registry.register(Registry.ITEM, new Identifier(FluxTech.MOD_ID, "emitter"), new BlockItem(HLB_EMITTER_BLOCK, new Item.Settings().group(FluxTech.FLUXTECH_GROUP)));
@@ -98,12 +99,12 @@ public class FluxTechBlocks {
             Registry.register(Registry.BLOCK, new Identifier(FluxTech.MOD_ID, "bridge_test"), HLB_BLOCK);
         }
 
-        if (FluxTechConfig.ENABLED.ENABLED_ENDURIUM.getValue()) {
+        if (FluxTechConfig2.get().enabled.enableEndurium) {
             Registry.register(Registry.FLUID, new Identifier(FluxTech.MOD_ID, "endurium_still"), ENDURIUM);
             Registry.register(Registry.FLUID, new Identifier(FluxTech.MOD_ID, "endurium_flowing"), ENDURIUM_FLOWING);
             Registry.register(Registry.BLOCK, new Identifier(FluxTech.MOD_ID, "endurium_block"), ENDURIUM_BLOCK);
         }
-        if (FluxTechConfig.ENABLED.ENABLED_SMOOTH_END_STONE.getValue()) {
+        if (FluxTechConfig2.get().enabled.enableSmoothEndStone) {
             Registry.register(Registry.BLOCK, new Identifier(FluxTech.MOD_ID, "smooth_end_stone"), SMOOTH_END_STONE);
             Registry.register(Registry.BLOCK, new Identifier(FluxTech.MOD_ID, "smooth_end_stone_slab"), SMOOTH_END_STONE_SLAB);
             Registry.register(Registry.BLOCK, new Identifier(FluxTech.MOD_ID, "smooth_end_stone_stairs"), SMOOTH_END_STONE_STAIRS);
@@ -116,7 +117,7 @@ public class FluxTechBlocks {
 
         //STAR_CORE_ENTITY = Registry.register(Registry.BLOCK_ENTITY_TYPE, new Identifier(FluxTech.MOD_ID, "star_core_entity"), BlockEntityType.Builder.create(StarCoreEntity::new, CORE).build(null));
         //Registry.register(Registry.BLOCK, new Identifier(FluxTech.MOD_ID, "core"), CORE);
-        if (FluxTechConfig.ENABLED.ENABLED_PORTAL_BLOCKS.getValue()) {
+        if (FluxTechConfig2.get().enabled.enablePortal2Blocks) {
             Registry.register(Registry.BLOCK, new Identifier(FluxTech.MOD_ID, "smooth_white_panel"), SMOOTH_WHITE_PANEL);
             Registry.register(Registry.ITEM, new Identifier(FluxTech.MOD_ID, "smooth_white_panel"), new BlockItem(SMOOTH_WHITE_PANEL, new Item.Settings().group(FluxTech.FLUXTECH_GROUP)));
             Registry.register(Registry.BLOCK, new Identifier(FluxTech.MOD_ID, "chiseled_smooth_white_panel"), CHISELED_SMOOTH_WHITE_PANEL);

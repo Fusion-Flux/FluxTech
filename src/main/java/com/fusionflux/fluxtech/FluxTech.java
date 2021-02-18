@@ -4,6 +4,7 @@ package com.fusionflux.fluxtech;
 
 import com.fusionflux.fluxtech.blocks.FluxTechBlocks;
 import com.fusionflux.fluxtech.config.FluxTechConfig;
+import com.fusionflux.fluxtech.config.FluxTechConfig2;
 import com.fusionflux.fluxtech.delay.DelayedForLoopManager;
 import com.fusionflux.fluxtech.items.FluxTechItems;
 import com.fusionflux.fluxtech.sound.FluxTechSounds;
@@ -30,7 +31,8 @@ public class FluxTech implements ModInitializer {
 
     @Override
     public void onInitialize() {
-        processConfig();
+        //processConfig();
+        FluxTechConfig2.register();
         FluxTechItems.registerItems();
         FluxTechBlocks.registerBlocks();
         FluxTechSounds.registerSounds();
@@ -39,9 +41,9 @@ public class FluxTech implements ModInitializer {
         });
 
     }
-    private void processConfig() {
+   /* private void processConfig() {
         CONFIG.readConfigFromFile();
 
         ServerLifecycleEvents.SERVER_STOPPED.register(l -> CONFIG.saveConfigToFile());
-    }
+    }*/
 }

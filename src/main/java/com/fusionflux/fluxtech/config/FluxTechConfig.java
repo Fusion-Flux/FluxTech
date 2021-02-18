@@ -1,18 +1,10 @@
 package com.fusionflux.fluxtech.config;
 
-import com.google.common.collect.ImmutableList;
-import com.oroarmor.config.Config;
-import com.oroarmor.config.ConfigItem;
-import com.oroarmor.config.ConfigItemGroup;
-import net.fabricmc.loader.api.FabricLoader;
 
-import java.io.File;
-import java.util.List;
-
-public final class FluxTechConfig extends Config {
+public final class FluxTechConfig {
 
 
-	public static class VALUES extends ConfigItemGroup {
+	/*public static class VALUES extends ConfigItemGroup {
 
 		public static final ConfigItem<Double> HPD_LAUNCH_POWER = new ConfigItem<>("hpd_launch_power", 2D,
 				"config.fluxtech.values.hpd_launch_power");
@@ -97,7 +89,7 @@ public final class FluxTechConfig extends Config {
 		super(CONFIGS, new File(FabricLoader.getInstance().getConfigDir().toFile(), CONFIG_FILE_NAME), "fluxtech");
 	}
 
-
+*/
 
 
 
