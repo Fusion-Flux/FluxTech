@@ -2,6 +2,8 @@ package com.fusionflux.fluxtech.items;
 
 import com.fusionflux.fluxtech.config.FluxTechConfig2;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.projectile.FireballEntity;
+import net.minecraft.entity.projectile.ProjectileEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemUsageContext;

@@ -24,15 +24,17 @@ public class PlayerEntityRendererMixin {
         Vec3d playerPos = abstractClientPlayerEntity.getPos();
         if (connectedCrystal != null && playerPos != null) {
             matrixStack.push();
-            float l = (float)(connectedCrystal.getX() - MathHelper.lerp(g, abstractClientPlayerEntity.prevX, abstractClientPlayerEntity.getX()));
-            float m = (float)(connectedCrystal.getY() - MathHelper.lerp(g, abstractClientPlayerEntity.prevY, abstractClientPlayerEntity.getY()) + 1.0F);
-            float t = (float)(connectedCrystal.getZ() - MathHelper.lerp(g, abstractClientPlayerEntity.prevZ, abstractClientPlayerEntity.getZ()));
+            float l = (float) (connectedCrystal.getX() - MathHelper.lerp(g, abstractClientPlayerEntity.prevX, abstractClientPlayerEntity.getX()));
+            float m = (float) (connectedCrystal.getY() - MathHelper.lerp(g, abstractClientPlayerEntity.prevY, abstractClientPlayerEntity.getY()) + 2.0F - UtilFields.beamRenderingYTranslation);
+            float t = (float) (connectedCrystal.getZ() - MathHelper.lerp(g, abstractClientPlayerEntity.prevZ, abstractClientPlayerEntity.getZ()));
             UtilFields.beamRenderingOverride = true;
-            if (abstractClientPlayerEntity.isInSwimmingPose()) {
+            if (abstractClientPlayerEntity.isInSwimmingPose() || abstractClientPlayerEntity.isFallFlying()) {
                 UtilFields.beamRenderingYTranslation = 0.3D;
-            } else {
+            } else if (abstractClientPlayerEntity.isInSneakingPose()) {
+                UtilFields.beamRenderingYTranslation = 0.8D;
+            } else{
                 UtilFields.beamRenderingYTranslation = 1.0D;
-            }
+        }
             EnderDragonEntityRenderer.renderCrystalBeam(l, m + EndCrystalEntityRenderer.getYOffset(connectedCrystal, g), t, g, abstractClientPlayerEntity.age, matrixStack, vertexConsumerProvider, i);
             matrixStack.pop();
         }

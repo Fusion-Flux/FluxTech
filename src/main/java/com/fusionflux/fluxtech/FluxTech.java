@@ -6,6 +6,7 @@ import com.fusionflux.fluxtech.blocks.FluxTechBlocks;
 import com.fusionflux.fluxtech.config.FluxTechConfig;
 import com.fusionflux.fluxtech.config.FluxTechConfig2;
 import com.fusionflux.fluxtech.delay.DelayedForLoopManager;
+import com.fusionflux.fluxtech.effects.CustomEffects;
 import com.fusionflux.fluxtech.items.FluxTechItems;
 import com.fusionflux.fluxtech.sound.FluxTechSounds;
 //import com.oroarmor.util.config.ConfigItemGroup;
@@ -33,6 +34,7 @@ public class FluxTech implements ModInitializer {
     public void onInitialize() {
         //processConfig();
         FluxTechConfig2.register();
+        CustomEffects.registerEffects();
         FluxTechItems.registerItems();
         FluxTechBlocks.registerBlocks();
         FluxTechSounds.registerSounds();

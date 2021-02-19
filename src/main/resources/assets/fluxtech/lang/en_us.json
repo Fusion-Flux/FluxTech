@@ -11,9 +11,16 @@
   "item.fluxtech.slime_coated_netherite_boots": "Slime Coated Netherite Boots",
   "item.fluxtech.melted_ender_pearl": "Melted Ender Pearl",
 
+  "item.fluxtech.lapis_hoe": "Lapis Hoe",
+  "item.fluxtech.lapis_axe": "Lapis Axe",
+  "item.fluxtech.lapis_pickaxe": "Lapis Pickaxe",
+  "item.fluxtech.lapis_shovel": "Lapis Shovel",
+
   "block.fluxtech.propulsion_gel": "Propulsion Gel",
   "block.fluxtech.repulsion_gel": "Repulsion Gel",
   "block.fluxtech.gel": "Gel",
+
+  "effect.fluxtech.dragon_healing": "Dragon Healing",
 
   "block.fluxtech.smooth_white_panel": "Smooth White Panel",
   "block.fluxtech.chiseled_smooth_white_panel": "Chiseled Smooth White Panel",
