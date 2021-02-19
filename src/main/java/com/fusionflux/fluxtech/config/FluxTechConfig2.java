@@ -39,6 +39,7 @@ public class FluxTechConfig2 implements ConfigData {
     public static class Numbers {
         public double hPDLaunchPower = 2;
         public int hPDCooldown = 10;
+        public boolean hPDReturnsProjectiles = false;
         public boolean enableHPDLaunchPreventer = true;
         public double aeroarmorFlightBoost = 2;
         public int gravitronCrushDamage = 30;
