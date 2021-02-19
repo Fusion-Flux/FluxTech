@@ -24,6 +24,8 @@ public class FluxTechItems {
     public static ToolItem LAPIS_AXE = new CustomAxeItem(LAPIS_MATERIAL, 5, -3.2F, new Item.Settings().group(FluxTech.FLUXTECH_GROUP));
     public static ToolItem LAPIS_HOE = new CustomHoeItem(LAPIS_MATERIAL, 1, 0F, new Item.Settings().group(FluxTech.FLUXTECH_GROUP));
 
+
+
     public static final ArmorMaterial FluxTechArmor = new FluxTechArmor();
     public static final ArmorMaterial FluxTechArmor2 = new FluxTechArmor2();
     public static final HandheldPropulsionDevice HANDHELD_PROPULSION_DEVICE = new HandheldPropulsionDevice(new FabricItemSettings().group(FluxTech.FLUXTECH_GROUP).maxCount(1).fireproof());
@@ -34,6 +36,7 @@ public class FluxTechItems {
     public static final Item MELTEDPEARL = new Item(new FabricItemSettings().group(FluxTech.FLUXTECH_GROUP).maxCount(16));
 
     public static final CreeperAbility CREEPERABILITY = new CreeperAbility(new FabricItemSettings().group(FluxTech.FLUXTECH_GROUP).maxCount(1));
+    public static final DraconicFlamethrower DRAGONABILITY = new DraconicFlamethrower(new FabricItemSettings().group(FluxTech.FLUXTECH_GROUP).maxCount(1));
 
 
     public static final Item ENDURIUM_BUCKET = new BucketItem(FluxTechBlocks.ENDURIUM, new Item.Settings()
@@ -53,6 +56,8 @@ public class FluxTechItems {
             Registry.register(Registry.ITEM, new Identifier(FluxTech.MOD_ID, "endurium_bucket"), ENDURIUM_BUCKET);
         }
         Registry.register(Registry.ITEM, new Identifier(FluxTech.MOD_ID, "creeper_ability"), CREEPERABILITY);
+        Registry.register(Registry.ITEM, new Identifier(FluxTech.MOD_ID, "dragon_flamethrower"), DRAGONABILITY);
+
 
         Registry.register(Registry.ITEM, new Identifier(FluxTech.MOD_ID, "lapis_shovel"), LAPIS_SHOVEL);
         Registry.register(Registry.ITEM, new Identifier(FluxTech.MOD_ID, "lapis_axe"), LAPIS_AXE);

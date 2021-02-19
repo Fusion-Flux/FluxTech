@@ -8,7 +8,7 @@ import net.minecraft.recipe.Ingredient;
 public class LapisMaterial implements ToolMaterial {
     @Override
     public int getDurability() {
-        return 500;
+        return 200;
     }
     @Override
     public float getMiningSpeedMultiplier() {

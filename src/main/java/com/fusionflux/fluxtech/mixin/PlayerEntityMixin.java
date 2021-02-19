@@ -173,7 +173,7 @@ public abstract class PlayerEntityMixin extends LivingEntity implements PlayerEn
     public float getBlockBreakingSpeed(float f) {
         ItemStack itemStack3 = this.getEquippedStack(EquipmentSlot.MAINHAND);
         if (this.isSubmergedIn(FluidTags.WATER) && (itemStack3.getItem().isIn(FluxTechTags.LAPIS_TOOLS))) {
-            f *= 15.0F;
+            f += 10.0F;
         }
         return f;
     }
