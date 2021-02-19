@@ -63,6 +63,7 @@
   "text.autoconfig.fluxtech.category.numbers": "Item Config",
   "text.autoconfig.fluxtech.option.numbers.aeroarmorFlightBoost": "Aeroarmor Flight Boost",
   "text.autoconfig.fluxtech.option.numbers.hPDLaunchPower": "HPD Launch Power",
+  "text.autoconfig.fluxtech.option.numbers.hPDReturnsProjectiles": "HPD Returns Projectiles",
   "text.autoconfig.fluxtech.option.numbers.enableHPDLaunchPreventer": "HPD Launch Preventer",
   "text.autoconfig.fluxtech.option.numbers.crushBounceMultiplier": "Gravitron Crush Bounce Multiplier",
   "text.autoconfig.fluxtech.option.numbers.gravitronCrushDamage": "Gravitron Crush Damage",

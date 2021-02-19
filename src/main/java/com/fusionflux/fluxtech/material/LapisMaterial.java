@@ -12,7 +12,7 @@ public class LapisMaterial implements ToolMaterial {
     }
     @Override
     public float getMiningSpeedMultiplier() {
-        return 1.0F;
+        return 1.5F;
     }
     @Override
     public float getAttackDamage() {
