@@ -12,6 +12,7 @@ import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.state.property.Properties;
+import net.minecraft.tag.BlockTags;
 import net.minecraft.util.Tickable;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
@@ -75,7 +76,7 @@ public class HardLightBridgeEmitterBlockEntity extends BlockEntity implements Ti
 
                 // Starts the extension logic by checking the frontal adjacent position for non-obstruction
                 if( extensionTicks <= EXTENSION_TIME ) {
-                    if( world.isAir( obstructorPos ) || world.getBlockState( obstructorPos ).getBlock().equals( FluxTechBlocks.HLB_BLOCK )) {
+                    if( world.isAir( obstructorPos ) || world.getBlockState( obstructorPos ).getHardness(world, obstructorPos) <= 0.1F || world.getBlockState( obstructorPos ).getBlock().equals( FluxTechBlocks.HLB_BLOCK )) {
                         shouldExtend = true;
                         extendBridge( getCachedState(), (ServerWorld ) world, getPos());
                     }
@@ -100,10 +101,11 @@ public class HardLightBridgeEmitterBlockEntity extends BlockEntity implements Ti
     }
 
     public void playSound(SoundEvent soundEvent) {
-        this.world.playSound((PlayerEntity)null, this.pos, soundEvent, SoundCategory.BLOCKS, 0.1F, 3.0F);
+        this.world.playSound(null, this.pos, soundEvent, SoundCategory.BLOCKS, 0.1F, 3.0F);
     }
+
     public void playSound2(SoundEvent soundEvent) {
-        this.world.playSound((PlayerEntity)null, this.pos, soundEvent, SoundCategory.BLOCKS, 0.05F, 3.0F);
+        this.world.playSound(null, this.pos, soundEvent, SoundCategory.BLOCKS, 0.05F, 3.0F);
     }
 
     /**
@@ -130,7 +132,7 @@ public class HardLightBridgeEmitterBlockEntity extends BlockEntity implements Ti
                 if( world.getBlockState( extendPos ).getBlock().equals( FluxTechBlocks.HLB_BLOCK )) {
                     ((HardLightBridgeBlockEntity) Objects.requireNonNull( world.getBlockEntity( extendPos ) ) ).emitters.add( new BlockPos.Mutable( getPos().getX(), getPos().getY(), getPos().getZ() ) );
                 }
-                else if( world.isAir( extendPos ) ) {
+                else if( world.isAir( extendPos ) || world.getBlockState( obstructorPos ).getHardness(world, obstructorPos) <= 0.1F) {
                     world.setBlockState( extendPos, FluxTechBlocks.HLB_BLOCK.getDefaultState().with( Properties.FACING, facing ) );
                     ((HardLightBridgeBlockEntity) Objects.requireNonNull( world.getBlockEntity( extendPos ) ) ).emitters.add( new BlockPos.Mutable( getPos().getX(), getPos().getY(), getPos().getZ() ) );
                 }
