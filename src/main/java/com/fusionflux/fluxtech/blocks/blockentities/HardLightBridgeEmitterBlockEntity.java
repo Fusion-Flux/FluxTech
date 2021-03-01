@@ -96,6 +96,7 @@ public class HardLightBridgeEmitterBlockEntity extends BlockEntity implements Ti
                 shouldExtend = false;
             }
 
+            repairPos.clear();
             markDirty();
         }
     }
