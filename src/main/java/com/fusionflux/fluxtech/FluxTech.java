@@ -24,6 +24,8 @@ public class FluxTech implements ModInitializer {
 
     public static final FluxTechConfig CONFIG = new FluxTechConfig();
 
+
+
     public static final String MOD_ID = "fluxtech";
 
     public static final ItemGroup FLUXTECH_GROUP = FabricItemGroupBuilder.build(

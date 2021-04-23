@@ -56,6 +56,9 @@ public class FluxTechBlocks {
             Registry.register(Registry.ITEM, new Identifier(FluxTech.MOD_ID, "smooth_end_stone_stairs"), new BlockItem(SMOOTH_END_STONE_STAIRS, new Item.Settings().group(FluxTech.FLUXTECH_GROUP)));
             Registry.register(Registry.ITEM, new Identifier(FluxTech.MOD_ID, "smooth_end_stone_wall"), new BlockItem(SMOOTH_END_STONE_WALL, new Item.Settings().group(FluxTech.FLUXTECH_GROUP)));
         }
+        LOCKER_BLOCK_ENTITY = Registry.register(Registry.BLOCK_ENTITY_TYPE, new Identifier(FluxTech.MOD_ID, "locker_entity"), BlockEntityType.Builder.create(LockerBlockEntity::new, LOCKER_BLOCK).build(null));
+        Registry.register(Registry.BLOCK, new Identifier(FluxTech.MOD_ID, "locker"), LOCKER_BLOCK);
+        Registry.register(Registry.ITEM, new Identifier(FluxTech.MOD_ID, "locker"), new BlockItem(LOCKER_BLOCK, new Item.Settings().group(FluxTech.FLUXTECH_GROUP)));
 
 
     }

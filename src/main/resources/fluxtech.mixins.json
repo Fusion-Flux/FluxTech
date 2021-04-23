@@ -4,7 +4,6 @@
   "package": "com.fusionflux.fluxtech.mixin",
   "compatibilityLevel": "JAVA_8",
   "mixins": [
-    "AbstractMinecartEntityMixin",
     "ArmorItemMixin",
     "EntityAccessor",
     "EntityMixin",

@@ -160,13 +160,7 @@ public abstract class EntityMixin implements EntityAttachments, EnduriumToucher 
             }
 
 
-            if(maxFallSpeed == 10 && world.getBlockState(this.getBlockPos()).getBlock() == FluxTechBlocks.PROPULSION_GEL){
-                maxFallSpeed = 10;
-            }else{
-                if(maxFallSpeed>0){
-                    maxFallSpeed=maxFallSpeed-1;
-                }
-            }
+
 
     }
 
