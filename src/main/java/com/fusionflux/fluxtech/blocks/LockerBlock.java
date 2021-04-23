@@ -1,6 +1,6 @@
 package com.fusionflux.fluxtech.blocks;
 
-import com.fusionflux.fluxtech.blocks.blockentities.LockerBlockEntity;
+import com.fusionflux.fluxtech.blocks.entities.LockerBlockEntity;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockEntityProvider;
 import net.minecraft.block.entity.BlockEntity;
