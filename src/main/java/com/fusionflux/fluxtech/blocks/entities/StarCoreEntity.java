@@ -1,4 +1,4 @@
-package com.fusionflux.fluxtech.blocks.blockentities;
+package com.fusionflux.fluxtech.blocks.entities;
 
 import com.fusionflux.fluxtech.blocks.FluxTechBlocks;
 import com.fusionflux.fluxtech.entity.EntityAttachments;

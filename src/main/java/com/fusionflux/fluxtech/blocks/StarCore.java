@@ -1,6 +1,6 @@
 package com.fusionflux.fluxtech.blocks;
 
-import com.fusionflux.fluxtech.blocks.blockentities.StarCoreEntity;
+import com.fusionflux.fluxtech.blocks.entities.StarCoreEntity;
 import net.minecraft.block.*;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.util.math.BlockPos;
