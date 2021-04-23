@@ -1,0 +1,22 @@
+{
+  "variants": {
+    "facing=up": {
+      "model": "fluxtech:block/hopper/upper"
+    },
+    "facing=east": {
+      "model": "fluxtech:block/hopper/upper_side",
+      "y": 90
+    },
+    "facing=north": {
+      "model": "fluxtech:block/hopper/upper_side"
+    },
+    "facing=south": {
+      "model": "fluxtech:block/hopper/upper_side",
+      "y": 180
+    },
+    "facing=west": {
+      "model": "fluxtech:block/hopper/upper_side",
+      "y": 270
+    }
+  }
+}
