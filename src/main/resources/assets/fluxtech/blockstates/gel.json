@@ -2,7 +2,7 @@
   "multipart": [
     {
       "apply": {
-        "model": "fluxtech:block/gel_main"
+        "model": "fluxtech:block/gel/gel_main"
       }
     },
     {
@@ -11,7 +11,7 @@
         "west": "true"
       },
       "apply": {
-        "model": "fluxtech:block/gel_north_west",
+        "model": "fluxtech:block/gel/gel_north_west",
         "uvlock": true
       }
     },
@@ -20,7 +20,7 @@
         "north": "true"
       },
       "apply": {
-        "model": "fluxtech:block/gel_north",
+        "model": "fluxtech:block/gel/gel_north",
         "uvlock": true
       }
     },
@@ -30,7 +30,7 @@
         "east": "true"
       },
       "apply": {
-        "model": "fluxtech:block/gel_north_east",
+        "model": "fluxtech:block/gel/gel_north_east",
         "uvlock": true
       }
     },
@@ -39,7 +39,7 @@
         "east": "true"
       },
       "apply": {
-        "model": "fluxtech:block/gel_east",
+        "model": "fluxtech:block/gel/gel_east",
         "uvlock": true
       }
     },
@@ -49,7 +49,7 @@
         "east": "true"
       },
       "apply": {
-        "model": "fluxtech:block/gel_south_east",
+        "model": "fluxtech:block/gel/gel_south_east",
         "uvlock": true
       }
     },
@@ -58,7 +58,7 @@
         "south": "true"
       },
       "apply": {
-        "model": "fluxtech:block/gel_south",
+        "model": "fluxtech:block/gel/gel_south",
         "uvlock": true
       }
     },
@@ -68,7 +68,7 @@
         "west": "true"
       },
       "apply": {
-        "model": "fluxtech:block/gel_south_west",
+        "model": "fluxtech:block/gel/gel_south_west",
         "uvlock": true
       }
     },
@@ -77,7 +77,7 @@
         "west": "true"
       },
       "apply": {
-        "model": "fluxtech:block/gel_west",
+        "model": "fluxtech:block/gel/gel_west",
         "uvlock": true
       }
     }

@@ -1,4 +1,6 @@
 {
   "parent": "item/generated",
-  "textures": { "layer0": "fluxtech:item/melted_ender_pearl" }
+  "textures": {
+    "layer0": "fluxtech:item/melted_ender_pearl"
+  }
 }
