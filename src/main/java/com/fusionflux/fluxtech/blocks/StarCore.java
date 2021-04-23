@@ -11,7 +11,6 @@ public class StarCore extends BlockWithEntity {
 
     protected static final VoxelShape SHAPE = Block.createCuboidShape(0.0D, 0.0D, 0.0D, 16.0D, 16.0D, 16.0D);
 
-
     public StarCore(Settings settings) {
         super(settings);
     }

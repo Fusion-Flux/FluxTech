@@ -1,26 +1,18 @@
 package com.fusionflux.fluxtech.blocks;
 
-import com.fusionflux.fluxtech.blocks.FluxTechBlocks;
 import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.FluidBlock;
 import net.minecraft.block.Material;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.passive.FoxEntity;
-import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.fluid.FlowableFluid;
 import net.minecraft.fluid.FluidState;
-import net.minecraft.sound.SoundCategory;
-import net.minecraft.sound.SoundEvent;
-import net.minecraft.sound.SoundEvents;
 import net.minecraft.state.property.IntProperty;
 import net.minecraft.state.property.Properties;
 import net.minecraft.tag.FluidTags;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
-import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.shape.VoxelShape;
 import net.minecraft.world.World;
 
@@ -29,11 +21,17 @@ public class EnduriumBlock extends FluidBlock {
 
     public static final IntProperty LEVEL;
     public static final VoxelShape COLLISION_SHAPE;
+
+    static {
+        LEVEL = Properties.LEVEL_15;
+        COLLISION_SHAPE = Block.createCuboidShape(0.0D, 0.0D, 0.0D, 16.0D, 8.0D, 16.0D);
+    }
+
+    protected boolean FirstUpdate;
+
     public EnduriumBlock(FlowableFluid baseFluid) {
         super(baseFluid, FabricBlockSettings.of(Material.WATER).noCollision().strength(100.0F, 100.0F).dropsNothing().velocityMultiplier(0.95F));
     }
-
-
 
     @Override
     public void neighborUpdate(BlockState state, World world, BlockPos pos, Block block, BlockPos fromPos, boolean notify) {
@@ -41,12 +39,6 @@ public class EnduriumBlock extends FluidBlock {
             world.getFluidTickScheduler().schedule(pos, state.getFluidState().getFluid(), this.fluid.getTickRate(world));
         }
     }
-
-    protected boolean FirstUpdate;
-
-
-
-
 
     private boolean receiveNeighborFluids(World world, BlockPos pos, BlockState state) {
         boolean flag = false;
@@ -58,31 +50,28 @@ public class EnduriumBlock extends FluidBlock {
             }
 
         }
-       if (flag) {
+        if (flag) {
             FluidState ifluidstate = world.getFluidState(pos);
-            //if (ifluidstate.isStill()) {
-                world.setBlockState(pos, FluxTechBlocks.SMOOTH_END_STONE.getDefaultState());
-                this.triggerMixEffects(world, pos);
-                return false;
-           // }
+            // if (ifluidstate.isStill()) {
+            world.setBlockState(pos, FluxTechBlocks.SMOOTH_END_STONE.getDefaultState());
+            this.triggerMixEffects(world, pos);
+            return false;
+            // }
 
-            /*if (ifluidstate.getHeight(world, pos) >= 0.44444445F) {
+            /*
+            if (ifluidstate.getHeight(world, pos) >= 0.44444445F) {
                 world.setBlockState(pos, Blocks.END_STONE.getDefaultState());
                 this.triggerMixEffects(world, pos);
                 return false;
-            }*/
+            }
+            */
 
         }
 
 
         return true;
     }
-   static {
-        LEVEL = Properties.LEVEL_15;
-        COLLISION_SHAPE = Block.createCuboidShape(0.0D, 0.0D, 0.0D, 16.0D, 8.0D, 16.0D);
-    }
 
-    @Deprecated
     @Override
     public void onEntityCollision(BlockState state, World world, BlockPos position, Entity entity) {
         /*if (entity instanceof LivingEntity) {
@@ -119,7 +108,7 @@ public class EnduriumBlock extends FluidBlock {
         world.syncWorldEvent(1501, pos, 0);
     }
 
-   /* @Deprecated
+    /*
     @Override
     public void onEntityCollision(BlockState state, World world, BlockPos position, Entity entity) {
 
@@ -136,6 +125,7 @@ public class EnduriumBlock extends FluidBlock {
 
     private void triggerMixEffects(World world, BlockPos pos) {
         world.syncWorldEvent(1501, pos, 0);
-    }*/
+    }
+    */
 }
 

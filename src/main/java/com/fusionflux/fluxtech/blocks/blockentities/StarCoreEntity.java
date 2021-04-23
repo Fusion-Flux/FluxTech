@@ -25,17 +25,16 @@ public class StarCoreEntity extends BlockEntity implements Tickable {
         this.applyPlayerEffects();
     }
 
-
     private void applyPlayerEffects() {
         if (this.world != null && this.pos != null) {
             Box gravityBox = (new Box(this.pos)).expand(20);
-            Box gravityBox2 = (new Box(this.pos)).expand(20+5);
+            Box gravityBox2 = (new Box(this.pos)).expand(20 + 5);
             List<Entity> list = this.world.getEntitiesByClass(Entity.class, gravityBox, e -> !(e instanceof PlayerEntity && ((PlayerEntity) e).abilities.flying));
             List<Entity> listb = this.world.getEntitiesByClass(Entity.class, gravityBox2, null);
 
             for (Entity entity : list) {
                 EntityAttachments accessor = ((EntityAttachments) entity);
-                EntityAccessor dimention =((EntityAccessor) entity) ;
+                EntityAccessor dimention = ((EntityAccessor) entity);
 
                 Box boundingBox = entity.getBoundingBox();
                 listb.remove(entity);
@@ -67,10 +66,10 @@ public class StarCoreEntity extends BlockEntity implements Tickable {
                     }
 
                     if (this.pos.getY() < entity.getPos().getY()) {
-                        if(decresey>(20*.6666)) {
-                           decresey=decresey-((20*.6666)-1);
-                        entity.setVelocity(entity.getVelocity().add(0, -.07 / decresey, 0));
-                        }else{
+                        if (decresey > (20 * .6666)) {
+                            decresey = decresey - ((20 * .6666) - 1);
+                            entity.setVelocity(entity.getVelocity().add(0, -.07 / decresey, 0));
+                        } else {
                             entity.setVelocity(entity.getVelocity().add(0, -0.07, 0));
                         }
                         double height = entity.getHeight();
@@ -96,14 +95,13 @@ public class StarCoreEntity extends BlockEntity implements Tickable {
                     }
 
                     if (this.pos.getY() > entity.getPos().getY()) {
-                        if(decresey>(20*.6666)) {
-                            decresey=decresey-((20*.6666)-1);
+                        if (decresey > (20 * .6666)) {
+                            decresey = decresey - ((20 * .6666) - 1);
                             entity.setVelocity(entity.getVelocity().add(0, 0.07 / decresey, 0));
-                        }else{
+                        } else {
                             entity.setVelocity(entity.getVelocity().add(0, 0.07, 0));
                         }
-                        if(entity.verticalCollision)
-                        {
+                        if (entity.verticalCollision) {
                             entity.setOnGround(true);
                         }
                         double height = entity.getHeight();
@@ -137,14 +135,13 @@ public class StarCoreEntity extends BlockEntity implements Tickable {
                     }
 
                     if (this.pos.getZ() < entity.getPos().getZ()) {
-                        if(decresez>(20*.6666)) {
-                            decresez=decresez-((20*.6666)-1);
+                        if (decresez > (20 * .6666)) {
+                            decresez = decresez - ((20 * .6666) - 1);
                             entity.setVelocity(entity.getVelocity().add(0, 0, -.07 / decresez));
-                        }else{
+                        } else {
                             entity.setVelocity(entity.getVelocity().add(0, 0, -0.07));
                         }
-                        if(entity.horizontalCollision)
-                        {
+                        if (entity.horizontalCollision) {
                             entity.setOnGround(true);
                         }
                         double height = entity.getHeight();
@@ -175,14 +172,13 @@ public class StarCoreEntity extends BlockEntity implements Tickable {
                     }
 
                     if (this.pos.getZ() > entity.getPos().getZ()) {
-                        if(decresez>(20*.6666)) {
-                            decresez=decresez-((20*.6666)-1);
+                        if (decresez > (20 * .6666)) {
+                            decresez = decresez - ((20 * .6666) - 1);
                             entity.setVelocity(entity.getVelocity().add(0, 0, 0.07 / decresez));
-                        }else{
+                        } else {
                             entity.setVelocity(entity.getVelocity().add(0, 0, 0.07));
                         }
-                        if(entity.horizontalCollision)
-                        {
+                        if (entity.horizontalCollision) {
                             entity.setOnGround(true);
                         }
                         double height = entity.getHeight();
@@ -216,14 +212,13 @@ public class StarCoreEntity extends BlockEntity implements Tickable {
                     }
 
                     if (this.pos.getX() < entity.getPos().getX()) {
-                        if(decresex>(20*.6666)) {
-                            decresex=decresex-((20*.6666)-1);
+                        if (decresex > (20 * .6666)) {
+                            decresex = decresex - ((20 * .6666) - 1);
                             entity.setVelocity(entity.getVelocity().add(-0.07 / decresex, 0, 0));
-                        }else{
+                        } else {
                             entity.setVelocity(entity.getVelocity().add(-0.07, 0, 0));
                         }
-                        if(entity.horizontalCollision)
-                        {
+                        if (entity.horizontalCollision) {
                             entity.setOnGround(true);
                         }
                         double height = entity.getHeight();
@@ -249,14 +244,13 @@ public class StarCoreEntity extends BlockEntity implements Tickable {
                     }
 
                     if (this.pos.getX() > entity.getPos().getX()) {
-                        if(decresex>(20*.6666)) {
-                            decresex=decresex-((20*.6666)-1);
+                        if (decresex > (20 * .6666)) {
+                            decresex = decresex - ((20 * .6666) - 1);
                             entity.setVelocity(entity.getVelocity().add(0.07 / decresex, 0, 0));
-                        }else{
+                        } else {
                             entity.setVelocity(entity.getVelocity().add(0.07, 0, 0));
                         }
-                        if(entity.horizontalCollision)
-                        {
+                        if (entity.horizontalCollision) {
                             entity.setOnGround(true);
                         }
                         double height = entity.getHeight();
