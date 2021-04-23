@@ -8,6 +8,7 @@
     "EntityAccessor",
     "EntityMixin",
     "FluidBlockMixin",
+    "HopperMixin",
     "ItemEntityMixin",
     "LavaFluidMixin",
     "PlayerEntityMixin"

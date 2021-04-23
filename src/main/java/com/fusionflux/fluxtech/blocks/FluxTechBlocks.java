@@ -1,8 +1,9 @@
 package com.fusionflux.fluxtech.blocks;
 
 import com.fusionflux.fluxtech.FluxTech;
-import com.fusionflux.fluxtech.blocks.blockentities.LockerBlockEntity;
-import com.fusionflux.fluxtech.blocks.blockentities.StarCoreEntity;
+import com.fusionflux.fluxtech.blocks.entities.LockerBlockEntity;
+import com.fusionflux.fluxtech.blocks.entities.StarCoreEntity;
+import com.fusionflux.fluxtech.blocks.entities.UpperBlockEntity;
 import com.fusionflux.fluxtech.config.FluxTechConfig2;
 import com.fusionflux.fluxtech.fluids.Endurium;
 import net.fabricmc.api.EnvType;
@@ -28,6 +29,7 @@ public class FluxTechBlocks {
 
     public static final FlowableFluid ENDURIUM = new Endurium.Source();
     public static final FlowableFluid ENDURIUM_FLOWING = new Endurium.Flowing();
+    public static final Tag<Fluid> ENDURIUM_TAG = fluidTagRegister("endurium");
     public static final Block ENDURIUM_BLOCK = new EnduriumBlock(ENDURIUM);
 
     public static final Block SMOOTH_END_STONE = new Block(FabricBlockSettings.of(Material.STONE).hardness(3.5f));
@@ -35,10 +37,12 @@ public class FluxTechBlocks {
     public static final Block SMOOTH_END_STONE_STAIRS = new CustomStairs(FluxTechBlocks.SMOOTH_END_STONE);
     public static final Block SMOOTH_END_STONE_WALL = new WallBlock(FabricBlockSettings.copy(FluxTechBlocks.SMOOTH_END_STONE));
     public static final LockerBlock LOCKER_BLOCK = new LockerBlock(FabricBlockSettings.of(Material.STONE).hardness(3.5f));
-    public static final Tag<Fluid> ENDURIUM_TAG = fluidTagRegister("endurium");
+    public static final UpperBlock UPPER_BLOCK = new UpperBlock(FabricBlockSettings.of(Material.STONE).hardness(3.5f), 1);
+    public static final UpperBlock SKUPPER_BLOCK = new UpperBlock(FabricBlockSettings.of(Material.STONE).hardness(3.5f), 2);
     // public static Tag<Block> MY_TAG = TagRegistry.block(new Identifier("fluxtech", "hpd_deny_launch"));
     public static BlockEntityType<StarCoreEntity> STAR_CORE_ENTITY;
     public static BlockEntityType<LockerBlockEntity> LOCKER_BLOCK_ENTITY;
+    public static BlockEntityType<UpperBlockEntity> UPPER_BLOCK_ENTITY;
 
     public static void registerBlocks() {
         if (FluxTechConfig2.get().enabled.enableEndurium) {
@@ -48,17 +52,25 @@ public class FluxTechBlocks {
         }
         if (FluxTechConfig2.get().enabled.enableSmoothEndStone) {
             Registry.register(Registry.BLOCK, new Identifier(FluxTech.MOD_ID, "smooth_end_stone"), SMOOTH_END_STONE);
-            Registry.register(Registry.BLOCK, new Identifier(FluxTech.MOD_ID, "smooth_end_stone_slab"), SMOOTH_END_STONE_SLAB);
-            Registry.register(Registry.BLOCK, new Identifier(FluxTech.MOD_ID, "smooth_end_stone_stairs"), SMOOTH_END_STONE_STAIRS);
-            Registry.register(Registry.BLOCK, new Identifier(FluxTech.MOD_ID, "smooth_end_stone_wall"), SMOOTH_END_STONE_WALL);
             Registry.register(Registry.ITEM, new Identifier(FluxTech.MOD_ID, "smooth_end_stone"), new BlockItem(SMOOTH_END_STONE, new Item.Settings().group(FluxTech.FLUXTECH_GROUP)));
+            Registry.register(Registry.BLOCK, new Identifier(FluxTech.MOD_ID, "smooth_end_stone_slab"), SMOOTH_END_STONE_SLAB);
             Registry.register(Registry.ITEM, new Identifier(FluxTech.MOD_ID, "smooth_end_stone_slab"), new BlockItem(SMOOTH_END_STONE_SLAB, new Item.Settings().group(FluxTech.FLUXTECH_GROUP)));
+            Registry.register(Registry.BLOCK, new Identifier(FluxTech.MOD_ID, "smooth_end_stone_stairs"), SMOOTH_END_STONE_STAIRS);
             Registry.register(Registry.ITEM, new Identifier(FluxTech.MOD_ID, "smooth_end_stone_stairs"), new BlockItem(SMOOTH_END_STONE_STAIRS, new Item.Settings().group(FluxTech.FLUXTECH_GROUP)));
+            Registry.register(Registry.BLOCK, new Identifier(FluxTech.MOD_ID, "smooth_end_stone_wall"), SMOOTH_END_STONE_WALL);
             Registry.register(Registry.ITEM, new Identifier(FluxTech.MOD_ID, "smooth_end_stone_wall"), new BlockItem(SMOOTH_END_STONE_WALL, new Item.Settings().group(FluxTech.FLUXTECH_GROUP)));
         }
         LOCKER_BLOCK_ENTITY = Registry.register(Registry.BLOCK_ENTITY_TYPE, new Identifier(FluxTech.MOD_ID, "locker_entity"), BlockEntityType.Builder.create(LockerBlockEntity::new, LOCKER_BLOCK).build(null));
         Registry.register(Registry.BLOCK, new Identifier(FluxTech.MOD_ID, "locker"), LOCKER_BLOCK);
         Registry.register(Registry.ITEM, new Identifier(FluxTech.MOD_ID, "locker"), new BlockItem(LOCKER_BLOCK, new Item.Settings().group(FluxTech.FLUXTECH_GROUP)));
+
+        UPPER_BLOCK_ENTITY = Registry.register(Registry.BLOCK_ENTITY_TYPE, new Identifier(FluxTech.MOD_ID, "upper_entity"), BlockEntityType.Builder.create(UpperBlockEntity::new, UPPER_BLOCK, SKUPPER_BLOCK).build(null));
+
+        Registry.register(Registry.BLOCK, new Identifier(FluxTech.MOD_ID, "upper"), UPPER_BLOCK);
+        Registry.register(Registry.ITEM, new Identifier(FluxTech.MOD_ID, "upper"), new BlockItem(UPPER_BLOCK, new Item.Settings().group(FluxTech.FLUXTECH_GROUP)));
+
+        Registry.register(Registry.BLOCK, new Identifier(FluxTech.MOD_ID, "skupper"), SKUPPER_BLOCK);
+        Registry.register(Registry.ITEM, new Identifier(FluxTech.MOD_ID, "skupper"), new BlockItem(SKUPPER_BLOCK, new Item.Settings().group(FluxTech.FLUXTECH_GROUP)));
 
 
     }
