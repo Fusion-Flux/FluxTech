@@ -35,8 +35,9 @@ public class FluxTechBlocks {
 
 
     //public static Tag<Block> MY_TAG = TagRegistry.block(new Identifier("fluxtech", "hpd_deny_launch"));
-
     public static BlockEntityType<StarCoreEntity> STAR_CORE_ENTITY;
+    public static final LockerBlock LOCKER_BLOCK = new LockerBlock(FabricBlockSettings.of(Material.STONE).hardness(3.5f));
+    public static BlockEntityType<LockerBlockEntity> LOCKER_BLOCK_ENTITY;
 
 
     public static void registerBlocks() {
