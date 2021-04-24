@@ -2,67 +2,86 @@ package com.fusionflux.fluxtech.blocks.entities;
 
 import com.fusionflux.fluxtech.blocks.FluxTechBlocks;
 import net.minecraft.block.BlockState;
-import net.minecraft.block.entity.LootableContainerBlockEntity;
-import net.minecraft.entity.player.PlayerInventory;
-import net.minecraft.inventory.Inventories;
+import net.minecraft.block.entity.BlockEntity;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.inventory.Inventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.screen.GenericContainerScreenHandler;
-import net.minecraft.screen.ScreenHandler;
 import net.minecraft.text.Text;
 import net.minecraft.text.TranslatableText;
-import net.minecraft.util.collection.DefaultedList;
+import net.minecraft.util.Nameable;
 
-public class LockerBlockEntity extends LootableContainerBlockEntity {
-    private DefaultedList<ItemStack> inventory;
+public class LockerBlockEntity extends BlockEntity implements Inventory, Nameable {
+    private ItemStack item = ItemStack.EMPTY;
 
     public LockerBlockEntity() {
         super(FluxTechBlocks.LOCKER_BLOCK_ENTITY);
-        this.inventory = DefaultedList.ofSize(27, ItemStack.EMPTY);
     }
 
     @Override
     public int size() {
-        return 27;
+        return 1;
     }
 
     @Override
-    protected Text getContainerName() {
-        return new TranslatableText("container.locker");
+    public boolean isEmpty() {
+        // TODO
+        return false;
+    }
+
+    @Override
+    public ItemStack getStack(int slot) {
+        // TODO
+        return null;
+    }
+
+    @Override
+    public ItemStack removeStack(int slot, int amount) {
+        // TODO
+        return null;
+    }
+
+    @Override
+    public ItemStack removeStack(int slot) {
+        // TODO
+        return null;
+    }
+
+    @Override
+    public void setStack(int slot, ItemStack stack) {
+        // TODO
+    }
+
+    @Override
+    public boolean canPlayerUse(PlayerEntity player) {
+        // TODO
+        return false;
     }
 
     @Override
     public void fromTag(BlockState state, CompoundTag tag) {
         super.fromTag(state, tag);
-        this.inventory = DefaultedList.ofSize(this.size(), ItemStack.EMPTY);
-        if (!this.deserializeLootTable(tag)) {
-            Inventories.fromTag(tag, this.inventory);
-        }
-
+        this.item = ItemStack.fromTag(tag.getCompound("item"));
+        this.item.setCount(tag.getInt("itemCount"));
     }
 
     @Override
     public CompoundTag toTag(CompoundTag tag) {
         super.toTag(tag);
-        if (!this.serializeLootTable(tag)) {
-            Inventories.toTag(tag, this.inventory);
-        }
-
+        CompoundTag itemTag = new CompoundTag();
+        this.item.toTag(itemTag);
+        tag.put("item", itemTag);
+        tag.putInt("itemCount", item.getCount());
         return tag;
     }
 
     @Override
-    protected DefaultedList<ItemStack> getInvStackList() {
-        return this.inventory;
+    public void clear() {
+        // TODO
     }
 
     @Override
-    protected void setInvStackList(DefaultedList<ItemStack> list) {
-        this.inventory = list;
-    }
-
-    @Override
-    protected ScreenHandler createScreenHandler(int syncId, PlayerInventory playerInventory) {
-        return GenericContainerScreenHandler.createGeneric9x3(syncId, playerInventory, this);
+    public Text getName() {
+        return new TranslatableText("container.locker");
     }
 }
