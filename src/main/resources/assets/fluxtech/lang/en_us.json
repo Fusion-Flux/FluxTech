@@ -30,8 +30,11 @@
   "block.fluxtech.smooth_end_stone_slab": "Smooth End Stone Slab",
   "block.fluxtech.smooth_end_stone_wall": "Smooth End Stone Wall",
 
+  "block.fluxtech.skipper": "Skipper",
+  "block.fluxtech.jumper": "Jumper",
   "block.fluxtech.upper": "Upper",
   "block.fluxtech.skupper": "SK-Upper",
+  "block.fluxtech.jupper": "J-Upper",
 
   "block.fluxtech.emitter": "Hardlight Bridge Emitter",
 

@@ -1,6 +1,7 @@
 package com.fusionflux.fluxtech.blocks;
 
 import com.fusionflux.fluxtech.FluxTech;
+import com.fusionflux.fluxtech.blocks.entities.HopperBlockEntity;
 import com.fusionflux.fluxtech.blocks.entities.LockerBlockEntity;
 import com.fusionflux.fluxtech.blocks.entities.StarCoreEntity;
 import com.fusionflux.fluxtech.blocks.entities.UpperBlockEntity;
@@ -11,10 +12,7 @@ import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.blockrenderlayer.v1.BlockRenderLayerMap;
 import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
 import net.fabricmc.fabric.api.tag.TagRegistry;
-import net.minecraft.block.Block;
-import net.minecraft.block.Material;
-import net.minecraft.block.SlabBlock;
-import net.minecraft.block.WallBlock;
+import net.minecraft.block.*;
 import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.client.render.RenderLayer;
 import net.minecraft.fluid.FlowableFluid;
@@ -37,11 +35,16 @@ public class FluxTechBlocks {
     public static final Block SMOOTH_END_STONE_STAIRS = new CustomStairs(FluxTechBlocks.SMOOTH_END_STONE);
     public static final Block SMOOTH_END_STONE_WALL = new WallBlock(FabricBlockSettings.copy(FluxTechBlocks.SMOOTH_END_STONE));
     public static final LockerBlock LOCKER_BLOCK = new LockerBlock(FabricBlockSettings.of(Material.STONE).hardness(3.5f));
-    public static final UpperBlock UPPER_BLOCK = new UpperBlock(FabricBlockSettings.of(Material.STONE).hardness(3.5f), 1);
-    public static final UpperBlock SKUPPER_BLOCK = new UpperBlock(FabricBlockSettings.of(Material.STONE).hardness(3.5f), 2);
+
+    public static final HopperBlock SKIPPER_BLOCK = new HopperBlock(FabricBlockSettings.copyOf(Blocks.HOPPER), 2);
+    public static final HopperBlock JUMPER_BLOCK = new HopperBlock(FabricBlockSettings.copyOf(Blocks.HOPPER), 3);
+    public static final UpperBlock UPPER_BLOCK = new UpperBlock(FabricBlockSettings.copyOf(Blocks.HOPPER), 1);
+    public static final UpperBlock SKUPPER_BLOCK = new UpperBlock(FabricBlockSettings.copyOf(Blocks.HOPPER), 2);
+    public static final UpperBlock JUPPER_BLOCK = new UpperBlock(FabricBlockSettings.copyOf(Blocks.HOPPER), 3);
     // public static Tag<Block> MY_TAG = TagRegistry.block(new Identifier("fluxtech", "hpd_deny_launch"));
     public static BlockEntityType<StarCoreEntity> STAR_CORE_ENTITY;
     public static BlockEntityType<LockerBlockEntity> LOCKER_BLOCK_ENTITY;
+    public static BlockEntityType<HopperBlockEntity> HOPPER_BLOCK_ENTITY;
     public static BlockEntityType<UpperBlockEntity> UPPER_BLOCK_ENTITY;
 
     public static void registerBlocks() {
@@ -64,7 +67,15 @@ public class FluxTechBlocks {
         Registry.register(Registry.BLOCK, new Identifier(FluxTech.MOD_ID, "locker"), LOCKER_BLOCK);
         Registry.register(Registry.ITEM, new Identifier(FluxTech.MOD_ID, "locker"), new BlockItem(LOCKER_BLOCK, new Item.Settings().group(FluxTech.FLUXTECH_GROUP)));
 
-        UPPER_BLOCK_ENTITY = Registry.register(Registry.BLOCK_ENTITY_TYPE, new Identifier(FluxTech.MOD_ID, "upper_entity"), BlockEntityType.Builder.create(UpperBlockEntity::new, UPPER_BLOCK, SKUPPER_BLOCK).build(null));
+        HOPPER_BLOCK_ENTITY = Registry.register(Registry.BLOCK_ENTITY_TYPE, new Identifier(FluxTech.MOD_ID, "hopper_entity"), BlockEntityType.Builder.create(HopperBlockEntity::new, SKIPPER_BLOCK, JUMPER_BLOCK).build(null));
+
+        Registry.register(Registry.BLOCK, new Identifier(FluxTech.MOD_ID, "skipper"), SKIPPER_BLOCK);
+        Registry.register(Registry.ITEM, new Identifier(FluxTech.MOD_ID, "skipper"), new BlockItem(SKIPPER_BLOCK, new Item.Settings().group(FluxTech.FLUXTECH_GROUP)));
+
+        Registry.register(Registry.BLOCK, new Identifier(FluxTech.MOD_ID, "jumper"), JUMPER_BLOCK);
+        Registry.register(Registry.ITEM, new Identifier(FluxTech.MOD_ID, "jumper"), new BlockItem(JUMPER_BLOCK, new Item.Settings().group(FluxTech.FLUXTECH_GROUP)));
+
+        UPPER_BLOCK_ENTITY = Registry.register(Registry.BLOCK_ENTITY_TYPE, new Identifier(FluxTech.MOD_ID, "upper_entity"), BlockEntityType.Builder.create(UpperBlockEntity::new, UPPER_BLOCK, SKUPPER_BLOCK, JUPPER_BLOCK).build(null));
 
         Registry.register(Registry.BLOCK, new Identifier(FluxTech.MOD_ID, "upper"), UPPER_BLOCK);
         Registry.register(Registry.ITEM, new Identifier(FluxTech.MOD_ID, "upper"), new BlockItem(UPPER_BLOCK, new Item.Settings().group(FluxTech.FLUXTECH_GROUP)));
@@ -72,6 +83,8 @@ public class FluxTechBlocks {
         Registry.register(Registry.BLOCK, new Identifier(FluxTech.MOD_ID, "skupper"), SKUPPER_BLOCK);
         Registry.register(Registry.ITEM, new Identifier(FluxTech.MOD_ID, "skupper"), new BlockItem(SKUPPER_BLOCK, new Item.Settings().group(FluxTech.FLUXTECH_GROUP)));
 
+        Registry.register(Registry.BLOCK, new Identifier(FluxTech.MOD_ID, "jupper"), JUPPER_BLOCK);
+        Registry.register(Registry.ITEM, new Identifier(FluxTech.MOD_ID, "jupper"), new BlockItem(JUPPER_BLOCK, new Item.Settings().group(FluxTech.FLUXTECH_GROUP)));
 
     }
 

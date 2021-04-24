@@ -1,6 +1,8 @@
 package com.fusionflux.fluxtech.blocks.entities;
 
 import com.fusionflux.fluxtech.accessor.HopperInput;
+import com.fusionflux.fluxtech.blocks.AbstractHopperBlock;
+import com.fusionflux.fluxtech.blocks.HopperBlock;
 import net.minecraft.block.*;
 import net.minecraft.block.entity.*;
 import net.minecraft.entity.Entity;
@@ -35,8 +37,7 @@ import java.util.stream.IntStream;
 public class AbstractHopperBlockEntity  extends LootableContainerBlockEntity implements Hopper, HopperInput, Tickable {
     private DefaultedList<ItemStack> inventory;
     protected int transferCooldown;
-    private final int maxTransferCooldown;
-    private final int distance;
+    private int distance;
     private long lastTickTime;
 
     public AbstractHopperBlockEntity(BlockEntityType<?> type) {
@@ -44,13 +45,12 @@ public class AbstractHopperBlockEntity  extends LootableContainerBlockEntity imp
     }
 
     public AbstractHopperBlockEntity(BlockEntityType<?> type, int distance) {
-        this(type, 5, 8, distance);
+        this(type, 5, distance);
     }
 
-    public AbstractHopperBlockEntity(BlockEntityType<?> type, int invSize, int maxTransferCooldown, int distance) {
+    public AbstractHopperBlockEntity(BlockEntityType<?> type, int invSize, int distance) {
         super(type);
         this.inventory = DefaultedList.ofSize(invSize, ItemStack.EMPTY);
-        this.maxTransferCooldown = maxTransferCooldown;
         this.transferCooldown = -1;
         this.distance = distance;
     }
@@ -68,6 +68,7 @@ public class AbstractHopperBlockEntity  extends LootableContainerBlockEntity imp
         }
 
         this.transferCooldown = tag.getInt("TransferCooldown");
+        this.distance = tag.getInt("Distance");
     }
 
     @Override
@@ -78,6 +79,7 @@ public class AbstractHopperBlockEntity  extends LootableContainerBlockEntity imp
         }
 
         tag.putInt("TransferCooldown", this.transferCooldown);
+        tag.putInt("Distance", this.distance);
         return tag;
     }
 
@@ -122,7 +124,7 @@ public class AbstractHopperBlockEntity  extends LootableContainerBlockEntity imp
 
     private boolean insertAndExtract(Supplier<Boolean> extractMethod) {
         if (this.world != null && !this.world.isClient) {
-            if (this.onCooldown() && this.getCachedState().get(HopperBlock.ENABLED)) {
+            if (this.onCooldown() && this.getCachedState().get(AbstractHopperBlock.ENABLED)) {
                 boolean bl = false;
                 if (!this.isEmpty()) {
                     bl = this.insert();
@@ -133,7 +135,7 @@ public class AbstractHopperBlockEntity  extends LootableContainerBlockEntity imp
                 }
 
                 if (bl) {
-                    this.setCooldown(this.maxTransferCooldown);
+                    this.setCooldown(8);
                     this.markDirty();
                     return true;
                 }
