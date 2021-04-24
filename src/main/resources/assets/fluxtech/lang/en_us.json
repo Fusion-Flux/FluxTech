@@ -1,8 +1,6 @@
 {
   "itemGroup.fluxtech.general": "FluxTech",
 
-  "subtitles.fluxtech.gelbounce": "Repulsion Gel Bounce",
-  "subtitles.fluxtech.gelrun": "Propulsion Gel Run",
   "subtitles.fluxtech.hpdblast": "HPD Blast",
 
   "item.fluxtech.handheld_propulsion_device": "HPD",
@@ -16,10 +14,6 @@
   "item.fluxtech.lapis_axe": "Lapis Axe",
   "item.fluxtech.lapis_pickaxe": "Lapis Pickaxe",
   "item.fluxtech.lapis_shovel": "Lapis Shovel",
-
-  "block.fluxtech.propulsion_gel": "Propulsion Gel",
-  "block.fluxtech.repulsion_gel": "Repulsion Gel",
-  "block.fluxtech.gel": "Gel",
 
   "effect.fluxtech.dragon_healing": "Dragon Healing",
 
@@ -36,8 +30,6 @@
   "block.fluxtech.skupper": "SK-Upper",
   "block.fluxtech.jupper": "J-Upper",
 
-  "block.fluxtech.emitter": "Hardlight Bridge Emitter",
-
   "text.autoconfig.fluxtech.title": "FluxTech Config",
 
   "text.autoconfig.fluxtech.category.numbers": "Item Config",
@@ -46,22 +38,19 @@
   "text.autoconfig.fluxtech.option.numbers.hPDReturnsProjectiles": "HPD Returns Projectiles",
   "text.autoconfig.fluxtech.option.numbers.enableHPDLaunchPreventer": "HPD Launch Preventer",
   "text.autoconfig.fluxtech.option.numbers.crushBounceMultiplier": "Gravitron Crush Bounce Multiplier",
+  "text.autoconfig.fluxtech.option.numbers.slimeBounceMultiplier": "Slime Boots Bounce Multiplier",
   "text.autoconfig.fluxtech.option.numbers.gravitronCrushDamage": "Gravitron Crush Damage",
   "text.autoconfig.fluxtech.option.numbers.hPDCooldown": "HPD Cooldown",
 
 
   "text.autoconfig.fluxtech.category.numbersblock": "Block Config",
-  "text.autoconfig.fluxtech.option.numbersblock.maxBridgeLength": "Hardlight Bridge Max Length",
   "text.autoconfig.fluxtech.option.numbersblock.enduriumTpRange": "Endurium Tp Range",
 
   "text.autoconfig.fluxtech.category.enabled": "Enabled Features",
   "text.autoconfig.fluxtech.option.enabled.enableHPD": "Enable HPD",
-  "text.autoconfig.fluxtech.option.enabled.enableGels": "Enable Gels",
   "text.autoconfig.fluxtech.option.enabled.enableGravitrons": "Enable Gravitrons",
   "text.autoconfig.fluxtech.option.enabled.enableAeroArmor": "Enable Aeroarmor",
-  "text.autoconfig.fluxtech.option.enabled.enablePortal2Blocks": "Enable Portal 2 Blocks",
   "text.autoconfig.fluxtech.option.enabled.enableEndurium": "Enable Endurium",
-  "text.autoconfig.fluxtech.option.enabled.enableHLB": "Enable Hardlight Bridges",
   "text.autoconfig.fluxtech.option.enabled.enableSmoothEndStone": "Enable Smooth End Stone",
   "text.autoconfig.fluxtech.option.enabled.enableSCNB": "Enable Slime Coated Netherite Boots"
 }
