@@ -26,10 +26,7 @@ public class FluxTechConfig2 implements ConfigData {
         public boolean enableAeroArmor = true;
         public boolean enableGravitrons = true;
         public boolean enableSCNB = true;
-        public boolean enableHLB = true;
-        public boolean enableGels = true;
         public boolean enableEndurium = true;
-        public boolean enablePortal2Blocks = true;
         public boolean enableSmoothEndStone = true;
     }
     public static class Numbers {
@@ -39,10 +36,10 @@ public class FluxTechConfig2 implements ConfigData {
         public boolean enableHPDLaunchPreventer = true;
         public double aeroarmorFlightBoost = 2;
         public int gravitronCrushDamage = 30;
-        public double crushBounceMultiplier = 1.5;
+        public double crushBounceMultiplier = 0.75;
+        public double slimeBounceMultiplier = 0.75;
     }
     public static class NumbersBlock {
-        public int maxBridgeLength = 127;
         public int enduriumTpRange = 64;
     }
     @ConfigEntry.Gui.TransitiveObject

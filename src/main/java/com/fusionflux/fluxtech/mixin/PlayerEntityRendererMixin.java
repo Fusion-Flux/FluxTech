@@ -20,7 +20,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 public class PlayerEntityRendererMixin {
     @Inject(method = "render", at = @At("HEAD"), cancellable = true)
     public void render(AbstractClientPlayerEntity abstractClientPlayerEntity, float f, float g, MatrixStack matrixStack, VertexConsumerProvider vertexConsumerProvider, int i, CallbackInfo ci) {
-        EndCrystalEntity connectedCrystal = ((PlayerEntityExtensions) abstractClientPlayerEntity).fluxtech_getConnectedCrystal();
+        EndCrystalEntity connectedCrystal = ((PlayerEntityExtensions) abstractClientPlayerEntity).fluxTech$getConnectedCrystal();
         Vec3d playerPos = abstractClientPlayerEntity.getPos();
         if (connectedCrystal != null && playerPos != null) {
             matrixStack.push();
