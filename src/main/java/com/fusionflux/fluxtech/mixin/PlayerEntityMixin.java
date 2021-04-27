@@ -2,20 +2,27 @@ package com.fusionflux.fluxtech.mixin;
 
 import com.fusionflux.fluxtech.accessor.PlayerEntityExtensions;
 import com.fusionflux.fluxtech.config.FluxTechConfig2;
+import com.fusionflux.fluxtech.delay.DelayedForLoop;
+import com.fusionflux.fluxtech.delay.DelayedForLoopManager;
 import com.fusionflux.fluxtech.effects.CustomEffects;
 import com.fusionflux.fluxtech.items.FluxTechItems;
 import com.fusionflux.fluxtech.util.FluxTechTags;
+import net.minecraft.block.BlockState;
+import net.minecraft.block.Blocks;
 import net.minecraft.entity.*;
-import net.minecraft.entity.ai.TargetPredicate;
 import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.decoration.EndCrystalEntity;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.player.PlayerAbilities;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
+import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.tag.FluidTags;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.Box;
+import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 import org.objectweb.asm.Opcodes;
@@ -38,22 +45,23 @@ public abstract class PlayerEntityMixin extends LivingEntity implements PlayerEn
     @Final
     public PlayerAbilities abilities;
     @Unique
-    private boolean fluxTech$groundPound;
+    private boolean groundpound = false;
     @Unique
-    private double fluxTech$vertSpeedMax;
+    private double fallSpeedMax = 0;
     @Unique
-    private double fluxTech$topSpeedThisFlight;
+    private boolean DoCrunch = false;
     @Unique
-    private EndCrystalEntity fluxTech$connectedCrystal;
+    private EndCrystalEntity connectedCrystal;
+
+    private Entity targetEntity;
+    @Override
+    public EndCrystalEntity fluxtech_getConnectedCrystal() {
+        return connectedCrystal;
+    }
 
     protected PlayerEntityMixin(EntityType<? extends LivingEntity> entityType, World world) {
         super(entityType, world);
         throw new AssertionError("FluxTech: Called constructor for PlayerEntityMixin!");
-    }
-
-    @Override
-    public EndCrystalEntity fluxTech$getConnectedCrystal() {
-        return fluxTech$connectedCrystal;
     }
 
     @Shadow
@@ -63,104 +71,94 @@ public abstract class PlayerEntityMixin extends LivingEntity implements PlayerEn
     public abstract void playSound(SoundEvent sound, float volume, float pitch);
 
     @Inject(method = "isInvulnerableTo", at = @At("HEAD"), cancellable = true)
-    public void fluxTechNegateFallDamage(DamageSource damageSource, CallbackInfoReturnable<Boolean> cir) {
+    public void isInvulnerableTo(DamageSource damageSource, CallbackInfoReturnable<Boolean> cir) {
         ItemStack itemStack5 = this.getEquippedStack(EquipmentSlot.FEET);
-        if (damageSource == DamageSource.FALL && (itemStack5.getItem().equals(FluxTechItems.GRAVITRONS) || (itemStack5.getItem().equals(FluxTechItems.SLIME_COATED_NETHERITE_BOOTS))) ){
+        if (damageSource == DamageSource.FALL && (itemStack5.getItem().equals(FluxTechItems.GRAVITRONS) || (itemStack5.getItem().equals(FluxTechItems.SLIME_COATED_NETHERITE_BOOTS) /*|| itemStack5.getItem().equals(FluxTechItems.UNSTABLE_GRAVITRONS)*/)) ){
             cir.setReturnValue(true);
         }
     }
 
     @Inject(method = "travel", at = @At("HEAD"), cancellable = true)
     public void travel(Vec3d movementInput, CallbackInfo ci) {
-        ItemStack legsArmorStack = this.getEquippedStack(EquipmentSlot.LEGS);
-        ItemStack feetArmorStack = this.getEquippedStack(EquipmentSlot.FEET);
-        if (!this.isOnGround() && (legsArmorStack.getItem().equals(FluxTechItems.AEROARMOR))) {
+        ItemStack itemStack3 = this.getEquippedStack(EquipmentSlot.LEGS);
+        ItemStack itemStack5 = this.getEquippedStack(EquipmentSlot.FEET);
+        if (!this.isOnGround() && (itemStack3.getItem().equals(FluxTechItems.AEROARMOR))) {
             this.flyingSpeed = this.abilities.getFlySpeed() * (float) (this.isSprinting() ? FluxTechConfig2.get().numbers.aeroarmorFlightBoost : 1);
         }
-        if (!this.isOnGround() && this.getVelocity().y < -1 && (feetArmorStack.getItem().equals(FluxTechItems.GRAVITRONS))) {
+        if (!this.isOnGround() && this.getVelocity().y < -1 && (itemStack5.getItem().equals(FluxTechItems.GRAVITRONS) /*|| itemStack5.getItem().equals(FluxTechItems.UNSTABLE_GRAVITRONS)*/)) {
             super.travel(movementInput);
         }
-        if (!this.isOnGround() && this.getVelocity().y < -2.5 && (feetArmorStack.getItem().equals(FluxTechItems.GRAVITRONS))) {
+        if (!this.isOnGround() && this.getVelocity().y < -2.5 && (itemStack5.getItem().equals(FluxTechItems.GRAVITRONS) /*|| itemStack5.getItem().equals(FluxTechItems.UNSTABLE_GRAVITRONS)*/)) {
             super.travel(movementInput);
             super.travel(movementInput);
         }
     }
 
     @Inject(method="getFallSound", at = @At("HEAD"), cancellable = true)
-    protected void getFallSound(int distance, CallbackInfoReturnable<SoundEvent> cir) {
-        ItemStack feetArmorStack = this.getEquippedStack(EquipmentSlot.FEET);
-        if (feetArmorStack.getItem().equals(FluxTechItems.GRAVITRONS)) {
+    protected void getFallSound(int distance, CallbackInfoReturnable<SoundEvent> cir){
+        ItemStack itemFeet = this.getEquippedStack(EquipmentSlot.FEET);
+        if(itemFeet.getItem().equals(FluxTechItems.GRAVITRONS)){
             cir.setReturnValue(SoundEvents.BLOCK_NETHERITE_BLOCK_FALL);
-        } else if (feetArmorStack.getItem().equals(FluxTechItems.SLIME_COATED_NETHERITE_BOOTS)) {
+        }
+        if(itemFeet.getItem().equals(FluxTechItems.SLIME_COATED_NETHERITE_BOOTS)){
             cir.setReturnValue(SoundEvents.BLOCK_SLIME_BLOCK_PLACE);
         }
     }
 
     @Inject(method = "tick", at = @At("HEAD"), cancellable = true)
-    public void checkConnectedCrystal(CallbackInfo ci) {
-        if (this.isAlive()) {
+    public void tick(CallbackInfo ci) {
 
-            // If we have a connected crystal, we get dragon healing
-            if (this.fluxTech$connectedCrystal != null) {
-                this.applyStatusEffect(new StatusEffectInstance(CustomEffects.DRAGONHEALING, 1205, 0));
-                if (!this.fluxTech$connectedCrystal.isAlive()) {
-                    this.fluxTech$connectedCrystal = null;
-                } else if (this.age % 10 == 0 && this.getHealth() < this.getMaxHealth()) {
-                    this.setHealth(this.getHealth() + 1.0F);
-                }
-            } else {
-                this.removeStatusEffectInternal(CustomEffects.DRAGONHEALING);
+        ItemStack itemStack5 = this.getEquippedStack(EquipmentSlot.FEET);
+        if (!this.isOnGround() && (itemStack5.getItem().equals(FluxTechItems.GRAVITRONS) || (itemStack5.getItem().equals(FluxTechItems.SLIME_COATED_NETHERITE_BOOTS) /*|| itemStack5.getItem().equals(FluxTechItems.UNSTABLE_GRAVITRONS)*/))) {
+
+            if (this.getVelocity().y < fallSpeedMax &&this.getVelocity().y < 0 /*&& ((!this.isSneaking() && itemStack5.getItem().equals(FluxTechItems.SLIME_COATED_NETHERITE_BOOTS) || itemStack5.getItem().equals(FluxTechItems.GRAVITRONS)))*/) {
+                fallSpeedMax = Math.abs(this.getVelocity().y);
             }
-
-            // Update connected crystal to the current closest one.
-            List<EndCrystalEntity> list = this.world.getNonSpectatingEntities(EndCrystalEntity.class, this.getBoundingBox().expand(32.0D));
-            EndCrystalEntity endCrystalEntity = null;
-            double bestDistance = 1000;
-            for (EndCrystalEntity nearbyCrystal : list) {
-                double currDistance = nearbyCrystal.squaredDistanceTo(this);
-
-                if (currDistance < bestDistance) {
-                    bestDistance = currDistance;
-                    endCrystalEntity = nearbyCrystal;
-                }
+            if (this.getVelocity().y < -1) {
+                groundpound = true;
             }
-
-            this.fluxTech$connectedCrystal = endCrystalEntity;
         }
-    }
-
-    @Inject(method = "tick", at = @At("HEAD"), cancellable = true)
-    public void fluxTechBootLogic(CallbackInfo ci) {
-        ItemStack feetArmorStack = this.getEquippedStack(EquipmentSlot.FEET);
         Vec3d vec3d = this.getVelocity();
-        if (!this.isOnGround() && (feetArmorStack.getItem().equals(FluxTechItems.GRAVITRONS))) {
-            if (vec3d.y < -fluxTech$vertSpeedMax) {
-                fluxTech$vertSpeedMax = (this.getVelocity().y) * -1;
-            }
-
-            if (vec3d.y < -1) {
-                fluxTech$groundPound = true;
-            }
-        }
-        if (fluxTech$groundPound && feetArmorStack.getItem().equals(FluxTechItems.GRAVITRONS)) {
-            LivingEntity entity = this.world.getClosestEntity(LivingEntity.class, TargetPredicate.DEFAULT, ((PlayerEntity) (Object) this), 0, 0, 0, this.getBoundingBox().stretch(0.0D, this.getVelocity().y, 0.0D));
-            if (entity != null) {
-                entity.damage(DamageSource.GENERIC, FluxTechConfig2.get().numbers.gravitronCrushDamage);
-                if (entity.getHealth() <= 0) {
-                    this.playSound(SoundEvents.ENTITY_TURTLE_EGG_CRACK, 1, 1);
-                    this.playSound(SoundEvents.BLOCK_HONEY_BLOCK_STEP, 2, 1);
+        if (!this.isTouchingWater() && !this.isSneaking() && fallSpeedMax > .3 && this.isOnGround() && itemStack5.getItem().equals(FluxTechItems.SLIME_COATED_NETHERITE_BOOTS)) {
+            if (vec3d.y < 0.0D) {
+                //double d = this instanceof LivingEntity ? 1.0D : 1.8D;
+                this.setVelocity(vec3d.x, fallSpeedMax * 0.8D, vec3d.z);
+                this.playSound(SoundEvents.BLOCK_SLIME_BLOCK_PLACE, 1, 1);
+                if (this.isOnGround() || this.isFallFlying() || this.isSneaking()) {
+                    //groundpound = false;
+                    fallSpeedMax = 0;
                 }
-                this.setVelocity(this.getVelocity().x, fluxTech$vertSpeedMax * FluxTechConfig2.get().numbers.crushBounceMultiplier, this.getVelocity().z);
-                fluxTech$groundPound = false;
-                fluxTech$vertSpeedMax = 0;
             }
-
-            if (this.isOnGround() || this.isFallFlying()) {
-                fluxTech$groundPound = false;
-                fluxTech$vertSpeedMax = 0;
+        } else {
+            if ((this.isSneaking() || this.isTouchingWater())&&itemStack5.getItem().equals(FluxTechItems.SLIME_COATED_NETHERITE_BOOTS)) {
+                fallSpeedMax = 0;
             }
         }
-    }
+
+            if (groundpound && itemStack5.getItem().equals(FluxTechItems.GRAVITRONS)) {
+                List<LivingEntity> listhurt = this.world.getEntitiesByClass(LivingEntity.class, this.getBoundingBox(), null);
+                listhurt.remove(this);
+                for (LivingEntity entity : listhurt) {
+                    DoCrunch=true;
+                    if (!this.world.isClient) {
+                        entity.damage(DamageSource.GENERIC, FluxTechConfig2.get().numbers.gravitronCrushDamage);
+                        world.playSound(null,this.getPos().getX(),this.getPos().getY(),this.getPos().getZ(),SoundEvents.ENTITY_TURTLE_EGG_CRACK, SoundCategory.NEUTRAL, 1, 1);
+                        world.playSound(null,this.getPos().getX(),this.getPos().getY(),this.getPos().getZ(),SoundEvents.BLOCK_HONEY_BLOCK_STEP, SoundCategory.NEUTRAL, 2, 1);
+                        break;
+                    }
+                }
+                if (DoCrunch) {
+                    this.setVelocity(this.getVelocity().x, fallSpeedMax / FluxTechConfig2.get().numbers.crushBounceMultiplier, this.getVelocity().z);
+                    groundpound = false;
+                    DoCrunch=false;
+                    fallSpeedMax = 0;
+                }
+                if ((this.isOnGround() || this.isFallFlying())&&!DoCrunch) {
+                    groundpound = false;
+                    fallSpeedMax = 0;
+                }
+            }
+        }
 
     @ModifyVariable(method = "getBlockBreakingSpeed", at = @At(value = "JUMP", opcode = Opcodes.IFLE, ordinal = 0))
     public float getBlockBreakingSpeed(float f) {
