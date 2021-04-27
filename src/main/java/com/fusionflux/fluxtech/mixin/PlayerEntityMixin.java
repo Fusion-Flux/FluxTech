@@ -54,10 +54,7 @@ public abstract class PlayerEntityMixin extends LivingEntity implements PlayerEn
     private EndCrystalEntity connectedCrystal;
 
     private Entity targetEntity;
-    @Override
-    public EndCrystalEntity fluxtech_getConnectedCrystal() {
-        return connectedCrystal;
-    }
+
 
     protected PlayerEntityMixin(EntityType<? extends LivingEntity> entityType, World world) {
         super(entityType, world);
