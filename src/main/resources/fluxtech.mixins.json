@@ -15,10 +15,6 @@
     "PlayerEntityMixin"
   ],
   "client": [
-    "EnderDragonEntityRendererMixin",
-    "EntityRenderDispatcherMixin",
-    "GameRendererMixin",
-    "PlayerEntityRendererMixin"
   ],
   "injectors": {
     "defaultRequire": 1

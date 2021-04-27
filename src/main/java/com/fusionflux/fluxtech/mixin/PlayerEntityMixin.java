@@ -50,10 +50,7 @@ public abstract class PlayerEntityMixin extends LivingEntity implements PlayerEn
     private double fallSpeedMax = 0;
     @Unique
     private boolean DoCrunch = false;
-    @Unique
-    private EndCrystalEntity connectedCrystal;
 
-    private Entity targetEntity;
 
 
     protected PlayerEntityMixin(EntityType<? extends LivingEntity> entityType, World world) {
@@ -165,6 +162,9 @@ public abstract class PlayerEntityMixin extends LivingEntity implements PlayerEn
         }
         return f;
     }
+
+
+
 }
 
 
