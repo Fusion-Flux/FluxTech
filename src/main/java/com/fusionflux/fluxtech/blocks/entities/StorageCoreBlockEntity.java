@@ -24,12 +24,9 @@ public class StorageCoreBlockEntity extends BlockEntity implements Nameable {
 
     public void addNewNodes(StorageNodeBlockEntity node){
         connectedNodes.add(node);
+        System.out.println(connectedNodes.toString());
     }
-@Override
-    public boolean isRemoved() {
-    System.out.println(connectedNodes.toString());
-        return this.removed;
-    }
+
 
     @Override
     public Text getName() {

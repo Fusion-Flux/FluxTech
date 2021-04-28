@@ -1,6 +1,7 @@
 package com.fusionflux.fluxtech.blocks.entities;
 
 import com.fusionflux.fluxtech.blocks.FluxTechBlocks;
+import net.minecraft.block.BlockEntityProvider;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -12,6 +13,7 @@ import net.minecraft.text.TranslatableText;
 import net.minecraft.util.Nameable;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
+import net.minecraft.world.ScheduledTick;
 import net.minecraft.world.World;
 
 import java.util.Objects;
@@ -21,128 +23,68 @@ public class StorageNodeBlockEntity extends BlockEntity implements Inventory, Na
     private StorageCoreBlockEntity savedCore;
     public StorageNodeBlockEntity() {
         super(FluxTechBlocks.STORAGE_NODE_BLOCK_ENTITY);
-        StorageCoreBlockEntity core;
-        StorageNodeBlockEntity node;
-
-/*            for (int i = 1; i < 7; i++) {
-                Direction offsetdir= Direction.NORTH;
-                switch (i) {
-                    case 1:
-                        offsetdir=Direction.NORTH;
-                        break;
-                    case 2:
-                        offsetdir=Direction.EAST;
-                        break;
-                    case 3:
-                        offsetdir=Direction.SOUTH;
-                        break;
-                    case 4:
-                        offsetdir=Direction.WEST;
-                        break;
-                    case 5:
-                        offsetdir=Direction.UP;
-                        break;
-                    case 6:
-                        offsetdir=Direction.DOWN;
-                        break;
-                }
-                if (this.world != null) {
-                if (this.world.getBlockState(this.getPos().offset(offsetdir)).getBlock().equals(FluxTechBlocks.STORAGE_NODE_BLOCK)) {
-                    node = (StorageNodeBlockEntity) this.world.getBlockEntity(new BlockPos(this.getPos().getX(), this.getPos().getY(), this.getPos().getZ()).offset(offsetdir));
-                    if(node.savedCore!=null){
-                        core=node.savedCore;
-                        assert core != null;
-                        savedCore = core;
-                        core.addNewNodes(this);
-                        System.out.println("node");
-                    }
-                    break;
-                }
-                if (this.world.getBlockState(this.getPos().offset(offsetdir)).getBlock().equals(FluxTechBlocks.STORAGE_CORE_BLOCK)) {
-                    core = (StorageCoreBlockEntity) this.world.getBlockEntity(new BlockPos(this.getPos().getX(), this.getPos().getY(), this.getPos().getZ()).offset(offsetdir));
-                    savedCore = core;
-                    assert core != null;
-                    core.addNewNodes(this);
-                    System.out.println("core");
-                    break;
-                }
-
-            }
-        }*/
-        if (this.getWorld() != null) {
-            System.out.println("aaaaaaaa");
-            if (!this.getWorld().isClient) {
-                if (this.getWorld().getBlockState(this.getPos().offset(Direction.NORTH)).getBlock().equals(FluxTechBlocks.STORAGE_CORE_BLOCK)) {
-                    core = (StorageCoreBlockEntity) this.getWorld().getBlockEntity(new BlockPos(this.getPos().getX(), this.getPos().getY(), this.getPos().getZ()).offset(Direction.NORTH));
-                    savedCore = core;
-                    assert core != null;
-                    core.addNewNodes(this);
-                    System.out.println("core");
-                } else if (this.getWorld().getBlockState(this.pos.offset(Direction.SOUTH)).getBlock().equals(FluxTechBlocks.STORAGE_CORE_BLOCK)) {
-                    core = (StorageCoreBlockEntity) this.getWorld().getBlockEntity(new BlockPos(this.getPos().getX(), this.getPos().getY(), this.getPos().getZ()).offset(Direction.SOUTH));
-                    savedCore = core;
-                    assert core != null;
-                    core.addNewNodes(this);
-                    System.out.println("core");
-                }
-            }
-        }
     }
 
     @Override
     public void setLocation(World world, BlockPos pos) {
         this.world = world;
         this.pos = pos.toImmutable();
+    }
+
+    @Override
+    public void cancelRemoval() {
+        this.removed = false;
         StorageCoreBlockEntity core;
         StorageNodeBlockEntity node;
-
-            for (int i = 1; i < 7; i++) {
-                Direction offsetdir= Direction.NORTH;
-                switch (i) {
-                    case 1:
-                        offsetdir=Direction.NORTH;
-                        break;
-                    case 2:
-                        offsetdir=Direction.EAST;
-                        break;
-                    case 3:
-                        offsetdir=Direction.SOUTH;
-                        break;
-                    case 4:
-                        offsetdir=Direction.WEST;
-                        break;
-                    case 5:
-                        offsetdir=Direction.UP;
-                        break;
-                    case 6:
-                        offsetdir=Direction.DOWN;
-                        break;
-                }
-                if (this.world != null) {
-                if (this.world.getBlockState(this.getPos().offset(offsetdir)).getBlock().equals(FluxTechBlocks.STORAGE_NODE_BLOCK)) {
-                    node = (StorageNodeBlockEntity) this.world.getBlockEntity(new BlockPos(this.getPos().getX(), this.getPos().getY(), this.getPos().getZ()).offset(offsetdir));
-                    if(node.savedCore!=null){
-                        core=node.savedCore;
-                        assert core != null;
-                        savedCore = core;
-                        core.addNewNodes(this);
-                        System.out.println("node");
+        if (this.world != null) {
+            if (!this.world.isClient) {
+                for (int i = 1; i < 7; i++) {
+                    Direction offsetdir = Direction.NORTH;
+                    switch (i) {
+                        case 1:
+                            offsetdir = Direction.NORTH;
+                            break;
+                        case 2:
+                            offsetdir = Direction.EAST;
+                            break;
+                        case 3:
+                            offsetdir = Direction.SOUTH;
+                            break;
+                        case 4:
+                            offsetdir = Direction.WEST;
+                            break;
+                        case 5:
+                            offsetdir = Direction.UP;
+                            break;
+                        case 6:
+                            offsetdir = Direction.DOWN;
+                            break;
                     }
-                    break;
-                }
-                if (this.world.getBlockState(this.getPos().offset(offsetdir)).getBlock().equals(FluxTechBlocks.STORAGE_CORE_BLOCK)) {
-                    core = (StorageCoreBlockEntity) this.world.getBlockEntity(new BlockPos(this.getPos().getX(), this.getPos().getY(), this.getPos().getZ()).offset(offsetdir));
-                    savedCore = core;
-                    assert core != null;
-                    core.addNewNodes(this);
-                    System.out.println("core");
-                    break;
-                }
 
-            }
-                if(i==6){
-                    break;
+                    if (this.world.getBlockState(this.getPos().offset(offsetdir)).getBlock().equals(FluxTechBlocks.STORAGE_NODE_BLOCK)) {
+                        node = (StorageNodeBlockEntity) this.world.getBlockEntity(new BlockPos(this.getPos().getX(), this.getPos().getY(), this.getPos().getZ()).offset(offsetdir));
+                        if (node.savedCore != null) {
+                            core = node.savedCore;
+                            assert core != null;
+                            savedCore = core;
+                            core.addNewNodes(this);
+                            System.out.println("node");
+                        }
+                        break;
+                    }
+                    if (this.world.getBlockState(this.getPos().offset(offsetdir)).getBlock().equals(FluxTechBlocks.STORAGE_CORE_BLOCK)) {
+                        core = (StorageCoreBlockEntity) this.world.getBlockEntity(new BlockPos(this.getPos().getX(), this.getPos().getY(), this.getPos().getZ()).offset(offsetdir));
+                        savedCore = core;
+                        assert core != null;
+                        core.addNewNodes(this);
+                        System.out.println("core");
+                        break;
+                    }
+                    if (i >= 6) {
+                        break;
+                    }
                 }
+            }
         }
     }
 
