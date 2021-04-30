@@ -27,8 +27,30 @@ public class StorageCoreBlockEntity extends BlockEntity implements Nameable {
     }
 
     public void addNewNodes(BlockPos nodeBlockPos){
-        connectedNodes.add(nodeBlockPos);
-        System.out.println(connectedNodes);
+        if(this.world!=null) {
+            if (!this.world.isClient) {
+                connectedNodes.add(nodeBlockPos);
+                System.out.println(connectedNodes.size());
+            }
+        }
+    }
+@Override
+    public boolean isRemoved() {
+    if(this.world!=null) {
+        if (!this.world.isClient) {
+            System.out.println(connectedNodes.size());
+        }
+    }
+        return this.removed;
+    }
+
+    public void onDelete(BlockPos deletedLocker) {
+        for (BlockPos locker : connectedNodes) {
+            if (locker == deletedLocker) {
+                connectedNodes.remove(deletedLocker);
+                break;
+            }
+        }
     }
 
     @Override
@@ -37,9 +59,9 @@ public class StorageCoreBlockEntity extends BlockEntity implements Nameable {
         int size = tag.getInt("size");
         for (int i = 0; i < size; i++) {
             connectedNodes.add(new BlockPos(
-                    tag.getInt(i + "x"),
-                    tag.getInt(i + "y"),
-                    tag.getInt(i + "z")
+                    tag.getInt(i + "nodex"),
+                    tag.getInt(i + "nodey"),
+                    tag.getInt(i + "nodez")
             ));
         }
 
@@ -51,9 +73,9 @@ public class StorageCoreBlockEntity extends BlockEntity implements Nameable {
 
         tag.putInt("size", connectedNodes.size());
         for (int i = 0; i < connectedNodes.size(); i++) {
-            tag.putInt(i + "x", connectedNodes.get(i).getX());
-            tag.putInt(i + "y", connectedNodes.get(i).getY());
-            tag.putInt(i + "z", connectedNodes.get(i).getZ());
+            tag.putInt(i + "nodex", connectedNodes.get(i).getX());
+            tag.putInt(i + "nodey", connectedNodes.get(i).getY());
+            tag.putInt(i + "nodez", connectedNodes.get(i).getZ());
         }
 
         return tag;

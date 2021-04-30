@@ -21,7 +21,6 @@ import java.util.Objects;
 
 public class StorageNodeBlockEntity extends BlockEntity implements Inventory, Nameable {
     private ItemStack item = ItemStack.EMPTY;
-    private StorageCoreBlockEntity savedCore;
     private BlockPos connectedCore;
     public StorageNodeBlockEntity() {
         super(FluxTechBlocks.STORAGE_NODE_BLOCK_ENTITY);
@@ -63,26 +62,27 @@ public class StorageNodeBlockEntity extends BlockEntity implements Inventory, Na
                                     offsetdir = Direction.DOWN;
                                     break;
                             }
-
-                            if (this.world.getBlockState(this.getPos().offset(offsetdir)).getBlock().equals(FluxTechBlocks.STORAGE_NODE_BLOCK)) {
-                                node = (StorageNodeBlockEntity) this.world.getBlockEntity(new BlockPos(this.getPos().getX(), this.getPos().getY(), this.getPos().getZ()).offset(offsetdir));
-                                if (node.connectedCore != null) {
-                                    this.connectedCore = node.connectedCore;
-                                    core = (StorageCoreBlockEntity) this.world.getBlockEntity(node.connectedCore);
-                                    core.addNewNodes(this.pos);
-                                    System.out.println("node");
-                                }
-                                break;
-                            }
                             if (this.world.getBlockState(this.getPos().offset(offsetdir)).getBlock().equals(FluxTechBlocks.STORAGE_CORE_BLOCK)) {
                                 core = (StorageCoreBlockEntity) this.world.getBlockEntity(new BlockPos(this.getPos().getX(), this.getPos().getY(), this.getPos().getZ()).offset(offsetdir));
                                 connectedCore = core.getPos();
                                 core.addNewNodes(this.pos);
                                 System.out.println("core");
                                 break;
+                            }else if (this.world.getBlockState(this.getPos().offset(offsetdir)).getBlock().equals(FluxTechBlocks.STORAGE_NODE_BLOCK)) {
+                                node = (StorageNodeBlockEntity) this.world.getBlockEntity(new BlockPos(this.getPos().getX(), this.getPos().getY(), this.getPos().getZ()).offset(offsetdir));
+                                if(node!=null) {
+                                    if (node.connectedCore != null) {
+                                        this.connectedCore = node.connectedCore;
+                                        core = (StorageCoreBlockEntity) this.world.getBlockEntity(connectedCore);
+                                        core.addNewNodes(this.pos);
+                                        System.out.println("node");
+                                        break;
+                                    }
+                                }
                             }
+
                             if (i >= 6) {
-                                connectedCore=new BlockPos(0,-5,0);
+                                //connectedCore=new BlockPos(0,-5,0);
                                 break;
                             }
                         }
@@ -92,9 +92,29 @@ public class StorageNodeBlockEntity extends BlockEntity implements Inventory, Na
     }
 
     @Override
-    public int size() {
-        return 1;
+    public void markRemoved() {
+    if (this.world != null) {
+        if (!this.world.isClient) {
+            if(!this.removed) {
+            if (connectedCore != null) {
+                StorageCoreBlockEntity core;
+                core = (StorageCoreBlockEntity) this.world.getBlockEntity(connectedCore);
+                if (core != null) {
+                    core.onDelete(this.getPos());
+                }
+            }
+        }
     }
+}
+        this.removed = true;
+    }
+
+    @Override
+    public int size() {
+        return 27;
+    }
+
+
 
     @Override
     public boolean isEmpty() {
@@ -137,9 +157,9 @@ public class StorageNodeBlockEntity extends BlockEntity implements Inventory, Na
         this.item = ItemStack.fromTag(tag.getCompound("item"));
         this.item.setCount(tag.getInt("itemCount"));
         connectedCore = (new BlockPos(
-                tag.getInt("x"),
-                tag.getInt("y"),
-                tag.getInt("z")
+                tag.getInt("corex"),
+                tag.getInt("corey"),
+                tag.getInt("corez")
         ));
 
     }
@@ -152,9 +172,9 @@ public class StorageNodeBlockEntity extends BlockEntity implements Inventory, Na
         tag.put("item", itemTag);
         tag.putInt("itemCount", item.getCount());
 
-        tag.putInt("x", connectedCore.getX());
-        tag.putInt("y", connectedCore.getY());
-        tag.putInt("z", connectedCore.getZ());
+        tag.putInt("corex", connectedCore.getX());
+        tag.putInt("corey", connectedCore.getY());
+        tag.putInt("corez", connectedCore.getZ());
 
         return tag;
     }
