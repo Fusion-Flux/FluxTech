@@ -18,8 +18,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 public class StorageCoreBlockEntity extends BlockEntity implements Nameable {
-    private ItemStack item = ItemStack.EMPTY;
-    //private LinkedList<StorageNodeBlockEntity> connectedNodes = new LinkedList<StorageNodeBlockEntity>();
+
     public final List<BlockPos> connectedNodes = new ArrayList<>();
 
     public StorageCoreBlockEntity() {
@@ -30,18 +29,8 @@ public class StorageCoreBlockEntity extends BlockEntity implements Nameable {
         if(this.world!=null) {
             if (!this.world.isClient) {
                 connectedNodes.add(nodeBlockPos);
-                System.out.println(connectedNodes.size());
             }
         }
-    }
-@Override
-    public boolean isRemoved() {
-    if(this.world!=null) {
-        if (!this.world.isClient) {
-            System.out.println(connectedNodes.size());
-        }
-    }
-        return this.removed;
     }
 
     public void onDelete(BlockPos deletedLocker) {
