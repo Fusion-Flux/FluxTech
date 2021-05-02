@@ -1,0 +1,26 @@
+{
+  "variants": {
+    "facing=east": {
+      "model": "fluxtech:block/barbed_wire",
+      "y": 90
+    },
+    "facing=north": {
+      "model": "fluxtech:block/barbed_wire",
+      "y": 0
+    },
+    "facing=south": {
+      "model": "fluxtech:block/barbed_wire",
+      "y": 180
+    },
+    "facing=west": {
+      "model": "fluxtech:block/barbed_wire",
+      "y": 270
+    },
+    "facing=up": {
+      "model": "fluxtech:block/barbed_wire"
+    },
+    "facing=down": {
+      "model": "fluxtech:block/barbed_wire"
+    }
+  }
+}
