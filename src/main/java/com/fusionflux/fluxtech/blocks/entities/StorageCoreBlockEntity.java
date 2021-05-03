@@ -23,10 +23,11 @@ import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 
-public class StorageCoreBlockEntity extends BlockEntity implements ImplementedInventory, Nameable {
+public class StorageCoreBlockEntity extends BlockEntity implements Inventory, Nameable {
 
     public final List<BlockPos> connectedNodes = new ArrayList<>();
-    private DefaultedList<ItemStack> items = DefaultedList.ofSize(27, ItemStack.EMPTY);
+    //private DefaultedList<ItemStack> items = DefaultedList.ofSize(27, ItemStack.EMPTY);
+    Inventory combined;
     public StorageCoreBlockEntity() {
         super(FluxTechBlocks.STORAGE_CORE_BLOCK_ENTITY);
     }
@@ -35,15 +36,18 @@ public class StorageCoreBlockEntity extends BlockEntity implements ImplementedIn
         if(this.world!=null) {
             if (!this.world.isClient) {
                 connectedNodes.add(nodeBlockPos);
-                StorageNodeBlockEntity node;
                 List<Inventory> inventories = new ArrayList<>();
                 for (BlockPos locker : connectedNodes) {
-                    BlockEntity rawEntity = world.getBlockEntity(locker);
-                    if(rawEntity instanceof StorageNodeBlockEntity){ // Also a null check
-                        inventories.add((StorageNodeBlockEntity)rawEntity);
+                    if(locker!=null) {
+                        BlockEntity rawEntity = world.getBlockEntity(locker);
+                        if (rawEntity instanceof StorageNodeBlockEntity) { // Also a null check
+                            inventories.add((StorageNodeBlockEntity) rawEntity);
+                        }
                     }
                 }
-                Inventory combined = new MultiInventory(inventories);
+                 combined = new MultiInventory(inventories);
+
+                System.out.println(inventories);
             }
         }
     }
@@ -89,7 +93,7 @@ public class StorageCoreBlockEntity extends BlockEntity implements ImplementedIn
     @Override
     public void fromTag(BlockState state, CompoundTag tag) {
         super.fromTag(state, tag);
-        Inventories.fromTag(tag, items);
+        //Inventories.fromTag(tag, items);
         int size = tag.getInt("size");
         for (int i = 0; i < size; i++) {
             connectedNodes.add(new BlockPos(
@@ -104,7 +108,7 @@ public class StorageCoreBlockEntity extends BlockEntity implements ImplementedIn
     @Override
     public CompoundTag toTag(CompoundTag tag) {
         super.toTag(tag);
-        Inventories.toTag(tag,items);
+        //Inventories.toTag(tag,items);
         tag.putInt("size", connectedNodes.size());
         for (int i = 0; i < connectedNodes.size(); i++) {
             tag.putInt(i + "nodex", connectedNodes.get(i).getX());
@@ -120,9 +124,45 @@ public class StorageCoreBlockEntity extends BlockEntity implements ImplementedIn
         return new TranslatableText("container.core");
     }
 
+
+
     @Override
-    public DefaultedList<ItemStack> getItems() {
-        return items;
+    public int size() {
+        return combined.size();
     }
 
+    @Override
+    public boolean isEmpty() {
+        return combined.isEmpty();
+    }
+
+    @Override
+    public ItemStack getStack(int slot) {
+        return combined.getStack(slot);
+    }
+
+    @Override
+    public ItemStack removeStack(int slot, int amount) {
+        return combined.removeStack(slot,amount);
+    }
+
+    @Override
+    public ItemStack removeStack(int slot) {
+        return combined.removeStack(slot);
+    }
+
+    @Override
+    public void setStack(int slot, ItemStack stack) {
+combined.setStack(slot,stack);
+    }
+
+    @Override
+    public boolean canPlayerUse(PlayerEntity player) {
+        return combined.canPlayerUse(player);
+    }
+
+    @Override
+    public void clear() {
+combined.clear();
+    }
 }

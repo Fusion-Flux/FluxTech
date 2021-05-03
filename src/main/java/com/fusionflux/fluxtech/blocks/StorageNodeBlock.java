@@ -5,6 +5,7 @@ import com.fusionflux.fluxtech.blocks.entities.StorageNodeBlockEntity;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockEntityProvider;
 import net.minecraft.block.BlockState;
+import net.minecraft.block.entity.AbstractFurnaceBlockEntity;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.item.ItemPlacementContext;
@@ -30,7 +31,10 @@ public class StorageNodeBlock extends Block implements BlockEntityProvider {
 
     @Override
     public void onPlaced(World world, BlockPos pos, BlockState state, @Nullable LivingEntity placer, ItemStack itemStack) {
-
+        BlockEntity blockEntity = world.getBlockEntity(pos);
+        if (blockEntity instanceof StorageNodeBlockEntity) {
+            ((StorageNodeBlockEntity) blockEntity).initalizeConnections();
+        }
     }
 
     @Override
@@ -38,5 +42,6 @@ public class StorageNodeBlock extends Block implements BlockEntityProvider {
     public BlockState getPlacementState(ItemPlacementContext ctx) {
         return this.getDefaultState();
     }
+
 
 }
