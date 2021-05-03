@@ -72,7 +72,7 @@ public class StorageCoreBlockEntity extends BlockEntity implements Inventory, Na
                 }
 
                 connectedNodes.clear();
-
+                combined.clear();
                 for (Direction offsetdir : Direction.values()) {
                     if (this.world.getBlockState(this.getPos().offset(offsetdir)).getBlock().equals(FluxTechBlocks.STORAGE_NODE_BLOCK)) {
                         node = (StorageNodeBlockEntity) this.world.getBlockEntity(new BlockPos(this.getPos().getX(), this.getPos().getY(), this.getPos().getZ()).offset(offsetdir));
