@@ -174,7 +174,7 @@ public class StorageNodeBlockEntity extends BlockEntity implements ImplementedIn
     @Override
     public CompoundTag toTag(CompoundTag tag) {
         super.toTag(tag);
-        CompoundTag itemTag = new CompoundTag();
+        //CompoundTag itemTag = new CompoundTag();
         //this.item.toTag(itemTag);
         // tag.put("item", itemTag);
         // tag.putInt("itemCount", item.getCount());

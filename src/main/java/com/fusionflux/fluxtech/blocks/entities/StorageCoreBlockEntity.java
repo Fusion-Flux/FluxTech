@@ -2,26 +2,31 @@ package com.fusionflux.fluxtech.blocks.entities;
 
 import com.fusionflux.fluxtech.blocks.FluxTechBlocks;
 import com.fusionflux.fluxtech.blocks.StorageNodeBlock;
+import com.fusionflux.fluxtech.blocks.inventory.ImplementedInventory;
+import com.fusionflux.fluxtech.blocks.inventory.MultiInventory;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.inventory.Inventories;
 import net.minecraft.inventory.Inventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.text.Text;
 import net.minecraft.text.TranslatableText;
 import net.minecraft.util.Nameable;
+import net.minecraft.util.collection.DefaultedList;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 
-public class StorageCoreBlockEntity extends BlockEntity implements Nameable {
+public class StorageCoreBlockEntity extends BlockEntity implements ImplementedInventory, Nameable {
 
     public final List<BlockPos> connectedNodes = new ArrayList<>();
-
+    private DefaultedList<ItemStack> items = DefaultedList.ofSize(27, ItemStack.EMPTY);
     public StorageCoreBlockEntity() {
         super(FluxTechBlocks.STORAGE_CORE_BLOCK_ENTITY);
     }
@@ -30,6 +35,15 @@ public class StorageCoreBlockEntity extends BlockEntity implements Nameable {
         if(this.world!=null) {
             if (!this.world.isClient) {
                 connectedNodes.add(nodeBlockPos);
+                StorageNodeBlockEntity node;
+                List<Inventory> inventories = new ArrayList<>();
+                for (BlockPos locker : connectedNodes) {
+                    BlockEntity rawEntity = world.getBlockEntity(locker);
+                    if(rawEntity instanceof StorageNodeBlockEntity){ // Also a null check
+                        inventories.add((StorageNodeBlockEntity)rawEntity);
+                    }
+                }
+                Inventory combined = new MultiInventory(inventories);
             }
         }
     }
@@ -41,8 +55,6 @@ public class StorageCoreBlockEntity extends BlockEntity implements Nameable {
                 break;
             }
         }
-
-
 
         if (this.world != null) {
             if (!this.world.isClient) {
@@ -72,9 +84,12 @@ public class StorageCoreBlockEntity extends BlockEntity implements Nameable {
         }
     }
 
+
+
     @Override
     public void fromTag(BlockState state, CompoundTag tag) {
         super.fromTag(state, tag);
+        Inventories.fromTag(tag, items);
         int size = tag.getInt("size");
         for (int i = 0; i < size; i++) {
             connectedNodes.add(new BlockPos(
@@ -89,7 +104,7 @@ public class StorageCoreBlockEntity extends BlockEntity implements Nameable {
     @Override
     public CompoundTag toTag(CompoundTag tag) {
         super.toTag(tag);
-
+        Inventories.toTag(tag,items);
         tag.putInt("size", connectedNodes.size());
         for (int i = 0; i < connectedNodes.size(); i++) {
             tag.putInt(i + "nodex", connectedNodes.get(i).getX());
@@ -104,4 +119,10 @@ public class StorageCoreBlockEntity extends BlockEntity implements Nameable {
     public Text getName() {
         return new TranslatableText("container.core");
     }
+
+    @Override
+    public DefaultedList<ItemStack> getItems() {
+        return items;
+    }
+
 }
