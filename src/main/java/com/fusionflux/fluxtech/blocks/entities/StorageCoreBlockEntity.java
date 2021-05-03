@@ -12,6 +12,7 @@ import net.minecraft.text.Text;
 import net.minecraft.text.TranslatableText;
 import net.minecraft.util.Nameable;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.Direction;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -38,6 +39,35 @@ public class StorageCoreBlockEntity extends BlockEntity implements Nameable {
             if (locker == deletedLocker) {
                 connectedNodes.remove(deletedLocker);
                 break;
+            }
+        }
+
+
+
+        if (this.world != null) {
+            if (!this.world.isClient) {
+                //List<BlockPos> savedList = new ArrayList<>(connectedNodes);
+                StorageNodeBlockEntity node;
+                for (BlockPos locker : connectedNodes) {
+                    node = (StorageNodeBlockEntity) this.world.getBlockEntity(locker);
+                    if(node!=null) {
+                        node.setConnectedCore();
+                    }
+                }
+
+                connectedNodes.clear();
+
+                for (Direction offsetdir : Direction.values()) {
+                    if (this.world.getBlockState(this.getPos().offset(offsetdir)).getBlock().equals(FluxTechBlocks.STORAGE_NODE_BLOCK)) {
+                        node = (StorageNodeBlockEntity) this.world.getBlockEntity(new BlockPos(this.getPos().getX(), this.getPos().getY(), this.getPos().getZ()).offset(offsetdir));
+                        if(node!=null) {
+                            node.checkConnections();
+                        }
+
+                        }
+                }
+
+                //savedList.clear();
             }
         }
     }
