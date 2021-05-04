@@ -15,7 +15,7 @@ public class FluxTechClientMod implements ClientModInitializer {
 
 	@Override
 	public void onInitializeClient() {
-		//FluidRender.setupFluidRendering(FluxTechBlocks.ENDURIUM, FluxTechBlocks.ENDURIUM_FLOWING, FLUID_STILL, FLUID_FLOWING, 0x084537);
+		FluidRender.setupFluidRendering(FluxTechBlocks.ENDURIUM, FluxTechBlocks.ENDURIUM_FLOWING, FLUID_STILL, FLUID_FLOWING, 0x084537);
 		FluxTechBlocks.registerRenderLayers();
 	}
 

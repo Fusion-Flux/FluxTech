@@ -6,8 +6,11 @@ import net.minecraft.block.Block;
 import net.minecraft.block.BlockEntityProvider;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntity;
+import net.minecraft.entity.LivingEntity;
+import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.BlockView;
+import net.minecraft.world.World;
 import net.minecraft.world.WorldAccess;
 import org.jetbrains.annotations.Nullable;
 
@@ -24,7 +27,13 @@ public class StorageCoreBlock extends Block implements BlockEntityProvider {
         return new StorageCoreBlockEntity();
     }
 
-
+    @Override
+    public void onPlaced(World world, BlockPos pos, BlockState state, @Nullable LivingEntity placer, ItemStack itemStack) {
+        BlockEntity blockEntity = world.getBlockEntity(pos);
+        if (blockEntity instanceof StorageCoreBlockEntity) {
+            ((StorageCoreBlockEntity) blockEntity).updateNearbyNodes();
+        }
+    }
 
 
 

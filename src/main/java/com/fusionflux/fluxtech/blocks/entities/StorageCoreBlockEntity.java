@@ -17,6 +17,7 @@ import net.minecraft.util.Nameable;
 import net.minecraft.util.collection.DefaultedList;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -73,22 +74,45 @@ public class StorageCoreBlockEntity extends BlockEntity implements Inventory, Na
 
                 connectedNodes.clear();
                 combined.clear();
-                for (Direction offsetdir : Direction.values()) {
-                    if (this.world.getBlockState(this.getPos().offset(offsetdir)).getBlock().equals(FluxTechBlocks.STORAGE_NODE_BLOCK)) {
-                        node = (StorageNodeBlockEntity) this.world.getBlockEntity(new BlockPos(this.getPos().getX(), this.getPos().getY(), this.getPos().getZ()).offset(offsetdir));
-                        if(node!=null) {
-                            node.checkConnections();
-                        }
-
-                        }
-                }
+                updateNearbyNodes();
 
                 //savedList.clear();
             }
         }
     }
 
+public void updateNearbyNodes(){
+    StorageNodeBlockEntity node;
+    for (Direction offsetdir : Direction.values()) {
+        if (this.world.getBlockState(this.getPos().offset(offsetdir)).getBlock().equals(FluxTechBlocks.STORAGE_NODE_BLOCK)) {
+            node = (StorageNodeBlockEntity) this.world.getBlockEntity(new BlockPos(this.getPos().getX(), this.getPos().getY(), this.getPos().getZ()).offset(offsetdir));
+            if(node!=null) {
+                node.checkConnections();
+            }
 
+        }
+    }
+}
+
+    @Override
+    public void markRemoved() {
+        if (this.world != null) {
+            if (!this.world.isClient) {
+                if (!this.removed) {
+                    if (!connectedNodes.isEmpty()) {
+                        for (BlockPos nodes : this.connectedNodes) {
+                            StorageNodeBlockEntity node;
+                            node = (StorageNodeBlockEntity) this.world.getBlockEntity(nodes);
+                            if (node != null) {
+                                node.removeStoredBlockPos(this.getPos());
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        this.removed = true;
+    }
 
     @Override
     public void fromTag(BlockState state, CompoundTag tag) {
@@ -124,45 +148,73 @@ public class StorageCoreBlockEntity extends BlockEntity implements Inventory, Na
         return new TranslatableText("container.core");
     }
 
+    private @Nullable Inventory getInventory(int slot) {
+        if (slot < this.connectedNodes.size() * 27) {
+            BlockEntity blockEntity = this.world.getBlockEntity(this.connectedNodes.get(slot / 27));
 
+            if (blockEntity instanceof Inventory) {
+                return (Inventory) blockEntity;
+            }
+        }
+
+        return null;
+    }
 
     @Override
     public int size() {
-        return combined.size();
+        return connectedNodes.size()*27;
     }
 
     @Override
     public boolean isEmpty() {
-        return combined.isEmpty();
+        for (int i = 0; i < this.connectedNodes.size();) {
+            Inventory child = this.getInventory(i);
+            if (child != null && !child.isEmpty()) {
+                return false;
+            }
+        }
+
+        return true;
     }
 
     @Override
     public ItemStack getStack(int slot) {
-        return combined.getStack(slot);
+        Inventory child = this.getInventory(slot);
+        return child == null ? ItemStack.EMPTY:child.getStack(slot%27);
     }
 
     @Override
     public ItemStack removeStack(int slot, int amount) {
-        return combined.removeStack(slot,amount);
+        Inventory child = this.getInventory(slot);
+        return child == null ? ItemStack.EMPTY:child.removeStack(slot%27,amount);
     }
 
     @Override
     public ItemStack removeStack(int slot) {
-        return combined.removeStack(slot);
+        Inventory child = this.getInventory(slot);
+        return child == null ? ItemStack.EMPTY:child.removeStack(slot%27);
     }
 
     @Override
     public void setStack(int slot, ItemStack stack) {
-combined.setStack(slot,stack);
+        Inventory child = this.getInventory(slot);
+        if(child!=null){
+            child.setStack(slot%27,stack);
+        }
     }
 
     @Override
     public boolean canPlayerUse(PlayerEntity player) {
-        return combined.canPlayerUse(player);
+        return true;
     }
 
     @Override
     public void clear() {
-combined.clear();
+        for (int i = 0; i < this.connectedNodes.size();) {
+            Inventory child = this.getInventory(i);
+            if (child != null) {
+                child.clear();
+            }
+        }
     }
 }

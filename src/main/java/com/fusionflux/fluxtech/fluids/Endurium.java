@@ -53,11 +53,11 @@ public abstract class Endurium extends FlowableFluid {
     protected void tryFlow(WorldAccess world, BlockPos fluidPos, FluidState state) {
         if (!state.isEmpty()) {
             BlockState blockState = world.getBlockState(fluidPos);
-            BlockPos blockPos = fluidPos.up();
+            BlockPos blockPos = fluidPos.down();
             BlockState blockState2 = world.getBlockState(blockPos);
             FluidState fluidState = this.getUpdatedState(world, blockPos, blockState2);
-            if (this.canFlow(world, fluidPos, blockState, Direction.UP, blockPos, blockState2, world.getFluidState(blockPos), fluidState.getFluid())) {
-                this.flow(world, blockPos, blockState2, Direction.UP, fluidState);
+            if (this.canFlow(world, fluidPos, blockState, Direction.DOWN, blockPos, blockState2, world.getFluidState(blockPos), fluidState.getFluid())) {
+                this.flow(world, blockPos, blockState2, Direction.DOWN, fluidState);
                 if (this.method_15740(world, fluidPos) >= 3) {
                     this.method_15744(world, fluidPos, state, blockState);
                 }
@@ -102,7 +102,7 @@ public abstract class Endurium extends FlowableFluid {
     }
 
     private boolean method_15736(BlockView world, Fluid fluid, BlockPos pos, BlockState state, BlockPos fromPos, BlockState fromState) {
-        if (!this.receivesFlow(Direction.UP, world, pos, state, fromPos, fromState)) {
+        if (!this.receivesFlow(Direction.DOWN, world, pos, state, fromPos, fromState)) {
             return false;
         } else {
             return fromState.getFluidState().getFluid().matchesType(this) ? true : this.canFill(world, fromPos, fromState, fluid);
@@ -224,7 +224,7 @@ public abstract class Endurium extends FlowableFluid {
 
     @Override
     public int getFlowSpeed(WorldView world) {
-        return 1;
+        return 4;
     }
 
     @Override
@@ -239,7 +239,7 @@ public abstract class Endurium extends FlowableFluid {
 
     @Override
     public boolean canBeReplacedWith(FluidState state, BlockView world, BlockPos pos, Fluid fluid, Direction direction) {
-        return direction == Direction.UP && !fluid.isIn(FluxTechBlocks.ENDURIUM_TAG);
+        return direction == Direction.DOWN && !fluid.isIn(FluxTechBlocks.ENDURIUM_TAG);
     }
 
     @Override

@@ -33,7 +33,7 @@ public class StorageNodeBlock extends Block implements BlockEntityProvider {
     public void onPlaced(World world, BlockPos pos, BlockState state, @Nullable LivingEntity placer, ItemStack itemStack) {
         BlockEntity blockEntity = world.getBlockEntity(pos);
         if (blockEntity instanceof StorageNodeBlockEntity) {
-            ((StorageNodeBlockEntity) blockEntity).initalizeConnections();
+            ((StorageNodeBlockEntity) blockEntity).checkConnections();
         }
     }
 
