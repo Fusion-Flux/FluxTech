@@ -106,7 +106,7 @@ public class AbstractHopperBlockEntity  extends LootableContainerBlockEntity imp
 
     @Override
     protected Text getContainerName() {
-        return new TranslatableText("container.hopper");
+        return new TranslatableText("container.hoppernt");
     }
 
     @Override

@@ -88,7 +88,6 @@ public class StorageNodeBlockEntity extends BlockEntity implements ImplementedIn
                                         core.addNewNodes(this.pos);
                                     }
                                 }
-                                System.out.println("CHECKCONNECTIONS");
                             }
                         }
                     }
@@ -120,7 +119,6 @@ public class StorageNodeBlockEntity extends BlockEntity implements ImplementedIn
                         }
                         node.updatenearbyblocks();
                     }
-                        System.out.println("UPDATENEARBYBLOCKS");
                 }
             }
         }

@@ -4,13 +4,18 @@ import com.fusionflux.fluxtech.blocks.FluxTechBlocks;
 import com.fusionflux.fluxtech.blocks.StorageNodeBlock;
 import com.fusionflux.fluxtech.blocks.inventory.ImplementedInventory;
 import com.fusionflux.fluxtech.blocks.inventory.MultiInventory;
+import com.fusionflux.fluxtech.client.rendering.BoxScreenHandler;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.Inventories;
 import net.minecraft.inventory.Inventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.screen.GenericContainerScreenHandler;
+import net.minecraft.screen.NamedScreenHandlerFactory;
+import net.minecraft.screen.ScreenHandler;
 import net.minecraft.text.Text;
 import net.minecraft.text.TranslatableText;
 import net.minecraft.util.Nameable;
@@ -24,7 +29,7 @@ import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 
-public class StorageCoreBlockEntity extends BlockEntity implements Inventory, Nameable {
+public class StorageCoreBlockEntity extends BlockEntity implements NamedScreenHandlerFactory, Inventory, Nameable {
 
     public final List<BlockPos> connectedNodes = new ArrayList<>();
     //private DefaultedList<ItemStack> items = DefaultedList.ofSize(27, ItemStack.EMPTY);
@@ -188,7 +193,11 @@ public void updateNearbyNodes(){
 
     @Override
     public boolean canPlayerUse(PlayerEntity player) {
-        return true;
+        if (this.world.getBlockEntity(this.pos) != this) {
+            return false;
+        } else {
+            return !(player.squaredDistanceTo((double)this.pos.getX() + 0.5D, (double)this.pos.getY() + 0.5D, (double)this.pos.getZ() + 0.5D) > 64.0D);
+        }
     }
 
     @Override
@@ -199,5 +208,16 @@ public void updateNearbyNodes(){
                 child.clear();
             }
         }
+    }
+
+    @Override
+    public Text getDisplayName() {
+        return new TranslatableText(getCachedState().getBlock().getTranslationKey());
+    }
+
+    @Nullable
+    @Override
+    public ScreenHandler createMenu(int syncId, PlayerInventory playerInventory, PlayerEntity player) {
+        return new BoxScreenHandler(syncId, playerInventory, this);
     }
 }
