@@ -2,6 +2,7 @@ package com.fusionflux.fluxtech.blocks.entities;
 
 import com.fusionflux.fluxtech.blocks.FluxTechBlocks;
 import com.fusionflux.fluxtech.blocks.inventory.ImplementedInventory;
+import net.fabricmc.fabric.api.util.NbtType;
 import net.minecraft.block.BlockEntityProvider;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntity;
@@ -11,6 +12,8 @@ import net.minecraft.inventory.Inventory;
 import net.minecraft.inventory.SidedInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.ListTag;
+import net.minecraft.nbt.Tag;
 import net.minecraft.text.Text;
 import net.minecraft.text.TranslatableText;
 import net.minecraft.util.Nameable;
@@ -23,13 +26,14 @@ import org.jetbrains.annotations.Nullable;
 import org.lwjgl.system.CallbackI;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
 
 public class StorageNodeBlockEntity extends BlockEntity implements ImplementedInventory, Nameable {
     //private ItemStack item = ItemStack.EMPTY;
     private final DefaultedList<ItemStack> items = DefaultedList.ofSize(27, ItemStack.EMPTY);
-    private List<BlockPos> connectedCore= new ArrayList<>();
+    private HashSet<BlockPos> connectedCore= new HashSet<>();
 
     public StorageNodeBlockEntity() {
         super(FluxTechBlocks.STORAGE_NODE_BLOCK_ENTITY);
@@ -84,6 +88,7 @@ public class StorageNodeBlockEntity extends BlockEntity implements ImplementedIn
                                         core.addNewNodes(this.pos);
                                     }
                                 }
+                                System.out.println("CHECKCONNECTIONS");
                             }
                         }
                     }
@@ -104,15 +109,18 @@ public class StorageNodeBlockEntity extends BlockEntity implements ImplementedIn
                 node = (StorageNodeBlockEntity) this.world.getBlockEntity(new BlockPos(this.getPos().getX(), this.getPos().getY(), this.getPos().getZ()).offset(offsetdir));
                 if (node != null) {
                     if (!node.connectedCore.containsAll(this.connectedCore)) {
+
                         node.connectedCore.addAll(this.connectedCore);
+
                         for (BlockPos cores : this.connectedCore) {
                             core = (StorageCoreBlockEntity) this.world.getBlockEntity(cores);
                             if (core != null) {
                                 core.addNewNodes(node.pos);
-                                node.updatenearbyblocks();
                             }
                         }
+                        node.updatenearbyblocks();
                     }
+                        System.out.println("UPDATENEARBYBLOCKS");
                 }
             }
         }
@@ -121,16 +129,15 @@ public class StorageNodeBlockEntity extends BlockEntity implements ImplementedIn
     @Override
     public void fromTag(BlockState state, CompoundTag tag) {
         super.fromTag(state, tag);
-        // this.item = ItemStack.fromTag(tag.getCompound("item"));
-        // this.item.setCount(tag.getInt("itemCount"));
+
         Inventories.fromTag(tag, items);
-        int size = tag.getInt("size");
-        for (int i = 0; i < size; i++) {
-            connectedCore.add(new BlockPos(
-                    tag.getInt(i + "corex"),
-                    tag.getInt(i + "corey"),
-                    tag.getInt(i + "corez")
-            ));
+
+        ListTag cores = tag.getList("cores", NbtType.COMPOUND);
+        for(Tag name :cores){
+            CompoundTag ctag = (CompoundTag) name;
+            connectedCore.add(new BlockPos(ctag.getInt("corex"),
+                    ctag.getInt("corey"),
+                    ctag.getInt("corez")));
         }
 
     }
@@ -138,18 +145,18 @@ public class StorageNodeBlockEntity extends BlockEntity implements ImplementedIn
     @Override
     public CompoundTag toTag(CompoundTag tag) {
         super.toTag(tag);
-        //CompoundTag itemTag = new CompoundTag();
-        //this.item.toTag(itemTag);
-        // tag.put("item", itemTag);
-        // tag.putInt("itemCount", item.getCount());
+        ListTag cores = new ListTag();
+
+        for (BlockPos pos : connectedCore) {
+            CompoundTag listTag = new CompoundTag();
+            listTag.putInt("corex", pos.getX());
+            listTag.putInt("corey", pos.getY());
+            listTag.putInt("corez", pos.getZ());
+            cores.add(listTag);
+        }
+        tag.put("cores",cores);
 
         Inventories.toTag(tag, items);
-        tag.putInt("size", connectedCore.size());
-        for (int i = 0; i < connectedCore.size(); i++) {
-            tag.putInt(i + "corex", connectedCore.get(i).getX());
-            tag.putInt(i + "corey", connectedCore.get(i).getY());
-            tag.putInt(i + "corez", connectedCore.get(i).getZ());
-        }
 
         return tag;
     }

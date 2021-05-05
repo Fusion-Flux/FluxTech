@@ -28,7 +28,7 @@ public class StorageCoreBlockEntity extends BlockEntity implements Inventory, Na
 
     public final List<BlockPos> connectedNodes = new ArrayList<>();
     //private DefaultedList<ItemStack> items = DefaultedList.ofSize(27, ItemStack.EMPTY);
-    Inventory combined;
+
     public StorageCoreBlockEntity() {
         super(FluxTechBlocks.STORAGE_CORE_BLOCK_ENTITY);
     }
@@ -37,18 +37,6 @@ public class StorageCoreBlockEntity extends BlockEntity implements Inventory, Na
         if(this.world!=null) {
             if (!this.world.isClient) {
                 connectedNodes.add(nodeBlockPos);
-                List<Inventory> inventories = new ArrayList<>();
-                for (BlockPos locker : connectedNodes) {
-                    if(locker!=null) {
-                        BlockEntity rawEntity = world.getBlockEntity(locker);
-                        if (rawEntity instanceof StorageNodeBlockEntity) { // Also a null check
-                            inventories.add((StorageNodeBlockEntity) rawEntity);
-                        }
-                    }
-                }
-                 combined = new MultiInventory(inventories);
-
-                System.out.println(inventories);
             }
         }
     }
@@ -63,7 +51,6 @@ public class StorageCoreBlockEntity extends BlockEntity implements Inventory, Na
 
         if (this.world != null) {
             if (!this.world.isClient) {
-                //List<BlockPos> savedList = new ArrayList<>(connectedNodes);
                 StorageNodeBlockEntity node;
                 for (BlockPos locker : connectedNodes) {
                     node = (StorageNodeBlockEntity) this.world.getBlockEntity(locker);
@@ -71,12 +58,8 @@ public class StorageCoreBlockEntity extends BlockEntity implements Inventory, Na
                         node.setConnectedCore();
                     }
                 }
-
                 connectedNodes.clear();
-                combined.clear();
                 updateNearbyNodes();
-
-                //savedList.clear();
             }
         }
     }
