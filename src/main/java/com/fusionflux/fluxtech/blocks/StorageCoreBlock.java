@@ -5,6 +5,7 @@ import com.fusionflux.fluxtech.blocks.entities.StorageNodeBlockEntity;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockEntityProvider;
 import net.minecraft.block.BlockState;
+import net.minecraft.block.BlockWithEntity;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -21,7 +22,7 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.LinkedList;
 
-public class StorageCoreBlock extends Block implements BlockEntityProvider {
+public class StorageCoreBlock extends BlockWithEntity implements BlockEntityProvider {
 
     public StorageCoreBlock(Settings settings) {
         super(settings);
