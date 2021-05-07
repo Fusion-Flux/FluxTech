@@ -15,14 +15,14 @@ public class BoxScreenHandler extends ScreenHandler {
     //This constructor gets called on the client when the server wants it to open the screenHandler,
     //The client will call the other constructor with an empty Inventory and the screenHandler will automatically
     //sync this empty inventory with the inventory on the server.
-    public BoxScreenHandler(int syncId, PlayerInventory playerInventory) {
-        this(syncId, playerInventory, null);
+    public BoxScreenHandler(int syncId, PlayerInventory playerInventory,int rows) {
+        this(syncId, playerInventory, new SimpleInventory(rows),rows);
     }
 
     //This constructor gets called from the BlockEntity on the server without calling the other constructor first, the server knows the inventory of the container
     //and can therefore directly provide it as an argument. This inventory will then be synced to the client.
-    public BoxScreenHandler(int syncId, PlayerInventory playerInventory, Inventory inventory) {
-        super(FluxTech.BOX_SCREEN_HANDLER, syncId);
+    public BoxScreenHandler(int syncId, PlayerInventory playerInventory, Inventory inventory,int rows) {
+        super(null, syncId);
         checkSize(inventory, inventory.size());
         this.inventory = inventory;
         //some inventories do custom logic when a player opens it.

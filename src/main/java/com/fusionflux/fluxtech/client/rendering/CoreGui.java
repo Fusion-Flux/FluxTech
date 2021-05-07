@@ -41,6 +41,17 @@ public class CoreGui {
 
         List<ASlot> hotbar = new ArrayList<>();
 
+        for(int inventoryRow = 0; inventoryRow < blockEntity.size()/9; ++inventoryRow) {
+            for(int inventoryColumn = 0; inventoryColumn < 9; ++inventoryColumn) {
+                ASlot slot = new ABlockEntityInventorySlot<>(blockEntity, inventoryColumn + inventoryRow * 9);
+                slot.setTransformation(Transformation.translate(6 + inventoryColumn * 18, 15 + inventoryRow * 18, 0));
+                center.add(slot);
+                slot.linkAll(container, hotbar);
+                for (ASlot hotbarSlot : hotbar) {
+                    hotbarSlot.link(container, slot);
+                }
+            }
+        }
 
         for(int inventoryRow = 0; inventoryRow < 3; ++inventoryRow) {
             for(int inventoryColumn = 0; inventoryColumn < 9; ++inventoryColumn) {
@@ -61,13 +72,6 @@ public class CoreGui {
             }
         }
 
-        for(int inventoryRow = 0; inventoryRow < blockEntity.size()/9; ++inventoryRow) {
-            for(int inventoryColumn = 0; inventoryColumn < 9; ++inventoryColumn) {
-                ASlot slot = new ABlockEntityInventorySlot<>(blockEntity, inventoryColumn + inventoryRow * 3);
-                slot.setTransformation(Transformation.translate(6 + inventoryColumn * 18, 15 + inventoryRow * 18, 0));
-                center.add(slot);
-                hotbar.add(slot);
-            }
-        }
+
     }
 }

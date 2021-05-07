@@ -5,6 +5,7 @@ import com.fusionflux.fluxtech.blocks.StorageNodeBlock;
 import com.fusionflux.fluxtech.blocks.inventory.ImplementedInventory;
 import com.fusionflux.fluxtech.blocks.inventory.MultiInventory;
 import com.fusionflux.fluxtech.client.rendering.BoxScreenHandler;
+import net.fabricmc.fabric.api.block.entity.BlockEntityClientSerializable;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -29,7 +30,7 @@ import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 
-public class StorageCoreBlockEntity extends BlockEntity implements NamedScreenHandlerFactory, Inventory, Nameable {
+public class StorageCoreBlockEntity extends BlockEntity implements Inventory, Nameable, BlockEntityClientSerializable {
 
     public final List<BlockPos> connectedNodes = new ArrayList<>();
     //private DefaultedList<ItemStack> items = DefaultedList.ofSize(27, ItemStack.EMPTY);
@@ -40,9 +41,9 @@ public class StorageCoreBlockEntity extends BlockEntity implements NamedScreenHa
 
     public void addNewNodes(BlockPos nodeBlockPos){
         if(this.world!=null) {
-            if (!this.world.isClient) {
+         //   if (!this.world.isClient) {
                 connectedNodes.add(nodeBlockPos);
-            }
+        //    }
         }
     }
 
@@ -55,7 +56,7 @@ public class StorageCoreBlockEntity extends BlockEntity implements NamedScreenHa
         }
 
         if (this.world != null) {
-            if (!this.world.isClient) {
+        //    if (!this.world.isClient) {
                 StorageNodeBlockEntity node;
                 for (BlockPos locker : connectedNodes) {
                     node = (StorageNodeBlockEntity) this.world.getBlockEntity(locker);
@@ -65,7 +66,7 @@ public class StorageCoreBlockEntity extends BlockEntity implements NamedScreenHa
                 }
                 connectedNodes.clear();
                 updateNearbyNodes();
-            }
+          //  }
         }
     }
 
@@ -85,7 +86,7 @@ public void updateNearbyNodes(){
     @Override
     public void markRemoved() {
         if (this.world != null) {
-            if (!this.world.isClient) {
+            //if (!this.world.isClient) {
                 if (!this.removed) {
                     if (!connectedNodes.isEmpty()) {
                         for (BlockPos nodes : this.connectedNodes) {
@@ -96,7 +97,7 @@ public void updateNearbyNodes(){
                             }
                         }
                     }
-                }
+             //  }
             }
         }
         this.removed = true;
@@ -211,9 +212,15 @@ return true;
         return new TranslatableText(getCachedState().getBlock().getTranslationKey());
     }
 
-    @Nullable
+
+
     @Override
-    public ScreenHandler createMenu(int syncId, PlayerInventory playerInventory, PlayerEntity player) {
-        return new BoxScreenHandler(syncId, playerInventory, this);
+    public void fromClientTag(CompoundTag tag) {
+        this.fromTag(null,tag);
+    }
+
+    @Override
+    public CompoundTag toClientTag(CompoundTag tag) {
+        return this.toTag(tag);
     }
 }

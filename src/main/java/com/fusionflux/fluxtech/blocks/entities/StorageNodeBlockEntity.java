@@ -2,6 +2,7 @@ package com.fusionflux.fluxtech.blocks.entities;
 
 import com.fusionflux.fluxtech.blocks.FluxTechBlocks;
 import com.fusionflux.fluxtech.blocks.inventory.ImplementedInventory;
+import net.fabricmc.fabric.api.block.entity.BlockEntityClientSerializable;
 import net.fabricmc.fabric.api.util.NbtType;
 import net.minecraft.block.BlockEntityProvider;
 import net.minecraft.block.BlockState;
@@ -30,7 +31,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
 
-public class StorageNodeBlockEntity extends BlockEntity implements ImplementedInventory, Nameable {
+public class StorageNodeBlockEntity extends BlockEntity implements ImplementedInventory, Nameable, BlockEntityClientSerializable {
     //private ItemStack item = ItemStack.EMPTY;
     private final DefaultedList<ItemStack> items = DefaultedList.ofSize(27, ItemStack.EMPTY);
     private HashSet<BlockPos> connectedCore= new HashSet<>();
@@ -48,7 +49,7 @@ public class StorageNodeBlockEntity extends BlockEntity implements ImplementedIn
     @Override
     public void markRemoved() {
         if (this.world != null) {
-            if (!this.world.isClient) {
+           // if (!this.world.isClient) {
                 if (!this.removed) {
                     if (!connectedCore.isEmpty()) {
                         for (BlockPos cores : this.connectedCore) {
@@ -60,7 +61,7 @@ public class StorageNodeBlockEntity extends BlockEntity implements ImplementedIn
                         }
                     }
                 }
-            }
+           // }
         }
         this.removed = true;
     }
@@ -71,7 +72,7 @@ public class StorageNodeBlockEntity extends BlockEntity implements ImplementedIn
         StorageCoreBlockEntity core;
         StorageNodeBlockEntity node;
         if (this.world != null) {
-            if (!this.world.isClient) {
+          //  if (!this.world.isClient) {
                 for (Direction offsetdir : Direction.values()) {
                     if (this.world.getBlockState(this.getPos().offset(offsetdir)).getBlock().equals(FluxTechBlocks.STORAGE_CORE_BLOCK)) {
                         core = (StorageCoreBlockEntity) this.world.getBlockEntity(new BlockPos(this.getPos().getX(), this.getPos().getY(), this.getPos().getZ()).offset(offsetdir));
@@ -95,7 +96,7 @@ public class StorageNodeBlockEntity extends BlockEntity implements ImplementedIn
                 if (!connectedCore.isEmpty()) {
                     updatenearbyblocks();
                 }
-            }
+          //  }
         }
     }
 
@@ -104,22 +105,26 @@ public class StorageNodeBlockEntity extends BlockEntity implements ImplementedIn
         StorageCoreBlockEntity core;
         StorageNodeBlockEntity node;
         for (Direction offsetdir : Direction.values()) {
-            if (this.world.getBlockState(this.getPos().offset(offsetdir)).getBlock().equals(FluxTechBlocks.STORAGE_NODE_BLOCK)) {
-                node = (StorageNodeBlockEntity) this.world.getBlockEntity(new BlockPos(this.getPos().getX(), this.getPos().getY(), this.getPos().getZ()).offset(offsetdir));
-                if (node != null) {
-                    if (!node.connectedCore.containsAll(this.connectedCore)) {
+            if (this.world != null) {
+              //  if (!this.world.isClient) {
+                    if (this.world.getBlockState(this.getPos().offset(offsetdir)).getBlock().equals(FluxTechBlocks.STORAGE_NODE_BLOCK)) {
+                        node = (StorageNodeBlockEntity) this.world.getBlockEntity(new BlockPos(this.getPos().getX(), this.getPos().getY(), this.getPos().getZ()).offset(offsetdir));
+                        if (node != null) {
+                            if (!node.connectedCore.containsAll(this.connectedCore)) {
 
-                        node.connectedCore.addAll(this.connectedCore);
+                                node.connectedCore.addAll(this.connectedCore);
 
-                        for (BlockPos cores : this.connectedCore) {
-                            core = (StorageCoreBlockEntity) this.world.getBlockEntity(cores);
-                            if (core != null) {
-                                core.addNewNodes(node.pos);
+                                for (BlockPos cores : this.connectedCore) {
+                                    core = (StorageCoreBlockEntity) this.world.getBlockEntity(cores);
+                                    if (core != null) {
+                                        core.addNewNodes(node.pos);
+                                    }
+                                }
+                                node.updatenearbyblocks();
                             }
                         }
-                        node.updatenearbyblocks();
                     }
-                }
+               // }
             }
         }
     }
@@ -178,4 +183,13 @@ public class StorageNodeBlockEntity extends BlockEntity implements ImplementedIn
         this.connectedCore.clear();
     }
 
+    @Override
+    public void fromClientTag(CompoundTag tag) {
+        this.fromTag(null,tag);
+    }
+
+    @Override
+    public CompoundTag toClientTag(CompoundTag tag) {
+        return this.toTag(tag);
+    }
 }

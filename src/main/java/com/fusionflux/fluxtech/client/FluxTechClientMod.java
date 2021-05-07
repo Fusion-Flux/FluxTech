@@ -17,7 +17,7 @@ public class FluxTechClientMod implements ClientModInitializer {
 
 	@Override
 	public void onInitializeClient() {
-		ScreenRegistry.register(FluxTech.BOX_SCREEN_HANDLER, BoxScreen::new);
+		//ScreenRegistry.register(FluxTech.BOX_SCREEN_HANDLER, BoxScreen::new);
 		FluidRender.setupFluidRendering(FluxTechBlocks.ENDURIUM, FluxTechBlocks.ENDURIUM_FLOWING, FLUID_STILL, FLUID_FLOWING, 0x084537);
 		FluxTechBlocks.registerRenderLayers();
 	}

@@ -33,14 +33,14 @@ public class FluxTech implements ModInitializer {
 
     public static final String MOD_ID = "fluxtech";
 
-    public static final ScreenHandlerType<BoxScreenHandler> BOX_SCREEN_HANDLER;
+    //public static final ScreenHandlerType<BoxScreenHandler> BOX_SCREEN_HANDLER;
 
     public static final ItemGroup FLUXTECH_GROUP = FabricItemGroupBuilder.build(
             new Identifier("fluxtech", "general"),
             () -> new ItemStack(FluxTechItems.HANDHELD_PROPULSION_DEVICE));
 
     static{
-        BOX_SCREEN_HANDLER = ScreenHandlerRegistry.registerSimple(new Identifier(MOD_ID, "core"), BoxScreenHandler::new);
+       // BOX_SCREEN_HANDLER = ScreenHandlerRegistry.registerSimple(new Identifier(MOD_ID, "core"), BoxScreenHandler::new);
     }
 
     @Override
