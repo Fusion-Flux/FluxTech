@@ -70,18 +70,18 @@ public class StorageCoreBlockEntity extends BlockEntity implements Inventory, Na
         }
     }
 
-public void updateNearbyNodes(){
-    StorageNodeBlockEntity node;
-    for (Direction offsetdir : Direction.values()) {
-        if (this.world.getBlockState(this.getPos().offset(offsetdir)).getBlock().equals(FluxTechBlocks.STORAGE_NODE_BLOCK)) {
-            node = (StorageNodeBlockEntity) this.world.getBlockEntity(new BlockPos(this.getPos().getX(), this.getPos().getY(), this.getPos().getZ()).offset(offsetdir));
-            if(node!=null) {
-                node.checkConnections();
-            }
+    public void updateNearbyNodes(){
+        StorageNodeBlockEntity node;
+        for (Direction offsetdir : Direction.values()) {
+            if (this.world.getBlockState(this.getPos().offset(offsetdir)).getBlock().equals(FluxTechBlocks.STORAGE_NODE_BLOCK)) {
+                node = (StorageNodeBlockEntity) this.world.getBlockEntity(new BlockPos(this.getPos().getX(), this.getPos().getY(), this.getPos().getZ()).offset(offsetdir));
+                if(node!=null) {
+                    node.checkConnections();
+                }
 
+            }
         }
     }
-}
 
     @Override
     public void markRemoved() {
@@ -156,7 +156,7 @@ public void updateNearbyNodes(){
 
     @Override
     public boolean isEmpty() {
-        for (int i = 0; i < this.connectedNodes.size();) {
+        for (int i = 0; i < this.connectedNodes.size(); ++i) {
             Inventory child = this.getInventory(i);
             if (child != null && !child.isEmpty()) {
                 return false;
@@ -169,7 +169,7 @@ public void updateNearbyNodes(){
     @Override
     public ItemStack getStack(int slot) {
         Inventory child = this.getInventory(slot);
-        return child == null ? ItemStack.EMPTY:child.getStack(slot%27);
+        return child == null ? ItemStack.EMPTY : child.getStack(slot % 27);
     }
 
     @Override
