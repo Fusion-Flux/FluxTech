@@ -29,6 +29,7 @@
       "com.fusionflux.fluxtech.compatability.ModMenuIntegration"
     ]
   },
+  "accessWidener": "fluxtech.accesswidener",
   "mixins": [
     "fluxtech.mixins.json"
   ],

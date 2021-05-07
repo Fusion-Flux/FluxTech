@@ -35,6 +35,10 @@ dependencies {
 	}
 }
 
+minecraft {
+	accessWidener "src/main/resources/fluxtech.accesswidener"
+}
+
 processResources {
 	inputs.property "version", project.version
 
