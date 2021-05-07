@@ -61,7 +61,7 @@ public class StorageNodeBlockEntity extends BlockEntity implements ImplementedIn
                         }
                     }
                 }
-           // }
+          //  }
         }
         this.removed = true;
     }
@@ -72,7 +72,7 @@ public class StorageNodeBlockEntity extends BlockEntity implements ImplementedIn
         StorageCoreBlockEntity core;
         StorageNodeBlockEntity node;
         if (this.world != null) {
-          //  if (!this.world.isClient) {
+           // if (!this.world.isClient) {
                 for (Direction offsetdir : Direction.values()) {
                     if (this.world.getBlockState(this.getPos().offset(offsetdir)).getBlock().equals(FluxTechBlocks.STORAGE_CORE_BLOCK)) {
                         core = (StorageCoreBlockEntity) this.world.getBlockEntity(new BlockPos(this.getPos().getX(), this.getPos().getY(), this.getPos().getZ()).offset(offsetdir));
@@ -106,7 +106,7 @@ public class StorageNodeBlockEntity extends BlockEntity implements ImplementedIn
         StorageNodeBlockEntity node;
         for (Direction offsetdir : Direction.values()) {
             if (this.world != null) {
-              //  if (!this.world.isClient) {
+               // if (!this.world.isClient) {
                     if (this.world.getBlockState(this.getPos().offset(offsetdir)).getBlock().equals(FluxTechBlocks.STORAGE_NODE_BLOCK)) {
                         node = (StorageNodeBlockEntity) this.world.getBlockEntity(new BlockPos(this.getPos().getX(), this.getPos().getY(), this.getPos().getZ()).offset(offsetdir));
                         if (node != null) {
@@ -124,7 +124,7 @@ public class StorageNodeBlockEntity extends BlockEntity implements ImplementedIn
                             }
                         }
                     }
-               // }
+              //  }
             }
         }
     }

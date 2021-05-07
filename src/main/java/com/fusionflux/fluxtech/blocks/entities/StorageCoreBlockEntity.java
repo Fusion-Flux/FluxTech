@@ -41,8 +41,8 @@ public class StorageCoreBlockEntity extends BlockEntity implements Inventory, Na
 
     public void addNewNodes(BlockPos nodeBlockPos){
         if(this.world!=null) {
-         //   if (!this.world.isClient) {
-                if (!connectedNodes.contains(nodeBlockPos)) {
+          //  if (!this.world.isClient) {
+                if(!connectedNodes.contains(nodeBlockPos)) {
                     connectedNodes.add(nodeBlockPos);
                 }
         //    }
@@ -58,7 +58,7 @@ public class StorageCoreBlockEntity extends BlockEntity implements Inventory, Na
         }
 
         if (this.world != null) {
-        //    if (!this.world.isClient) {
+           // if (!this.world.isClient) {
                 StorageNodeBlockEntity node;
                 for (BlockPos locker : connectedNodes) {
                     node = (StorageNodeBlockEntity) this.world.getBlockEntity(locker);
@@ -68,7 +68,7 @@ public class StorageCoreBlockEntity extends BlockEntity implements Inventory, Na
                 }
                 connectedNodes.clear();
                 updateNearbyNodes();
-          //  }
+         //   }
         }
     }
 
@@ -88,7 +88,7 @@ public class StorageCoreBlockEntity extends BlockEntity implements Inventory, Na
     @Override
     public void markRemoved() {
         if (this.world != null) {
-            //if (!this.world.isClient) {
+          //  if (!this.world.isClient) {
                 if (!this.removed) {
                     if (!connectedNodes.isEmpty()) {
                         for (BlockPos nodes : this.connectedNodes) {
@@ -99,8 +99,8 @@ public class StorageCoreBlockEntity extends BlockEntity implements Inventory, Na
                             }
                         }
                     }
-             //  }
-            }
+               }
+           // }
         }
         this.removed = true;
     }
@@ -201,7 +201,7 @@ return true;
 
     @Override
     public void clear() {
-        for (int i = 0; i < this.connectedNodes.size();) {
+        for (int i = 0; i < this.connectedNodes.size(); i++) {
             Inventory child = this.getInventory(i);
             if (child != null) {
                 child.clear();
