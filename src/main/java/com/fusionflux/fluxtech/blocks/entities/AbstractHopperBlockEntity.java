@@ -5,6 +5,7 @@ import com.fusionflux.fluxtech.blocks.AbstractHopperBlock;
 import com.fusionflux.fluxtech.blocks.HopperBlock;
 import net.minecraft.block.*;
 import net.minecraft.block.entity.*;
+import net.minecraft.block.entity.HopperBlockEntity;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.ItemEntity;
 import net.minecraft.entity.player.PlayerInventory;
@@ -168,7 +169,7 @@ public class AbstractHopperBlockEntity  extends LootableContainerBlockEntity imp
                 for (int i = 0; i < this.size(); ++i) {
                     if (!this.getStack(i).isEmpty()) {
                         ItemStack itemStack = this.getStack(i).copy();
-                        ItemStack itemStack2 = transfer(this, inventory, this.removeStack(i, 1), direction);
+                        ItemStack itemStack2 = HopperBlockEntity.transfer(this, inventory, this.removeStack(i, 1), direction);
                         if (itemStack2.isEmpty()) {
                             inventory.markDirty();
                             return true;
@@ -208,7 +209,7 @@ public class AbstractHopperBlockEntity  extends LootableContainerBlockEntity imp
                     (i) -> extract(hopper, inventory, i, direction)
             );
         } else {
-            Iterator<ItemEntity> var2 = getInputItemEntities(hopper).iterator();
+            Iterator<ItemEntity> var2 = HopperBlockEntity.getInputItemEntities(hopper).iterator();
 
             ItemEntity itemEntity;
             do {
@@ -217,7 +218,7 @@ public class AbstractHopperBlockEntity  extends LootableContainerBlockEntity imp
                 }
 
                 itemEntity = var2.next();
-            } while(!extract(hopper, itemEntity));
+            } while(!HopperBlockEntity.extract(hopper, itemEntity));
 
             return true;
         }
@@ -227,7 +228,7 @@ public class AbstractHopperBlockEntity  extends LootableContainerBlockEntity imp
         ItemStack itemStack = inventory.getStack(slot);
         if (!itemStack.isEmpty() && canExtract(inventory, itemStack, slot, side)) {
             ItemStack itemStack2 = itemStack.copy();
-            ItemStack itemStack3 = transfer(inventory, hopper, inventory.removeStack(slot, 1), null);
+            ItemStack itemStack3 = HopperBlockEntity.transfer(inventory, hopper, inventory.removeStack(slot, 1), null);
             if (itemStack3.isEmpty()) {
                 inventory.markDirty();
                 return true;
@@ -239,89 +240,8 @@ public class AbstractHopperBlockEntity  extends LootableContainerBlockEntity imp
         return false;
     }
 
-    public static boolean extract(Inventory inventory, ItemEntity itemEntity) {
-        boolean bl = false;
-        ItemStack itemStack = itemEntity.getStack().copy();
-        ItemStack itemStack2 = transfer(null, inventory, itemStack, null);
-        if (itemStack2.isEmpty()) {
-            bl = true;
-            itemEntity.remove();
-        } else {
-            itemEntity.setStack(itemStack2);
-        }
-
-        return bl;
-    }
-
-    public static ItemStack transfer(@Nullable Inventory from, Inventory to, ItemStack stack, @Nullable Direction side) {
-        if (to instanceof SidedInventory && side != null) {
-            SidedInventory sidedInventory = (SidedInventory)to;
-            int[] availableSlots = sidedInventory.getAvailableSlots(side);
-
-            for(int i = 0; i < availableSlots.length && !stack.isEmpty(); ++i) {
-                stack = transfer(from, to, stack, availableSlots[i], side);
-            }
-        } else {
-            int j = to.size();
-
-            for(int k = 0; k < j && !stack.isEmpty(); ++k) {
-                stack = transfer(from, to, stack, k, side);
-            }
-        }
-
-        return stack;
-    }
-
-    private static boolean canInsert(Inventory inventory, ItemStack stack, int slot, @Nullable Direction side) {
-        if (!inventory.isValid(slot, stack)) {
-            return false;
-        } else {
-            return !(inventory instanceof SidedInventory) || ((SidedInventory) inventory).canInsert(slot, stack, side);
-        }
-    }
-
     private static boolean canExtract(Inventory inv, ItemStack stack, int slot, Direction facing) {
         return !(inv instanceof SidedInventory) || ((SidedInventory)inv).canExtract(slot, stack, facing);
-    }
-
-    private static ItemStack transfer(@Nullable Inventory from, Inventory to, ItemStack stack, int slot, @Nullable Direction direction) {
-        ItemStack itemStack = to.getStack(slot);
-        if (canInsert(to, stack, slot, direction)) {
-            boolean bl = false;
-            boolean bl2 = to.isEmpty();
-            if (itemStack.isEmpty()) {
-                to.setStack(slot, stack);
-                stack = ItemStack.EMPTY;
-                bl = true;
-            } else if (canMergeItems(itemStack, stack)) {
-                int i = stack.getMaxCount() - itemStack.getCount();
-                int j = Math.min(stack.getCount(), i);
-                stack.decrement(j);
-                itemStack.increment(j);
-                bl = j > 0;
-            }
-
-            if (bl) {
-                if (bl2 && to instanceof AbstractHopperBlockEntity) {
-                    AbstractHopperBlockEntity toHopper = (AbstractHopperBlockEntity)to;
-                    if (!toHopper.isDisabled()) {
-                        int k = 0;
-                        if (from instanceof AbstractHopperBlockEntity) {
-                            AbstractHopperBlockEntity fromHopper = (AbstractHopperBlockEntity)from;
-                            if (toHopper.lastTickTime >= fromHopper.lastTickTime) {
-                                k = 1;
-                            }
-                        }
-
-                        toHopper.setCooldown(8 - k);
-                    }
-                }
-
-                to.markDirty();
-            }
-        }
-
-        return stack;
     }
 
     @Nullable
@@ -333,17 +253,6 @@ public class AbstractHopperBlockEntity  extends LootableContainerBlockEntity imp
     @Nullable
     public static Inventory getInputInventory(Hopper hopper) {
         return getInventoryAt(hopper.getWorld(), hopper.getHopperX(), hopper.getHopperY() + ((HopperInput) hopper).getInputInventoryY(), hopper.getHopperZ());
-    }
-
-    public static List<ItemEntity> getInputItemEntities(Hopper hopper) {
-        return hopper.getInputAreaShape().getBoundingBoxes().stream().flatMap(
-                (box) -> hopper
-                        .getWorld()
-                        .getEntitiesByClass(ItemEntity.class,
-                                box.offset(hopper.getHopperX() - 0.5D,
-                                        hopper.getHopperY() - 0.5D,
-                                        hopper.getHopperZ() - 0.5D),
-                                EntityPredicates.VALID_ENTITY).stream()).collect(Collectors.toList());
     }
 
     @Nullable
@@ -384,18 +293,6 @@ public class AbstractHopperBlockEntity  extends LootableContainerBlockEntity imp
         return inventory;
     }
 
-    private static boolean canMergeItems(ItemStack first, ItemStack second) {
-        if (first.getItem() != second.getItem()) {
-            return false;
-        } else if (first.getDamage() != second.getDamage()) {
-            return false;
-        } else if (first.getCount() > first.getMaxCount()) {
-            return false;
-        } else {
-            return ItemStack.areTagsEqual(first, second);
-        }
-    }
-
     @Override
     public double getHopperX() {
         return (double)this.pos.getX() + 0.5D;
@@ -419,10 +316,6 @@ public class AbstractHopperBlockEntity  extends LootableContainerBlockEntity imp
         return this.transferCooldown <= 0;
     }
 
-    private boolean isDisabled() {
-        return this.transferCooldown > 8;
-    }
-
     @Override
     protected DefaultedList<ItemStack> getInvStackList() {
         return this.inventory;
@@ -441,7 +334,7 @@ public class AbstractHopperBlockEntity  extends LootableContainerBlockEntity imp
                                                                                               -blockPos.getZ())),
                     this.getInputAreaShape(),
                     BooleanBiFunction.AND)) {
-                this.insertAndExtract(() -> extract(this, (ItemEntity)entity));
+                this.insertAndExtract(() -> HopperBlockEntity.extract(this, (ItemEntity)entity));
             }
         }
 
