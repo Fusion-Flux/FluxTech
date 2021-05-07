@@ -30,6 +30,13 @@
   "block.fluxtech.skupper": "SK-Upper",
   "block.fluxtech.jupper": "J-Upper",
 
+  "block.fluxtech.core": "Storage Core",
+  "block.fluxtech.node": "Storage Node",
+
+  "block.fluxtech.barbed_wire": "Barbed Wire",
+
+  "block.fluxtech.redstine_randomizer": "Redstone Randomizer",
+
   "text.autoconfig.fluxtech.title": "FluxTech Config",
 
   "text.autoconfig.fluxtech.category.numbers": "Item Config",
@@ -41,7 +48,6 @@
   "text.autoconfig.fluxtech.option.numbers.slimeBounceMultiplier": "Slime Boots Bounce Multiplier",
   "text.autoconfig.fluxtech.option.numbers.gravitronCrushDamage": "Gravitron Crush Damage",
   "text.autoconfig.fluxtech.option.numbers.hPDCooldown": "HPD Cooldown",
-
 
   "text.autoconfig.fluxtech.category.numbersblock": "Block Config",
   "text.autoconfig.fluxtech.option.numbersblock.enduriumTpRange": "Endurium Tp Range",
