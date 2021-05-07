@@ -42,7 +42,9 @@ public class StorageCoreBlockEntity extends BlockEntity implements Inventory, Na
     public void addNewNodes(BlockPos nodeBlockPos){
         if(this.world!=null) {
          //   if (!this.world.isClient) {
-                connectedNodes.add(nodeBlockPos);
+                if (!connectedNodes.contains(nodeBlockPos)) {
+                    connectedNodes.add(nodeBlockPos);
+                }
         //    }
         }
     }
