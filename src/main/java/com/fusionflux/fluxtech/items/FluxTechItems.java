@@ -1,14 +1,8 @@
 package com.fusionflux.fluxtech.items;
 
 import com.fusionflux.fluxtech.FluxTech;
-import com.fusionflux.fluxtech.accessor.PlayerEntityExtensions;
 import com.fusionflux.fluxtech.blocks.FluxTechBlocks;
-import com.fusionflux.fluxtech.config.FluxTechConfig;
 import com.fusionflux.fluxtech.config.FluxTechConfig2;
-import com.fusionflux.fluxtech.material.CustomAxeItem;
-import com.fusionflux.fluxtech.material.CustomHoeItem;
-import com.fusionflux.fluxtech.material.CustomPickaxeItem;
-import com.fusionflux.fluxtech.material.LapisMaterial;
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
 import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.item.*;
@@ -16,9 +10,6 @@ import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
 
 public class FluxTechItems {
-
-    public static final LapisMaterial LAPIS_MATERIAL = new LapisMaterial();
-
 
     public static final ArmorMaterial FluxTechArmor = new FluxTechArmor();
     public static final ArmorMaterial FluxTechArmor2 = new FluxTechArmor2();
@@ -28,9 +19,6 @@ public class FluxTechItems {
     public static final Item SLIME_COATED_NETHERITE_BOOTS = new ArmorItem(FluxTechArmor2, EquipmentSlot.FEET, new Item.Settings().group(FluxTech.FLUXTECH_GROUP).fireproof());
 
     public static final Item MELTEDPEARL = new Item(new FabricItemSettings().group(FluxTech.FLUXTECH_GROUP).maxCount(16));
-
-
-
 
     public static final Item ENDURIUM_BUCKET = new BucketItem(FluxTechBlocks.ENDURIUM, new Item.Settings()
             .recipeRemainder(Items.BUCKET).maxCount(1).group(FluxTech.FLUXTECH_GROUP));
