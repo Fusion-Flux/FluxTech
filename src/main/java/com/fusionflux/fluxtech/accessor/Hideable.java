@@ -1,7 +1,6 @@
 package com.fusionflux.fluxtech.accessor;
 
 public interface Hideable {
-    void fluxtech$hide();
-    void fluxtech$show();
+    void fluxtech$setHidden(boolean bl);
     boolean fluxtech$isHidden();
 }

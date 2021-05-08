@@ -37,6 +37,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 public abstract class EntityMixin implements EntityAttachments, EnduriumToucher, Hideable {
     private static final TrackedData<Boolean> IS_ROLLING = DataTracker.registerData(Entity.class, TrackedDataHandlerRegistry.BOOLEAN);
     private static final TrackedData<Direction> DIRECTION = DataTracker.registerData(Entity.class, TrackedDataHandlerRegistry.FACING);
+    private static final TrackedData<Boolean> HIDDEN = DataTracker.registerData(Entity.class, TrackedDataHandlerRegistry.BOOLEAN);
 
     @Shadow @Final protected DataTracker dataTracker;
     @Shadow public World world;
@@ -65,18 +66,13 @@ public abstract class EntityMixin implements EntityAttachments, EnduriumToucher,
     }
 
     @Override
-    public void fluxtech$hide() {
-        this.fluxtech$hidden = true;
-    }
-
-    @Override
-    public void fluxtech$show() {
-        this.fluxtech$hidden = false;
+    public void fluxtech$setHidden(boolean bl) {
+        this.dataTracker.set(HIDDEN, bl);
     }
 
     @Override
     public boolean fluxtech$isHidden() {
-        return this.fluxtech$hidden;
+        return this.dataTracker.get(HIDDEN);
     }
 
     @Override
@@ -136,6 +132,7 @@ public abstract class EntityMixin implements EntityAttachments, EnduriumToucher,
     public void Entity(EntityType<?> type, World world, CallbackInfo callbackInfo) {
         this.dataTracker.startTracking(IS_ROLLING, false);
         this.dataTracker.startTracking(DIRECTION, Direction.UP);
+        this.dataTracker.startTracking(HIDDEN, false);
     }
 
     @Inject(method = "tick", at = @At("HEAD"), cancellable = true)
