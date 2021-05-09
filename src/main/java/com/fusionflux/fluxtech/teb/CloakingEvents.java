@@ -26,9 +26,9 @@ public class CloakingEvents {
 
         CommandRegistrationCallback.EVENT.register((dispatcher, b) -> dispatcher.register(CommandManager.literal("cloakview")
                 .then(CommandManager.literal("toggle").executes((context) -> {
-                    CloakingInterface pi = (CloakingInterface)context.getSource().getPlayer();
+                    CloakingInterface pi = (CloakingInterface) context.getSource().getPlayer();
                     pi.setCloakingViewEnabled(!pi.getCloakingViewEnabled());
-                    context.getSource().sendFeedback(new LiteralText("You have now "+ (pi.getCloakingViewEnabled() ? "enabled" : "disabled") +" cloaking view!"), false);
+                    context.getSource().sendFeedback(new LiteralText("You have now " + (pi.getCloakingViewEnabled() ? "enabled" : "disabled") + " cloaking view!"), false);
                     if (!pi.getCloakingViewEnabled()) {
                         cloakingServer.getManager(context.getSource().getPlayer()).purgeCache();
                     }

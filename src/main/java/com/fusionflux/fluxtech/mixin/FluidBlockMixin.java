@@ -21,9 +21,12 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(FluidBlock.class)
 public abstract class FluidBlockMixin {
-    @Shadow protected abstract void playExtinguishSound(WorldAccess world, BlockPos pos);
+    @Shadow
+    @Final
+    protected FlowableFluid fluid;
 
-    @Shadow @Final protected FlowableFluid fluid;
+    @Shadow
+    protected abstract void playExtinguishSound(WorldAccess world, BlockPos pos);
 
     /**
      * @author Gives Fluid Functionality
@@ -35,7 +38,7 @@ public abstract class FluidBlockMixin {
             Direction[] var5 = Direction.values();
             int var6 = var5.length;
 
-            for(int var7 = 0; var7 < var6; ++var7) {
+            for (int var7 = 0; var7 < var6; ++var7) {
                 Direction direction = var5[var7];
                 if (direction != Direction.DOWN) {
                     BlockPos blockPos = pos.offset(direction);
@@ -52,7 +55,7 @@ public abstract class FluidBlockMixin {
             Direction[] var5 = Direction.values();
             int var6 = var5.length;
 
-            for(int var7 = 0; var7 < var6; ++var7) {
+            for (int var7 = 0; var7 < var6; ++var7) {
                 Direction direction = var5[var7];
                 if (direction != Direction.DOWN) {
                     BlockPos blockPos = pos.offset(direction);

@@ -17,6 +17,12 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(ServerPlayerEntity.class)
 public abstract class ServerPlayerEntityCloakMixin extends PlayerEntity implements CloakingInterface {
+    @Unique
+    private volatile boolean isCloseToCloakingDevice;
+    @Unique
+    private World uncloakedWorld;
+    @Unique
+    private boolean cloakingViewEnabled;
     public ServerPlayerEntityCloakMixin(World world, BlockPos pos, float yaw, GameProfile profile) {
         super(world, pos, yaw, profile);
         throw new AssertionError("FluxTech ServerPlayerEntityCloakMixin constructor was called!");
@@ -25,21 +31,14 @@ public abstract class ServerPlayerEntityCloakMixin extends PlayerEntity implemen
     @Shadow
     public abstract ServerWorld getServerWorld();
 
-    @Unique
-    private volatile boolean isCloseToCloakingDevice;
-    @Unique
-    private World uncloakedWorld;
-    @Unique
-    private boolean cloakingViewEnabled;
+    @Override
+    public boolean getCloseToCloakingDevice() {
+        return isCloseToCloakingDevice;
+    }
 
     @Override
     public void setCloseToCloakingDevice(boolean v) {
         isCloseToCloakingDevice = v;
-    }
-
-    @Override
-    public boolean getCloseToCloakingDevice() {
-        return isCloseToCloakingDevice;
     }
 
     @Override
@@ -77,12 +76,12 @@ public abstract class ServerPlayerEntityCloakMixin extends PlayerEntity implemen
     }
 
     @Override
-    public void setCloakingViewEnabled(boolean cloakingViewEnabled) {
-        this.cloakingViewEnabled = cloakingViewEnabled;
+    public boolean getCloakingViewEnabled() {
+        return this.cloakingViewEnabled;
     }
 
     @Override
-    public boolean getCloakingViewEnabled() {
-        return this.cloakingViewEnabled;
+    public void setCloakingViewEnabled(boolean cloakingViewEnabled) {
+        this.cloakingViewEnabled = cloakingViewEnabled;
     }
 }

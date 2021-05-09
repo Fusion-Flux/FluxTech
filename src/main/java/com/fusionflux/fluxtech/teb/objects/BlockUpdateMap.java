@@ -18,7 +18,7 @@ public class BlockUpdateMap extends Long2ObjectOpenHashMap<Short2ObjectMap<Block
             map = new Short2ObjectOpenHashMap<>();
             this.put(cp, map);
         }
-        map.put(ChunkSectionPos.packLocal(p),t);
+        map.put(ChunkSectionPos.packLocal(p), t);
     }
 
     public BlockState get(BlockPos p) {
@@ -44,8 +44,8 @@ public class BlockUpdateMap extends Long2ObjectOpenHashMap<Short2ObjectMap<Block
     private long getChunkPos(BlockPos p) {
         long l = 0;
         l |= ((p.getY() >> 4) & 0b11111111111111111111);
-        l |= (long)((p.getZ() >> 4) & 0b1111111111111111111111) << 20;
-        l |= (long)((p.getX() >> 4) & 0b1111111111111111111111) << 42;
+        l |= (long) ((p.getZ() >> 4) & 0b1111111111111111111111) << 20;
+        l |= (long) ((p.getX() >> 4) & 0b1111111111111111111111) << 42;
         return l;
     }
 }

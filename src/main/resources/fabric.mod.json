@@ -2,7 +2,6 @@
   "schemaVersion": 1,
   "id": "fluxtech",
   "version": "${version}",
-
   "name": "FluxTech",
   "description": "A \"tech\" mod focused around cool movement",
   "authors": [
@@ -13,10 +12,8 @@
     "sources": "https://github.com/FabricMC/fabric-example-mod",
     "issues": "https://github.com/Fusion-Flux/FluxTech/issues"
   },
-
   "license": "MIT",
   "icon": "assets/fluxtech/icon.png",
-
   "environment": "*",
   "entrypoints": {
     "main": [
@@ -25,7 +22,7 @@
     "client": [
       "com.fusionflux.fluxtech.client.FluxTechClient"
     ],
-    "modmenu" : [
+    "modmenu": [
       "com.fusionflux.fluxtech.compatability.ModMenuIntegration"
     ]
   },
@@ -33,7 +30,6 @@
   "mixins": [
     "fluxtech.mixins.json"
   ],
-
   "depends": {
     "fabricloader": ">=0.7.4",
     "fabric": "*",

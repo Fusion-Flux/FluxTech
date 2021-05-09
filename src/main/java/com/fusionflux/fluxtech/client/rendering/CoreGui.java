@@ -11,7 +11,6 @@ import io.github.astrarre.gui.v0.fabric.adapter.slot.APlayerSlot;
 import io.github.astrarre.gui.v0.fabric.adapter.slot.ASlot;
 import io.github.astrarre.networking.v0.api.network.NetworkMember;
 import io.github.astrarre.rendering.v0.api.Transformation;
-import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.server.network.ServerPlayerEntity;
 
 import java.util.ArrayList;
@@ -20,7 +19,7 @@ import java.util.List;
 public class CoreGui {
 
     public static void open(ServerPlayerEntity entity, StorageCoreBlockEntity blockEntity) {
-        RootContainer.openC((NetworkMember) entity, container -> open(entity, container,blockEntity));
+        RootContainer.openC((NetworkMember) entity, container -> open(entity, container, blockEntity));
     }
 
     protected static void open(ServerPlayerEntity entity, RootContainer container, StorageCoreBlockEntity blockEntity) {
@@ -38,11 +37,10 @@ public class CoreGui {
         center.add(new ABeveledRectangle(center));
 
 
-
         List<ASlot> hotbar = new ArrayList<>();
 
-        for(int inventoryRow = 0; inventoryRow < blockEntity.size()/9; ++inventoryRow) {
-            for(int inventoryColumn = 0; inventoryColumn < 9; ++inventoryColumn) {
+        for (int inventoryRow = 0; inventoryRow < blockEntity.size() / 9; ++inventoryRow) {
+            for (int inventoryColumn = 0; inventoryColumn < 9; ++inventoryColumn) {
                 ASlot slot = new ABlockEntityInventorySlot<>(blockEntity, inventoryColumn + inventoryRow * 9);
                 slot.setTransformation(Transformation.translate(6 + inventoryColumn * 18, 15 + inventoryRow * 18, 0));
                 center.add(slot);
@@ -53,8 +51,8 @@ public class CoreGui {
             }
         }
 
-        for(int inventoryRow = 0; inventoryRow < 3; ++inventoryRow) {
-            for(int inventoryColumn = 0; inventoryColumn < 9; ++inventoryColumn) {
+        for (int inventoryRow = 0; inventoryRow < 3; ++inventoryRow) {
+            for (int inventoryColumn = 0; inventoryColumn < 9; ++inventoryColumn) {
                 ASlot slot = new APlayerSlot(entity.inventory, inventoryColumn + inventoryRow * 9 + 9);
                 slot.setTransformation(Transformation.translate(6 + inventoryColumn * 18, 82 + inventoryRow * 18, 0));
                 center.add(slot);
@@ -62,7 +60,7 @@ public class CoreGui {
             }
         }
 
-        for(int hotbarIndex = 0; hotbarIndex < 9; ++hotbarIndex) {
+        for (int hotbarIndex = 0; hotbarIndex < 9; ++hotbarIndex) {
             ASlot slot = new APlayerSlot(entity.inventory, hotbarIndex);
             slot.setTransformation(Transformation.translate(6 + hotbarIndex * 18, 140, 0));
             center.add(slot);

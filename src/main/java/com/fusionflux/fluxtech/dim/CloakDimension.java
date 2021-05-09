@@ -17,15 +17,13 @@ public class CloakDimension {
             Registry.DIMENSION_OPTIONS,
             DIM_ID
     );
-
-    public static RegistryKey<World> WORLD_KEY = RegistryKey.of(
-            Registry.DIMENSION,
-            DIM_ID
-    );
-
     private static final RegistryKey<DimensionType> DIMENSION_TYPE_KEY = RegistryKey.of(
             Registry.DIMENSION_TYPE_KEY,
             new Identifier(FluxTech.MOD_ID, "cloaked_type")
+    );
+    public static RegistryKey<World> WORLD_KEY = RegistryKey.of(
+            Registry.DIMENSION,
+            DIM_ID
     );
 
     public static void registerCloakedDimension() {

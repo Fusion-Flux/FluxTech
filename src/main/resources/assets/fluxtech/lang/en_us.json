@@ -1,44 +1,31 @@
 {
   "itemGroup.fluxtech.general": "FluxTech",
-
   "subtitles.fluxtech.hpdblast": "HPD Blast",
-
   "item.fluxtech.handheld_propulsion_device": "HPD",
   "item.fluxtech.gravitrons": "Gravitrons",
   "item.fluxtech.aeroarmor": "Aeroarmor",
   "item.fluxtech.slime_coated_netherite_boots": "Slime Coated Netherite Boots",
-
   "item.fluxtech.melted_ender_pearl": "Melted Ender Pearl",
-
   "item.fluxtech.lapis_hoe": "Lapis Hoe",
   "item.fluxtech.lapis_axe": "Lapis Axe",
   "item.fluxtech.lapis_pickaxe": "Lapis Pickaxe",
   "item.fluxtech.lapis_shovel": "Lapis Shovel",
-
   "effect.fluxtech.dragon_healing": "Dragon Healing",
-
   "item.fluxtech.endurium_bucket": "Endurium Bucket",
-
   "block.fluxtech.smooth_end_stone": "Smooth End Stone",
   "block.fluxtech.smooth_end_stone_stairs": "Smooth End Stone Stairs",
   "block.fluxtech.smooth_end_stone_slab": "Smooth End Stone Slab",
   "block.fluxtech.smooth_end_stone_wall": "Smooth End Stone Wall",
-
   "block.fluxtech.skipper": "Skipper",
   "block.fluxtech.jumper": "Jumper",
   "block.fluxtech.upper": "Upper",
   "block.fluxtech.skupper": "SK-Upper",
   "block.fluxtech.jupper": "J-Upper",
-
   "block.fluxtech.core": "Storage Core",
   "block.fluxtech.node": "Storage Node",
-
   "block.fluxtech.barbed_wire": "Barbed Wire",
-
   "block.fluxtech.redstine_randomizer": "Redstone Randomizer",
-
   "text.autoconfig.fluxtech.title": "FluxTech Config",
-
   "text.autoconfig.fluxtech.category.numbers": "Item Config",
   "text.autoconfig.fluxtech.option.numbers.aeroarmorFlightBoost": "Aeroarmor Flight Boost",
   "text.autoconfig.fluxtech.option.numbers.hPDLaunchPower": "HPD Launch Power",
@@ -48,10 +35,8 @@
   "text.autoconfig.fluxtech.option.numbers.slimeBounceMultiplier": "Slime Boots Bounce Multiplier",
   "text.autoconfig.fluxtech.option.numbers.gravitronCrushDamage": "Gravitron Crush Damage",
   "text.autoconfig.fluxtech.option.numbers.hPDCooldown": "HPD Cooldown",
-
   "text.autoconfig.fluxtech.category.numbersblock": "Block Config",
   "text.autoconfig.fluxtech.option.numbersblock.enduriumTpRange": "Endurium Tp Range",
-
   "text.autoconfig.fluxtech.category.enabled": "Enabled Features",
   "text.autoconfig.fluxtech.option.enabled.enableHPD": "Enable HPD",
   "text.autoconfig.fluxtech.option.enabled.enableGravitrons": "Enable Gravitrons",

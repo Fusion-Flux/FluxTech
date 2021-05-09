@@ -15,9 +15,6 @@ import net.minecraft.world.gen.chunk.StructuresConfig;
 import net.minecraft.world.gen.chunk.VerticalBlockSample;
 
 public class CloakedChunkGenerator extends ChunkGenerator {
-    // Just an example of adding a custom boolean
-    protected final boolean customBool;
-
     public static final Codec<CloakedChunkGenerator> CODEC = RecordCodecBuilder.create((instance) ->
             instance.group(
                     BiomeSource.CODEC.fieldOf("biome_source")
@@ -27,6 +24,8 @@ public class CloakedChunkGenerator extends ChunkGenerator {
             )
                     .apply(instance, instance.stable(CloakedChunkGenerator::new))
     );
+    // Just an example of adding a custom boolean
+    protected final boolean customBool;
 
     public CloakedChunkGenerator(BiomeSource biomeSource, boolean customBool) {
         super(biomeSource, new StructuresConfig(false));

@@ -1,13 +1,17 @@
 package com.fusionflux.fluxtech.blocks;
 
 import com.fusionflux.fluxtech.blocks.entities.UpperBlockEntity;
-import net.minecraft.block.*;
+import net.minecraft.block.AbstractBlock;
+import net.minecraft.block.Block;
+import net.minecraft.block.BlockState;
+import net.minecraft.block.ShapeContext;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.block.entity.Hopper;
 import net.minecraft.item.ItemPlacementContext;
 import net.minecraft.state.StateManager;
 import net.minecraft.state.property.DirectionProperty;
-import net.minecraft.util.*;
+import net.minecraft.util.BlockMirror;
+import net.minecraft.util.BlockRotation;
 import net.minecraft.util.function.BooleanBiFunction;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
@@ -32,6 +36,25 @@ public class UpperBlock extends AbstractHopperBlock {
     private static final VoxelShape NORTH_RAY_TRACE_SHAPE;
     private static final VoxelShape SOUTH_RAY_TRACE_SHAPE;
     private static final VoxelShape WEST_RAY_TRACE_SHAPE;
+
+    static {
+        FACING = DirectionProperty.of("facing", (facing) -> facing != Direction.DOWN);
+        BOTTOM_SHAPE = Block.createCuboidShape(0.0D, 0.0D, 0.0D, 16.0D, 6.0D, 16.0D);
+        MIDDLE_SHAPE = Block.createCuboidShape(4.0D, 6.0D, 4.0D, 12.0D, 12.0D, 12.0D);
+        OUTSIDE_SHAPE = VoxelShapes.union(MIDDLE_SHAPE, BOTTOM_SHAPE);
+        INSIDE_SHAPE = Block.createCuboidShape(2.0D, 0.0D, 2.0D, 14.0D, 5.0D, 14.0D);
+        DEFAULT_SHAPE = VoxelShapes.combineAndSimplify(OUTSIDE_SHAPE, INSIDE_SHAPE, BooleanBiFunction.ONLY_FIRST);
+        UP_SHAPE = VoxelShapes.union(DEFAULT_SHAPE, Block.createCuboidShape(6.0D, 12.0D, 6.0D, 10.0D, 16.0D, 10.0D));
+        EAST_SHAPE = VoxelShapes.union(DEFAULT_SHAPE, Block.createCuboidShape(12.0D, 8.0D, 6.0D, 16.0D, 12.0D, 10.0D));
+        NORTH_SHAPE = VoxelShapes.union(DEFAULT_SHAPE, Block.createCuboidShape(6.0D, 8.0D, 0.0D, 10.0D, 12.0D, 4.0D));
+        SOUTH_SHAPE = VoxelShapes.union(DEFAULT_SHAPE, Block.createCuboidShape(6.0D, 8.0D, 12.0D, 10.0D, 12.0D, 16.0D));
+        WEST_SHAPE = VoxelShapes.union(DEFAULT_SHAPE, Block.createCuboidShape(0.0D, 8.0D, 6.0D, 4.0D, 12.0D, 10.0D));
+        UP_RAY_TRACE_SHAPE = INSIDE_SHAPE;
+        EAST_RAY_TRACE_SHAPE = VoxelShapes.union(INSIDE_SHAPE, Block.createCuboidShape(12.0D, 6.0D, 6.0D, 16.0D, 8.0D, 10.0D));
+        NORTH_RAY_TRACE_SHAPE = VoxelShapes.union(INSIDE_SHAPE, Block.createCuboidShape(6.0D, 6.0D, 0.0D, 10.0D, 8.0D, 4.0D));
+        SOUTH_RAY_TRACE_SHAPE = VoxelShapes.union(INSIDE_SHAPE, Block.createCuboidShape(6.0D, 6.0D, 12.0D, 10.0D, 8.0D, 16.0D));
+        WEST_RAY_TRACE_SHAPE = VoxelShapes.union(INSIDE_SHAPE, Block.createCuboidShape(0.0D, 6.0D, 6.0D, 4.0D, 8.0D, 10.0D));
+    }
 
     public UpperBlock(AbstractBlock.Settings settings, int distance) {
         super(settings, distance);
@@ -99,24 +122,5 @@ public class UpperBlock extends AbstractHopperBlock {
     protected void appendProperties(StateManager.Builder<Block, BlockState> builder) {
         super.appendProperties(builder);
         builder.add(FACING);
-    }
-
-    static {
-        FACING = DirectionProperty.of("facing", (facing) -> facing != Direction.DOWN);
-        BOTTOM_SHAPE = Block.createCuboidShape(0.0D, 0.0D, 0.0D, 16.0D, 6.0D, 16.0D);
-        MIDDLE_SHAPE = Block.createCuboidShape(4.0D, 6.0D, 4.0D, 12.0D, 12.0D, 12.0D);
-        OUTSIDE_SHAPE = VoxelShapes.union(MIDDLE_SHAPE, BOTTOM_SHAPE);
-        INSIDE_SHAPE = Block.createCuboidShape(2.0D, 0.0D, 2.0D, 14.0D, 5.0D, 14.0D);
-        DEFAULT_SHAPE = VoxelShapes.combineAndSimplify(OUTSIDE_SHAPE, INSIDE_SHAPE, BooleanBiFunction.ONLY_FIRST);
-        UP_SHAPE = VoxelShapes.union(DEFAULT_SHAPE, Block.createCuboidShape(6.0D, 12.0D, 6.0D, 10.0D, 16.0D, 10.0D));
-        EAST_SHAPE = VoxelShapes.union(DEFAULT_SHAPE, Block.createCuboidShape(12.0D, 8.0D, 6.0D, 16.0D, 12.0D, 10.0D));
-        NORTH_SHAPE = VoxelShapes.union(DEFAULT_SHAPE, Block.createCuboidShape(6.0D, 8.0D, 0.0D, 10.0D, 12.0D, 4.0D));
-        SOUTH_SHAPE = VoxelShapes.union(DEFAULT_SHAPE, Block.createCuboidShape(6.0D, 8.0D, 12.0D, 10.0D, 12.0D, 16.0D));
-        WEST_SHAPE = VoxelShapes.union(DEFAULT_SHAPE, Block.createCuboidShape(0.0D, 8.0D, 6.0D, 4.0D, 12.0D, 10.0D));
-        UP_RAY_TRACE_SHAPE = INSIDE_SHAPE;
-        EAST_RAY_TRACE_SHAPE = VoxelShapes.union(INSIDE_SHAPE, Block.createCuboidShape(12.0D, 6.0D, 6.0D, 16.0D, 8.0D, 10.0D));
-        NORTH_RAY_TRACE_SHAPE = VoxelShapes.union(INSIDE_SHAPE, Block.createCuboidShape(6.0D, 6.0D, 0.0D, 10.0D, 8.0D, 4.0D));
-        SOUTH_RAY_TRACE_SHAPE = VoxelShapes.union(INSIDE_SHAPE, Block.createCuboidShape(6.0D, 6.0D, 12.0D, 10.0D, 8.0D, 16.0D));
-        WEST_RAY_TRACE_SHAPE = VoxelShapes.union(INSIDE_SHAPE, Block.createCuboidShape(0.0D, 6.0D, 6.0D, 4.0D, 8.0D, 10.0D));
     }
 }

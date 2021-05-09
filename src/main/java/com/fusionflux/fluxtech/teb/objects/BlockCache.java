@@ -1,6 +1,8 @@
 package com.fusionflux.fluxtech.teb.objects;
 
-import it.unimi.dsi.fastutil.ints.*;
+import it.unimi.dsi.fastutil.ints.Int2IntMap;
+import it.unimi.dsi.fastutil.ints.Int2ObjectMap;
+import it.unimi.dsi.fastutil.ints.Int2ObjectOpenHashMap;
 import net.minecraft.block.BlockState;
 import net.minecraft.util.math.BlockPos;
 
@@ -13,26 +15,26 @@ public class BlockCache {
     public final static int CHUNK_SIZE = 2;
     public final static int DEFAULT_MAP_SIZE = 16;
     public final static int DEFAULT_HASHMAP_SIZE = 256;
-    private final Int2ObjectMap<Int2ObjectMap<Map<BlockPos,BlockState>>> cache = new Int2ObjectOpenHashMap<>(DEFAULT_MAP_SIZE);
+    private final Int2ObjectMap<Int2ObjectMap<Map<BlockPos, BlockState>>> cache = new Int2ObjectOpenHashMap<>(DEFAULT_MAP_SIZE);
     private int size = 0;
 
     public BlockState get(BlockPos p) {
-        Int2ObjectMap<Map<BlockPos,BlockState>> chunkSlice = cache.get(p.getX() >> CHUNK_SIZE);
+        Int2ObjectMap<Map<BlockPos, BlockState>> chunkSlice = cache.get(p.getX() >> CHUNK_SIZE);
         if (chunkSlice == null) return null;
 
-        Map<BlockPos,BlockState> chunk = chunkSlice.get(p.getZ() >> CHUNK_SIZE);
+        Map<BlockPos, BlockState> chunk = chunkSlice.get(p.getZ() >> CHUNK_SIZE);
         if (chunk == null) return null;
         return chunk.get(p);
     }
 
     public void put(BlockPos p, BlockState t) {
-        Int2ObjectMap<Map<BlockPos,BlockState>> chunkSlice = cache.get(p.getX() >> CHUNK_SIZE);
+        Int2ObjectMap<Map<BlockPos, BlockState>> chunkSlice = cache.get(p.getX() >> CHUNK_SIZE);
         if (chunkSlice == null) {
             chunkSlice = new Int2ObjectOpenHashMap<>(DEFAULT_MAP_SIZE);
             cache.put(p.getX() >> CHUNK_SIZE, chunkSlice);
         }
 
-        Map<BlockPos,BlockState> chunk = chunkSlice.get(p.getZ() >> CHUNK_SIZE);
+        Map<BlockPos, BlockState> chunk = chunkSlice.get(p.getZ() >> CHUNK_SIZE);
         if (chunk == null) {
             chunk = new HashMap<>(DEFAULT_HASHMAP_SIZE);
             chunkSlice.put(p.getZ() >> CHUNK_SIZE, chunk);
@@ -59,7 +61,7 @@ public class BlockCache {
                 continue;
             }
 
-            for (Int2ObjectMap.Entry<Map<BlockPos,BlockState>> mapEntry : cacheSlice.int2ObjectEntrySet()) {
+            for (Int2ObjectMap.Entry<Map<BlockPos, BlockState>> mapEntry : cacheSlice.int2ObjectEntrySet()) {
                 int zPos = mapEntry.getIntKey();
                 int oldZ = mapEntry.getValue().size();
                 int newZ = countSlice.get(zPos);
@@ -67,8 +69,7 @@ public class BlockCache {
                 if (newZ == 0) { //there was nothing sent in this chunk, so it can be purged entirely
                     purge(mapEntry.getValue(), onRemove);
                     cacheSlice.remove(zPos);
-                } else
-                if (newZ != oldZ) {
+                } else if (newZ != oldZ) {
                     Map<BlockPos, BlockState> map = mapEntry.getValue();
                     map.entrySet().removeIf((entry) -> {
                         BlockPos mapBlockPos = entry.getKey();
@@ -86,11 +87,11 @@ public class BlockCache {
         }
     }
 
-    private void purge(Int2ObjectMap<Map<BlockPos,BlockState>> v, BiConsumer<BlockPos, BlockState> onRemove) {
+    private void purge(Int2ObjectMap<Map<BlockPos, BlockState>> v, BiConsumer<BlockPos, BlockState> onRemove) {
         v.values().forEach((map) -> purge(map, onRemove));
     }
 
-    private void purge(Map<BlockPos,BlockState> v, BiConsumer<BlockPos, BlockState> onRemove) {
+    private void purge(Map<BlockPos, BlockState> v, BiConsumer<BlockPos, BlockState> onRemove) {
         size -= v.size();
         v.forEach(onRemove);
     }
@@ -98,6 +99,6 @@ public class BlockCache {
     public void purgeAll(BiConsumer<BlockPos, BlockState> onRemove) {
         cache.values().forEach((slice) -> purge(slice, onRemove));
         cache.clear();
-        size=0;
+        size = 0;
     }
 }

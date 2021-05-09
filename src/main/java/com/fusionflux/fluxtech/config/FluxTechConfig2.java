@@ -9,6 +9,19 @@ import me.shedaniel.autoconfig.serializer.JanksonConfigSerializer;
 
 @Config(name = FluxTech.MOD_ID)
 public class FluxTechConfig2 implements ConfigData {
+    @ConfigEntry.Gui.TransitiveObject
+    @ConfigEntry.Category("enabled")
+    public Enabled enabled = new Enabled();
+    @ConfigEntry.Gui.TransitiveObject
+    @ConfigEntry.Category("numbers")
+    public Numbers numbers = new Numbers();
+    @ConfigEntry.Gui.TransitiveObject
+    @ConfigEntry.Category("numbersblock")
+    public NumbersBlock numbersblock = new NumbersBlock();
+    @ConfigEntry.Gui.TransitiveObject
+    @ConfigEntry.Category("cloakingnumbers")
+    public CloakingNumbers cloakingNumbers = new CloakingNumbers();
+
     public static void register() {
         AutoConfig.register(FluxTechConfig2.class, JanksonConfigSerializer::new);
     }
@@ -20,22 +33,6 @@ public class FluxTechConfig2 implements ConfigData {
     public static void save() {
         AutoConfig.getConfigHolder(FluxTechConfig2.class).save();
     }
-
-    @ConfigEntry.Gui.TransitiveObject
-    @ConfigEntry.Category("enabled")
-    public Enabled enabled = new Enabled();
-
-    @ConfigEntry.Gui.TransitiveObject
-    @ConfigEntry.Category("numbers")
-    public Numbers numbers = new Numbers();
-
-    @ConfigEntry.Gui.TransitiveObject
-    @ConfigEntry.Category("numbersblock")
-    public NumbersBlock numbersblock = new NumbersBlock();
-
-    @ConfigEntry.Gui.TransitiveObject
-    @ConfigEntry.Category("cloakingnumbers")
-    public CloakingNumbers cloakingNumbers = new CloakingNumbers();
 
     public static class Enabled {
         public boolean enableHPD = true;

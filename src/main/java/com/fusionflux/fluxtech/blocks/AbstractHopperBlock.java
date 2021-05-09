@@ -13,7 +13,9 @@ import net.minecraft.stat.Stats;
 import net.minecraft.state.StateManager;
 import net.minecraft.state.property.BooleanProperty;
 import net.minecraft.state.property.Properties;
-import net.minecraft.util.*;
+import net.minecraft.util.ActionResult;
+import net.minecraft.util.Hand;
+import net.minecraft.util.ItemScatterer;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.BlockView;
@@ -21,6 +23,11 @@ import net.minecraft.world.World;
 
 public abstract class AbstractHopperBlock extends BlockWithEntity {
     public static final BooleanProperty ENABLED;
+
+    static {
+        ENABLED = Properties.ENABLED;
+    }
+
     protected final int distance;
 
     public AbstractHopperBlock(AbstractBlock.Settings settings, int distance) {
@@ -118,9 +125,5 @@ public abstract class AbstractHopperBlock extends BlockWithEntity {
     @Override
     public boolean canPathfindThrough(BlockState state, BlockView world, BlockPos pos, NavigationType type) {
         return false;
-    }
-
-    static {
-        ENABLED = Properties.ENABLED;
     }
 }

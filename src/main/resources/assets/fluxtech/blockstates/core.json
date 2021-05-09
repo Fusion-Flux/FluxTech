@@ -1,5 +1,7 @@
 {
   "variants": {
-    "": { "model": "fluxtech:block/core" }
+    "": {
+      "model": "fluxtech:block/core"
+    }
   }
 }

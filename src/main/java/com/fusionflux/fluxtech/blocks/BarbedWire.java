@@ -4,7 +4,6 @@ import net.minecraft.block.Block;
 import net.minecraft.block.BlockRenderType;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.item.ItemPlacementContext;
@@ -52,11 +51,11 @@ public class BarbedWire extends Block {
             if (!world.isClient && (entity.lastRenderX != entity.getX() || entity.lastRenderZ != entity.getZ())) {
                 double d = Math.abs(entity.getX() - entity.lastRenderX);
                 double e = Math.abs(entity.getZ() - entity.lastRenderZ);
-                if(entity.isSprinting()){
+                if (entity.isSprinting()) {
                     if (d >= 0.003000000026077032D || e >= 0.003000000026077032D) {
                         entity.damage(DamageSource.SWEET_BERRY_BUSH, 2.0F);
                     }
-                }else  if (d >= 0.003000000026077032D || e >= 0.003000000026077032D) {
+                } else if (d >= 0.003000000026077032D || e >= 0.003000000026077032D) {
                     entity.damage(DamageSource.SWEET_BERRY_BUSH, 1.0F);
                 }
             }

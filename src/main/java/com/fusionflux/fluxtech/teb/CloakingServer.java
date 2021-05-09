@@ -11,11 +11,11 @@ import java.util.Map;
 
 public class CloakingServer {
     private final MinecraftServer server;
+    private final Map<ServerPlayerEntity, PlayerManager> playerManagers = new HashMap<>();
+    private final FluxTechConfig2 config = AutoConfig.getConfigHolder(FluxTechConfig2.class).getConfig();
     private volatile boolean isServerActive = true;
     private long nextTick;
     private int tickCount;
-    private final Map<ServerPlayerEntity, PlayerManager> playerManagers = new HashMap<>();
-    private final FluxTechConfig2 config = AutoConfig.getConfigHolder(FluxTechConfig2.class).getConfig();
 
     public CloakingServer(MinecraftServer server) {
         this.server = server;
@@ -27,8 +27,9 @@ public class CloakingServer {
             long currentTime = System.currentTimeMillis();
             if (currentTime < nextTick) {
                 try {
-                    Thread.sleep(nextTick-currentTime);
-                } catch (InterruptedException ignored) { }
+                    Thread.sleep(nextTick - currentTime);
+                } catch (InterruptedException ignored) {
+                }
                 continue;
             }
             try {

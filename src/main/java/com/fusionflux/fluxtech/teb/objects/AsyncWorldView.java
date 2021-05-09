@@ -16,12 +16,24 @@ import java.util.Map;
 import java.util.Optional;
 
 public class AsyncWorldView {
-    private final Map<ChunkPos,Chunk> chunkCache = new HashMap<>();
-    private final ServerWorld world;
     private static final BlockState AIR = Blocks.AIR.getDefaultState();
+    private final Map<ChunkPos, Chunk> chunkCache = new HashMap<>();
+    private final ServerWorld world;
 
     public AsyncWorldView(ServerWorld world) {
         this.world = world;
+    }
+
+    public static Optional<Chunk> getChunkAsync(ServerWorld world, int x, int z) {
+        ServerChunkManagerInvoker chunkManager = (ServerChunkManagerInvoker) world.getChunkManager();
+        Either<Chunk, ChunkHolder.Unloaded> either = chunkManager.fluxtech$callGetChunkFuture(x, z, ChunkStatus.FULL, false).join();
+        return either.left();
+    }
+
+    public static BlockState getBlockAsync(ServerWorld world, BlockPos pos) {
+        Optional<Chunk> chunkOptional = getChunkAsync(world, pos.getX() >> 4, pos.getZ() >> 4);
+        if (!chunkOptional.isPresent()) return AIR;
+        return chunkOptional.get().getBlockState(pos);
     }
 
     public BlockState getBlock(BlockPos pos) {
@@ -49,17 +61,5 @@ public class AsyncWorldView {
             }
         }
         return chunk;
-    }
-
-    public static Optional<Chunk> getChunkAsync(ServerWorld world, int x, int z) {
-        ServerChunkManagerInvoker chunkManager = (ServerChunkManagerInvoker) world.getChunkManager();
-        Either<Chunk, ChunkHolder.Unloaded> either = chunkManager.fluxtech$callGetChunkFuture(x, z, ChunkStatus.FULL, false).join();
-        return either.left();
-    }
-
-    public static BlockState getBlockAsync(ServerWorld world, BlockPos pos) {
-        Optional<Chunk> chunkOptional = getChunkAsync(world, pos.getX() >> 4, pos.getZ() >> 4);
-        if (!chunkOptional.isPresent()) return AIR;
-        return chunkOptional.get().getBlockState(pos);
     }
 }

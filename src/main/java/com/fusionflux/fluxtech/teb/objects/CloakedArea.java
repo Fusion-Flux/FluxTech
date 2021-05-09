@@ -1,14 +1,9 @@
 package com.fusionflux.fluxtech.teb.objects;
 
-import com.fusionflux.fluxtech.blocks.entities.CloakingDeviceBlockEntity;
-import net.minecraft.util.math.*;
-
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.MathHelper;
 
-import java.util.List;
 import java.util.function.Consumer;
-import java.util.function.Function;
-import java.util.function.Supplier;
 
 public class CloakedArea {
     //Right is defined as the most positive point in whatever axis this is

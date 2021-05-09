@@ -32,10 +32,13 @@ import org.spongepowered.asm.mixin.gen.Accessor;
 public interface ChunkDeltaUpdateAccessor {
     @Accessor("sectionPos")
     void fluxtech$setSectionPos(ChunkSectionPos v);
+
     @Accessor("positions")
     void fluxtech$setPositions(short[] v);
+
     @Accessor("blockStates")
     void fluxtech$setBlockStates(BlockState[] v);
+
     @Accessor("field_26749")
     void fluxtech$setField_26749(boolean v);
 }

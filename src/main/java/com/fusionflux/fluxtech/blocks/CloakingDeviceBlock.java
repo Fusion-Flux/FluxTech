@@ -1,7 +1,6 @@
 package com.fusionflux.fluxtech.blocks;
 
 import com.fusionflux.fluxtech.blocks.entities.CloakingDeviceBlockEntity;
-import net.minecraft.block.Block;
 import net.minecraft.block.BlockRenderType;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.BlockWithEntity;

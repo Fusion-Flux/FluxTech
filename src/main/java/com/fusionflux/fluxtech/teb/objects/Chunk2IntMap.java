@@ -6,8 +6,8 @@ import it.unimi.dsi.fastutil.ints.Int2ObjectMap;
 import it.unimi.dsi.fastutil.ints.Int2ObjectOpenHashMap;
 import net.minecraft.util.math.BlockPos;
 
-import static com.fusionflux.fluxtech.teb.objects.BlockCache.DEFAULT_MAP_SIZE;
 import static com.fusionflux.fluxtech.teb.objects.BlockCache.CHUNK_SIZE;
+import static com.fusionflux.fluxtech.teb.objects.BlockCache.DEFAULT_MAP_SIZE;
 
 public class Chunk2IntMap {
     private final Int2ObjectMap<Int2IntMap> map = new Int2ObjectOpenHashMap<>(DEFAULT_MAP_SIZE);
@@ -25,7 +25,7 @@ public class Chunk2IntMap {
             map.put(p.getX() >> CHUNK_SIZE, chunkSlice);
         }
 
-        chunkSlice.put(p.getZ() >> CHUNK_SIZE, chunkSlice.get(p.getZ() >> CHUNK_SIZE)+1);
+        chunkSlice.put(p.getZ() >> CHUNK_SIZE, chunkSlice.get(p.getZ() >> CHUNK_SIZE) + 1);
         total++;
     }
 

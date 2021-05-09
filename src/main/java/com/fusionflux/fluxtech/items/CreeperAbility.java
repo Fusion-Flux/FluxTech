@@ -1,20 +1,12 @@
 package com.fusionflux.fluxtech.items;
 
-import com.fusionflux.fluxtech.config.FluxTechConfig2;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.projectile.FireballEntity;
-import net.minecraft.entity.projectile.ProjectileEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.ItemUsageContext;
-import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
 import net.minecraft.util.TypedActionResult;
-import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 import net.minecraft.world.explosion.Explosion;
-
-import java.util.Objects;
 
 public class CreeperAbility extends Item {
 
@@ -31,7 +23,6 @@ public class CreeperAbility extends Item {
         }
         return TypedActionResult.pass(user.getStackInHand(hand));
     }
-
 
 
 }

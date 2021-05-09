@@ -1,5 +1,7 @@
 {
   "variants": {
-    "": { "model": "fluxtech:block/node" }
+    "": {
+      "model": "fluxtech:block/node"
+    }
   }
 }

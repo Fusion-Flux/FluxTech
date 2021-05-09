@@ -2,17 +2,12 @@ package com.fusionflux.fluxtech.mixin;
 
 import com.fusionflux.fluxtech.accessor.PlayerEntityExtensions;
 import com.fusionflux.fluxtech.config.FluxTechConfig2;
-import com.fusionflux.fluxtech.delay.DelayedForLoop;
-import com.fusionflux.fluxtech.delay.DelayedForLoopManager;
-import com.fusionflux.fluxtech.effects.CustomEffects;
 import com.fusionflux.fluxtech.items.FluxTechItems;
 import com.fusionflux.fluxtech.util.FluxTechTags;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.Blocks;
-import net.minecraft.entity.*;
+import net.minecraft.entity.EntityType;
+import net.minecraft.entity.EquipmentSlot;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.damage.DamageSource;
-import net.minecraft.entity.decoration.EndCrystalEntity;
-import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.player.PlayerAbilities;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
@@ -20,9 +15,6 @@ import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.tag.FluidTags;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Box;
-import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 import org.objectweb.asm.Opcodes;
@@ -52,7 +44,6 @@ public abstract class PlayerEntityMixin extends LivingEntity implements PlayerEn
     private boolean DoCrunch = false;
 
 
-
     protected PlayerEntityMixin(EntityType<? extends LivingEntity> entityType, World world) {
         super(entityType, world);
         throw new AssertionError("FluxTech: Called constructor for PlayerEntityMixin!");
@@ -67,7 +58,7 @@ public abstract class PlayerEntityMixin extends LivingEntity implements PlayerEn
     @Inject(method = "isInvulnerableTo", at = @At("HEAD"), cancellable = true)
     public void isInvulnerableTo(DamageSource damageSource, CallbackInfoReturnable<Boolean> cir) {
         ItemStack itemStack5 = this.getEquippedStack(EquipmentSlot.FEET);
-        if (damageSource == DamageSource.FALL && (itemStack5.getItem().equals(FluxTechItems.GRAVITRONS) || (itemStack5.getItem().equals(FluxTechItems.SLIME_COATED_NETHERITE_BOOTS) /*|| itemStack5.getItem().equals(FluxTechItems.UNSTABLE_GRAVITRONS)*/)) ){
+        if (damageSource == DamageSource.FALL && (itemStack5.getItem().equals(FluxTechItems.GRAVITRONS) || (itemStack5.getItem().equals(FluxTechItems.SLIME_COATED_NETHERITE_BOOTS) /*|| itemStack5.getItem().equals(FluxTechItems.UNSTABLE_GRAVITRONS)*/))) {
             cir.setReturnValue(true);
         }
     }
@@ -88,13 +79,13 @@ public abstract class PlayerEntityMixin extends LivingEntity implements PlayerEn
         }
     }
 
-    @Inject(method="getFallSound", at = @At("HEAD"), cancellable = true)
-    protected void getFallSound(int distance, CallbackInfoReturnable<SoundEvent> cir){
+    @Inject(method = "getFallSound", at = @At("HEAD"), cancellable = true)
+    protected void getFallSound(int distance, CallbackInfoReturnable<SoundEvent> cir) {
         ItemStack itemFeet = this.getEquippedStack(EquipmentSlot.FEET);
-        if(itemFeet.getItem().equals(FluxTechItems.GRAVITRONS)){
+        if (itemFeet.getItem().equals(FluxTechItems.GRAVITRONS)) {
             cir.setReturnValue(SoundEvents.BLOCK_NETHERITE_BLOCK_FALL);
         }
-        if(itemFeet.getItem().equals(FluxTechItems.SLIME_COATED_NETHERITE_BOOTS)){
+        if (itemFeet.getItem().equals(FluxTechItems.SLIME_COATED_NETHERITE_BOOTS)) {
             cir.setReturnValue(SoundEvents.BLOCK_SLIME_BLOCK_PLACE);
         }
     }
@@ -105,7 +96,7 @@ public abstract class PlayerEntityMixin extends LivingEntity implements PlayerEn
         ItemStack itemStack5 = this.getEquippedStack(EquipmentSlot.FEET);
         if (!this.isOnGround() && (itemStack5.getItem().equals(FluxTechItems.GRAVITRONS) || (itemStack5.getItem().equals(FluxTechItems.SLIME_COATED_NETHERITE_BOOTS) /*|| itemStack5.getItem().equals(FluxTechItems.UNSTABLE_GRAVITRONS)*/))) {
 
-            if (this.getVelocity().y < fallSpeedMax &&this.getVelocity().y < 0 /*&& ((!this.isSneaking() && itemStack5.getItem().equals(FluxTechItems.SLIME_COATED_NETHERITE_BOOTS) || itemStack5.getItem().equals(FluxTechItems.GRAVITRONS)))*/) {
+            if (this.getVelocity().y < fallSpeedMax && this.getVelocity().y < 0 /*&& ((!this.isSneaking() && itemStack5.getItem().equals(FluxTechItems.SLIME_COATED_NETHERITE_BOOTS) || itemStack5.getItem().equals(FluxTechItems.GRAVITRONS)))*/) {
                 fallSpeedMax = Math.abs(this.getVelocity().y);
             }
             if (this.getVelocity().y < -1) {
@@ -124,35 +115,35 @@ public abstract class PlayerEntityMixin extends LivingEntity implements PlayerEn
                 }
             }
         } else {
-            if ((this.isSneaking() || this.isTouchingWater())&&itemStack5.getItem().equals(FluxTechItems.SLIME_COATED_NETHERITE_BOOTS)) {
+            if ((this.isSneaking() || this.isTouchingWater()) && itemStack5.getItem().equals(FluxTechItems.SLIME_COATED_NETHERITE_BOOTS)) {
                 fallSpeedMax = 0;
             }
         }
 
-            if (groundpound && itemStack5.getItem().equals(FluxTechItems.GRAVITRONS)) {
-                List<LivingEntity> listhurt = this.world.getEntitiesByClass(LivingEntity.class, this.getBoundingBox(), null);
-                listhurt.remove(this);
-                for (LivingEntity entity : listhurt) {
-                    DoCrunch=true;
-                    if (!this.world.isClient) {
-                        entity.damage(DamageSource.GENERIC, FluxTechConfig2.get().numbers.gravitronCrushDamage);
-                        world.playSound(null,this.getPos().getX(),this.getPos().getY(),this.getPos().getZ(),SoundEvents.ENTITY_TURTLE_EGG_CRACK, SoundCategory.NEUTRAL, 1, 1);
-                        world.playSound(null,this.getPos().getX(),this.getPos().getY(),this.getPos().getZ(),SoundEvents.BLOCK_HONEY_BLOCK_STEP, SoundCategory.NEUTRAL, 2, 1);
-                        break;
-                    }
-                }
-                if (DoCrunch) {
-                    this.setVelocity(this.getVelocity().x, fallSpeedMax / FluxTechConfig2.get().numbers.crushBounceMultiplier, this.getVelocity().z);
-                    groundpound = false;
-                    DoCrunch=false;
-                    fallSpeedMax = 0;
-                }
-                if ((this.isOnGround() || this.isFallFlying())&&!DoCrunch) {
-                    groundpound = false;
-                    fallSpeedMax = 0;
+        if (groundpound && itemStack5.getItem().equals(FluxTechItems.GRAVITRONS)) {
+            List<LivingEntity> listhurt = this.world.getEntitiesByClass(LivingEntity.class, this.getBoundingBox(), null);
+            listhurt.remove(this);
+            for (LivingEntity entity : listhurt) {
+                DoCrunch = true;
+                if (!this.world.isClient) {
+                    entity.damage(DamageSource.GENERIC, FluxTechConfig2.get().numbers.gravitronCrushDamage);
+                    world.playSound(null, this.getPos().getX(), this.getPos().getY(), this.getPos().getZ(), SoundEvents.ENTITY_TURTLE_EGG_CRACK, SoundCategory.NEUTRAL, 1, 1);
+                    world.playSound(null, this.getPos().getX(), this.getPos().getY(), this.getPos().getZ(), SoundEvents.BLOCK_HONEY_BLOCK_STEP, SoundCategory.NEUTRAL, 2, 1);
+                    break;
                 }
             }
+            if (DoCrunch) {
+                this.setVelocity(this.getVelocity().x, fallSpeedMax / FluxTechConfig2.get().numbers.crushBounceMultiplier, this.getVelocity().z);
+                groundpound = false;
+                DoCrunch = false;
+                fallSpeedMax = 0;
+            }
+            if ((this.isOnGround() || this.isFallFlying()) && !DoCrunch) {
+                groundpound = false;
+                fallSpeedMax = 0;
+            }
         }
+    }
 
     @ModifyVariable(method = "getBlockBreakingSpeed", at = @At(value = "JUMP", opcode = Opcodes.IFLE, ordinal = 0))
     public float getBlockBreakingSpeed(float f) {
@@ -162,7 +153,6 @@ public abstract class PlayerEntityMixin extends LivingEntity implements PlayerEn
         }
         return f;
     }
-
 
 
 }

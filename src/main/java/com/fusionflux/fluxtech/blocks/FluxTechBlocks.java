@@ -48,17 +48,15 @@ public class FluxTechBlocks {
     public static final UpperBlock JUPPER_BLOCK = new UpperBlock(FabricBlockSettings.copyOf(Blocks.HOPPER), 3);
 
     public static final CloakingDeviceBlock CLOAKING_DEVICE_BLOCK = new CloakingDeviceBlock(FabricBlockSettings.copyOf(Blocks.IRON_BLOCK));
-
+    public static final PointOfInterestType CLOAKING_DEVICE = PointOfInterestType.register(
+            "cloaking_device", PointOfInterestType.getAllStatesOf(CLOAKING_DEVICE_BLOCK), 0, 1
+    );
     public static BlockEntityType<StarCoreEntity> STAR_CORE_ENTITY;
     public static BlockEntityType<CloakingDeviceBlockEntity> CLOAKING_DEVICE_BLOCK_ENTITY;
     public static BlockEntityType<StorageNodeBlockEntity> STORAGE_NODE_BLOCK_ENTITY;
     public static BlockEntityType<StorageCoreBlockEntity> STORAGE_CORE_BLOCK_ENTITY;
     public static BlockEntityType<HopperBlockEntity> HOPPER_BLOCK_ENTITY;
     public static BlockEntityType<UpperBlockEntity> UPPER_BLOCK_ENTITY;
-
-    public static final PointOfInterestType CLOAKING_DEVICE = PointOfInterestType.register(
-            "cloaking_device", PointOfInterestType.getAllStatesOf(CLOAKING_DEVICE_BLOCK), 0, 1
-    );
 
     public static void registerBlocks() {
         if (FluxTechConfig2.get().enabled.enableEndurium) {

@@ -1,6 +1,5 @@
 package com.fusionflux.fluxtech.sound;
 
-import com.fusionflux.fluxtech.FluxTech;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;

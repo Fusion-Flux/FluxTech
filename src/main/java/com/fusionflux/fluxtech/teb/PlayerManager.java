@@ -24,8 +24,8 @@ public class PlayerManager {
     private final FluxTechConfig2 config;
     private final ServerPlayerEntity player;
     private final CloakManager cloakManager;
-    private BlockCache blockCache = new BlockCache();
     private final List<UUID> hiddenEntities = new ArrayList<>();
+    private BlockCache blockCache = new BlockCache();
     private ServerWorld previousWorld;
 
     public PlayerManager(ServerPlayerEntity player, FluxTechConfig2 config) {

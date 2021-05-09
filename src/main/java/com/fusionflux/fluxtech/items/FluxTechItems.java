@@ -31,7 +31,7 @@ public class FluxTechItems {
         if (FluxTechConfig2.get().enabled.enableAeroArmor)
             Registry.register(Registry.ITEM, new Identifier(FluxTech.MOD_ID, "aeroarmor"), AEROARMOR);
         if (FluxTechConfig2.get().enabled.enableSCNB)
-        Registry.register(Registry.ITEM, new Identifier(FluxTech.MOD_ID, "slime_coated_netherite_boots"), SLIME_COATED_NETHERITE_BOOTS);
+            Registry.register(Registry.ITEM, new Identifier(FluxTech.MOD_ID, "slime_coated_netherite_boots"), SLIME_COATED_NETHERITE_BOOTS);
         if (FluxTechConfig2.get().enabled.enableEndurium) {
             Registry.register(Registry.ITEM, new Identifier(FluxTech.MOD_ID, "melted_ender_pearl"), MELTEDPEARL);
             Registry.register(Registry.ITEM, new Identifier(FluxTech.MOD_ID, "endurium_bucket"), ENDURIUM_BUCKET);
