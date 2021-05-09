@@ -3,6 +3,7 @@ package com.fusionflux.fluxtech;
 import com.fusionflux.fluxtech.blocks.FluxTechBlocks;
 import com.fusionflux.fluxtech.config.FluxTechConfig2;
 import com.fusionflux.fluxtech.delay.DelayedForLoopManager;
+import com.fusionflux.fluxtech.dim.CloakDimension;
 import com.fusionflux.fluxtech.effects.CustomEffects;
 import com.fusionflux.fluxtech.items.FluxTechItems;
 import com.fusionflux.fluxtech.sound.FluxTechSounds;
@@ -34,7 +35,7 @@ public class FluxTech implements ModInitializer {
             DelayedForLoopManager.tick();
         });
         CloakingEvents.registerCloakingEvents();
-
+        CloakDimension.registerCloakedDimension();
     }
     /*
     private void processConfig() {

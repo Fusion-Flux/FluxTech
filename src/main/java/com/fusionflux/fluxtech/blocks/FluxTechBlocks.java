@@ -19,8 +19,11 @@ import net.minecraft.item.Item;
 import net.minecraft.tag.Tag;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
+import net.minecraft.world.poi.PointOfInterestType;
 
 public class FluxTechBlocks {
+
+    // public static Tag<Block> MY_TAG = TagRegistry.block(new Identifier("fluxtech", "hpd_deny_launch"));
 
     public static final FlowableFluid ENDURIUM = new Endurium.Source();
     public static final FlowableFluid ENDURIUM_FLOWING = new Endurium.Flowing();
@@ -44,13 +47,18 @@ public class FluxTechBlocks {
     public static final UpperBlock SKUPPER_BLOCK = new UpperBlock(FabricBlockSettings.copyOf(Blocks.HOPPER), 2);
     public static final UpperBlock JUPPER_BLOCK = new UpperBlock(FabricBlockSettings.copyOf(Blocks.HOPPER), 3);
 
-    // public static Tag<Block> MY_TAG = TagRegistry.block(new Identifier("fluxtech", "hpd_deny_launch"));
+    public static final CloakingDeviceBlock CLOAKING_DEVICE_BLOCK = new CloakingDeviceBlock(FabricBlockSettings.copyOf(Blocks.IRON_BLOCK));
 
     public static BlockEntityType<StarCoreEntity> STAR_CORE_ENTITY;
+    public static BlockEntityType<CloakingDeviceBlockEntity> CLOAKING_DEVICE_BLOCK_ENTITY;
     public static BlockEntityType<StorageNodeBlockEntity> STORAGE_NODE_BLOCK_ENTITY;
     public static BlockEntityType<StorageCoreBlockEntity> STORAGE_CORE_BLOCK_ENTITY;
     public static BlockEntityType<HopperBlockEntity> HOPPER_BLOCK_ENTITY;
     public static BlockEntityType<UpperBlockEntity> UPPER_BLOCK_ENTITY;
+
+    public static final PointOfInterestType CLOAKING_DEVICE = PointOfInterestType.register(
+            "cloaking_device", PointOfInterestType.getAllStatesOf(CLOAKING_DEVICE_BLOCK), 0, 1
+    );
 
     public static void registerBlocks() {
         if (FluxTechConfig2.get().enabled.enableEndurium) {
@@ -58,6 +66,7 @@ public class FluxTechBlocks {
             Registry.register(Registry.FLUID, new Identifier(FluxTech.MOD_ID, "endurium_flowing"), ENDURIUM_FLOWING);
             Registry.register(Registry.BLOCK, new Identifier(FluxTech.MOD_ID, "endurium_block"), ENDURIUM_BLOCK);
         }
+
         if (FluxTechConfig2.get().enabled.enableSmoothEndStone) {
             Registry.register(Registry.BLOCK, new Identifier(FluxTech.MOD_ID, "smooth_end_stone"), SMOOTH_END_STONE);
             Registry.register(Registry.ITEM, new Identifier(FluxTech.MOD_ID, "smooth_end_stone"), new BlockItem(SMOOTH_END_STONE, new Item.Settings().group(FluxTech.FLUXTECH_GROUP)));
@@ -68,6 +77,11 @@ public class FluxTechBlocks {
             Registry.register(Registry.BLOCK, new Identifier(FluxTech.MOD_ID, "smooth_end_stone_wall"), SMOOTH_END_STONE_WALL);
             Registry.register(Registry.ITEM, new Identifier(FluxTech.MOD_ID, "smooth_end_stone_wall"), new BlockItem(SMOOTH_END_STONE_WALL, new Item.Settings().group(FluxTech.FLUXTECH_GROUP)));
         }
+
+        CLOAKING_DEVICE_BLOCK_ENTITY = Registry.register(Registry.BLOCK_ENTITY_TYPE, new Identifier(FluxTech.MOD_ID, "cloaking_device_entity"), BlockEntityType.Builder.create(CloakingDeviceBlockEntity::new, CLOAKING_DEVICE_BLOCK).build(null));
+        Registry.register(Registry.BLOCK, new Identifier(FluxTech.MOD_ID, "cloaking_device"), CLOAKING_DEVICE_BLOCK);
+        Registry.register(Registry.ITEM, new Identifier(FluxTech.MOD_ID, "cloaking_device"), new BlockItem(CLOAKING_DEVICE_BLOCK, new Item.Settings().group(FluxTech.FLUXTECH_GROUP)));
+
 
         STORAGE_NODE_BLOCK_ENTITY = Registry.register(Registry.BLOCK_ENTITY_TYPE, new Identifier(FluxTech.MOD_ID, "locker_entity"), BlockEntityType.Builder.create(StorageNodeBlockEntity::new, STORAGE_NODE_BLOCK).build(null));
         Registry.register(Registry.BLOCK, new Identifier(FluxTech.MOD_ID, "node"), STORAGE_NODE_BLOCK);
@@ -107,7 +121,6 @@ public class FluxTechBlocks {
 
     public static Tag<Fluid> fluidTagRegister(String id) {
         return TagRegistry.fluid(new Identifier("c", id));
-
     }
 
 }

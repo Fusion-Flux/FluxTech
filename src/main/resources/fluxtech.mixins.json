@@ -6,13 +6,16 @@
   "mixins": [
     "ArmorItemMixin",
     "BlockMixin",
+    "ChunkDeltaUpdateAccessor",
     "EntityAccessor",
     "EntityMixin",
     "FluidBlockMixin",
     "HopperMixin",
     "ItemEntityMixin",
     "LavaFluidMixin",
-    "PlayerEntityMixin"
+    "PlayerEntityMixin",
+    "ServerChunkManagerInvoker",
+    "ServerPlayerEntityCloakMixin"
   ],
   "client": [
     "client.WorldRendererMixin"

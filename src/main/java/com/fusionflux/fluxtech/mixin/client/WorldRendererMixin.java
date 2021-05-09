@@ -1,6 +1,7 @@
 package com.fusionflux.fluxtech.mixin.client;
 
 import com.fusionflux.fluxtech.accessor.Hideable;
+import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.render.VertexConsumerProvider;
 import net.minecraft.client.render.WorldRenderer;
 import net.minecraft.client.util.math.MatrixStack;
@@ -16,7 +17,7 @@ public class WorldRendererMixin {
     private void hideEntity(Entity entity, double cameraX, double cameraY, double cameraZ, float tickDelta,
                             MatrixStack matrices, VertexConsumerProvider vertexConsumers, CallbackInfo info) {
         Hideable hideable = (Hideable) entity;
-        if (hideable.fluxtech$isHidden()) {
+        if (hideable.fluxtech$isHidden() && !MinecraftClient.getInstance().player.getPos().isInRange(entity.getPos(), 16)) {
             info.cancel();
         }
     }

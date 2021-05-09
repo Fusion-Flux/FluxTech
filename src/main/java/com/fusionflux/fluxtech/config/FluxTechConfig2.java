@@ -21,27 +21,6 @@ public class FluxTechConfig2 implements ConfigData {
         AutoConfig.getConfigHolder(FluxTechConfig2.class).save();
     }
 
-    public static class Enabled {
-        public boolean enableHPD = true;
-        public boolean enableAeroArmor = true;
-        public boolean enableGravitrons = true;
-        public boolean enableSCNB = true;
-        public boolean enableEndurium = true;
-        public boolean enableSmoothEndStone = true;
-    }
-    public static class Numbers {
-        public double hPDLaunchPower = 2;
-        public int hPDCooldown = 10;
-        public boolean hPDReturnsProjectiles = false;
-        public boolean enableHPDLaunchPreventer = true;
-        public double aeroarmorFlightBoost = 2;
-        public int gravitronCrushDamage = 30;
-        public double crushBounceMultiplier = 0.75;
-        public double slimeBounceMultiplier = 0.75;
-    }
-    public static class NumbersBlock {
-        public int enduriumTpRange = 64;
-    }
     @ConfigEntry.Gui.TransitiveObject
     @ConfigEntry.Category("enabled")
     public Enabled enabled = new Enabled();
@@ -53,5 +32,38 @@ public class FluxTechConfig2 implements ConfigData {
     @ConfigEntry.Gui.TransitiveObject
     @ConfigEntry.Category("numbersblock")
     public NumbersBlock numbersblock = new NumbersBlock();
+
+    @ConfigEntry.Gui.TransitiveObject
+    @ConfigEntry.Category("cloakingnumbers")
+    public CloakingNumbers cloakingNumbers = new CloakingNumbers();
+
+    public static class Enabled {
+        public boolean enableHPD = true;
+        public boolean enableAeroArmor = true;
+        public boolean enableGravitrons = true;
+        public boolean enableSCNB = true;
+        public boolean enableEndurium = true;
+        public boolean enableSmoothEndStone = true;
+    }
+
+    public static class Numbers {
+        public double hPDLaunchPower = 2;
+        public int hPDCooldown = 10;
+        public boolean hPDReturnsProjectiles = false;
+        public boolean enableHPDLaunchPreventer = true;
+        public double aeroarmorFlightBoost = 2;
+        public int gravitronCrushDamage = 30;
+        public double crushBounceMultiplier = 0.75;
+        public double slimeBounceMultiplier = 0.75;
+    }
+
+    public static class NumbersBlock {
+        public int enduriumTpRange = 64;
+    }
+
+    public static class CloakingNumbers {
+        public int cloakingRenderRadius = 10;
+        public int cloakingDepth = 16;
+    }
 }
 
