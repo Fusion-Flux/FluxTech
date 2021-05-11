@@ -14,6 +14,8 @@ import io.github.astrarre.util.v0.api.Id;
 import io.github.astrarre.util.v0.api.Val;
 import it.unimi.dsi.fastutil.ints.IntArrayList;
 import it.unimi.dsi.fastutil.ints.IntList;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 import org.jetbrains.annotations.Nullable;
 
 import net.minecraft.client.Mouse;
@@ -36,7 +38,7 @@ public class AScrollBar extends AAggregateDrawable implements Interactable {
      */
     public AScrollBar(ADrawable scrollbar, Val<Float> percentage, float height) {
         this(ENTRY, scrollbar, percentage, height);
-        //this.setBounds(Polygon.rectangle(40, 9));
+        this.setBounds(Polygon.rectangle(20, height));
     }
 
     protected AScrollBar(DrawableRegistry.@Nullable Entry id, ADrawable scrollbar, Val<Float> percentage, float height) {
@@ -50,7 +52,7 @@ public class AScrollBar extends AAggregateDrawable implements Interactable {
         super(entry, view);
         this.percentage = Val.ofFloat(view.getFloat("percentage"));
         this.height = view.getFloat("height");
-        IntList ids = view.get("drawable", NBTType.INT_ARRAY);
+        IntList ids = view.get("drawables", NBTType.INT_ARRAY);
         this.percentage.addListener((old, current) -> {
             float currentOffset = current * height;
             for(int id : ids) {
@@ -101,6 +103,12 @@ public class AScrollBar extends AAggregateDrawable implements Interactable {
     public boolean mouseDragged(RootContainer container, double mouseX, double mouseY, int button, double deltaX, double deltaY) {
         float deltaPercent = (float) (deltaY / this.scrollHeight); // rough approximation
         this.percentage.set(Math.min(Math.max(this.percentage.get() + deltaPercent, 0), 1));
+        return true;
+    }
+
+    @Override
+    public boolean mouseClicked(RootContainer container, double mouseX, double mouseY, int button) {
+        this.percentage.set((float)(mouseY/this.height));
         return true;
     }
 

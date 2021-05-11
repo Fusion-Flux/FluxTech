@@ -13,6 +13,7 @@ import io.github.astrarre.gui.v0.fabric.adapter.slot.APlayerSlot;
 import io.github.astrarre.gui.v0.fabric.adapter.slot.ASlot;
 import io.github.astrarre.networking.v0.api.network.NetworkMember;
 import io.github.astrarre.rendering.v0.api.Transformation;
+import io.github.astrarre.rendering.v0.api.util.Polygon;
 import io.github.astrarre.util.v0.api.Val;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.server.network.ServerPlayerEntity;
@@ -41,7 +42,7 @@ public class CoreGui {
         // we use the shortcut constructor to tell the beveled rectangle to fill up the entire centering panel
         center.add(new ABeveledRectangle(center));
 
-        AScrollBar scrollBar = new AScrollBar(new AButton(AButton.MEDIUM), Val.ofFloat(50), 165);
+        AScrollBar scrollBar = new AScrollBar(new AButton(AButton.MEDIUM), Val.ofFloat(0), 165);
         contentPanel.add(scrollBar);
 
 
