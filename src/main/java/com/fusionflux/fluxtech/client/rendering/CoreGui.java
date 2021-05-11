@@ -1,16 +1,19 @@
 package com.fusionflux.fluxtech.client.rendering;
 
 import com.fusionflux.fluxtech.blocks.entities.StorageCoreBlockEntity;
+import io.github.astrarre.gui.v0.api.ADrawable;
 import io.github.astrarre.gui.v0.api.RootContainer;
 import io.github.astrarre.gui.v0.api.base.panel.ACenteringPanel;
 import io.github.astrarre.gui.v0.api.base.panel.APanel;
 import io.github.astrarre.gui.v0.api.base.statik.ABeveledRectangle;
 import io.github.astrarre.gui.v0.api.base.statik.ADarkenedBackground;
+import io.github.astrarre.gui.v0.api.base.widgets.AButton;
 import io.github.astrarre.gui.v0.fabric.adapter.slot.ABlockEntityInventorySlot;
 import io.github.astrarre.gui.v0.fabric.adapter.slot.APlayerSlot;
 import io.github.astrarre.gui.v0.fabric.adapter.slot.ASlot;
 import io.github.astrarre.networking.v0.api.network.NetworkMember;
 import io.github.astrarre.rendering.v0.api.Transformation;
+import io.github.astrarre.util.v0.api.Val;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.server.network.ServerPlayerEntity;
 
@@ -22,6 +25,7 @@ public class CoreGui {
     public static void open(ServerPlayerEntity entity, StorageCoreBlockEntity blockEntity) {
         RootContainer.openC((NetworkMember) entity, container -> open(entity, container,blockEntity));
     }
+
 
     protected static void open(ServerPlayerEntity entity, RootContainer container, StorageCoreBlockEntity blockEntity) {
         // here's where our gui will be created
@@ -37,21 +41,13 @@ public class CoreGui {
         // we use the shortcut constructor to tell the beveled rectangle to fill up the entire centering panel
         center.add(new ABeveledRectangle(center));
 
+        AScrollBar scrollBar = new AScrollBar(new AButton(AButton.MEDIUM), Val.ofFloat(50), 165);
+        contentPanel.add(scrollBar);
 
 
         List<ASlot> hotbar = new ArrayList<>();
+        List<ASlot> core = new ArrayList<>();
 
-        for(int inventoryRow = 0; inventoryRow < blockEntity.size()/9; ++inventoryRow) {
-            for(int inventoryColumn = 0; inventoryColumn < 9; ++inventoryColumn) {
-                ASlot slot = new ABlockEntityInventorySlot<>(blockEntity, inventoryColumn + inventoryRow * 9);
-                slot.setTransformation(Transformation.translate(6 + inventoryColumn * 18, 15 + inventoryRow * 18, 0));
-                center.add(slot);
-                slot.linkAll(container, hotbar);
-                for (ASlot hotbarSlot : hotbar) {
-                    hotbarSlot.link(container, slot);
-                }
-            }
-        }
 
         for(int inventoryRow = 0; inventoryRow < 3; ++inventoryRow) {
             for(int inventoryColumn = 0; inventoryColumn < 9; ++inventoryColumn) {
@@ -69,6 +65,18 @@ public class CoreGui {
             slot.linkAll(container, hotbar);
             for (ASlot hotbarSlot : hotbar) {
                 hotbarSlot.link(container, slot);
+            }
+        }
+
+        for(int inventoryRow = 0; inventoryRow < blockEntity.size()/9; ++inventoryRow) {
+            for(int inventoryColumn = 0; inventoryColumn < 9; ++inventoryColumn) {
+                ASlot slot = new ABlockEntityInventorySlot<>(blockEntity, inventoryColumn + inventoryRow * 9);
+                slot.setTransformation(Transformation.translate(6 + inventoryColumn * 18, 15 + inventoryRow * 18, 0));
+                center.add(slot);
+                slot.linkAll(container, hotbar);
+                for (ASlot hotbarSlot : hotbar) {
+                    hotbarSlot.link(container, slot);
+                }
             }
         }
 
