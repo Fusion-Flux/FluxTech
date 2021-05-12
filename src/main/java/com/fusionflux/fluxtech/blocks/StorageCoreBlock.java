@@ -45,11 +45,10 @@ public class StorageCoreBlock extends BlockWithEntity implements BlockEntityProv
 
     @Override
     public ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockHitResult hit) {
-        PlayerEntity entity = player;
-        if (!world.isClient && entity != null) {
+        if (!world.isClient && player != null) {
             StorageCoreBlockEntity blockEntity = (StorageCoreBlockEntity) world.getBlockEntity(pos);
             if (blockEntity != null) {
-                CoreGui.open((ServerPlayerEntity) entity, blockEntity);
+                CoreGui.open((ServerPlayerEntity) player, blockEntity);
             }
         }
         return ActionResult.SUCCESS;

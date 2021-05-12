@@ -1,11 +1,14 @@
 package com.fusionflux.fluxtech.client.rendering;
 
 import com.fusionflux.fluxtech.blocks.entities.StorageCoreBlockEntity;
+import com.fusionflux.fluxtech.blocks.entities.StorageNodeBlockEntity;
 import io.github.astrarre.gui.v0.api.RootContainer;
 import io.github.astrarre.gui.v0.api.base.panel.ACenteringPanel;
 import io.github.astrarre.gui.v0.api.base.panel.APanel;
 import io.github.astrarre.gui.v0.api.base.statik.ABeveledRectangle;
 import io.github.astrarre.gui.v0.api.base.statik.ADarkenedBackground;
+import io.github.astrarre.gui.v0.api.base.widgets.AButton;
+import io.github.astrarre.gui.v0.api.base.widgets.ATextFieldWidget;
 import io.github.astrarre.gui.v0.fabric.adapter.slot.ABlockEntityInventorySlot;
 import io.github.astrarre.gui.v0.fabric.adapter.slot.APlayerSlot;
 import io.github.astrarre.gui.v0.fabric.adapter.slot.ASlot;
@@ -17,6 +20,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class CoreGui {
+    private static List<ASlot> nodeSlots;
+    private static int currentInv;
 
     public static void open(ServerPlayerEntity entity, StorageCoreBlockEntity blockEntity) {
         RootContainer.openC((NetworkMember) entity, container -> open(entity, container, blockEntity));
@@ -37,19 +42,33 @@ public class CoreGui {
         center.add(new ABeveledRectangle(center));
 
 
-        List<ASlot> hotbar = new ArrayList<>();
 
-        for (int inventoryRow = 0; inventoryRow < blockEntity.size() / 9; ++inventoryRow) {
-            for (int inventoryColumn = 0; inventoryColumn < 9; ++inventoryColumn) {
-                ASlot slot = new ABlockEntityInventorySlot<>(blockEntity, inventoryColumn + inventoryRow * 9);
-                slot.setTransformation(Transformation.translate(6 + inventoryColumn * 18, 15 + inventoryRow * 18, 0));
-                center.add(slot);
-                slot.linkAll(container, hotbar);
-                for (ASlot hotbarSlot : hotbar) {
-                    hotbarSlot.link(container, slot);
-                }
+        // Add a button to get the next node
+        AButton nextButton = new AButton(AButton.ARROW_RIGHT);
+        nextButton.setTransformation(Transformation.translate(163, 4, 0));
+        nextButton.onPress(() -> {
+            ++currentInv;
+            if (currentInv < 0 || currentInv >= blockEntity.connectedNodes.size()) {
+                currentInv = 0;
             }
-        }
+            updateSlots(center, blockEntity);
+        });
+        center.add(nextButton);
+        // Add a button to get the previous node
+        AButton prevButton = new AButton(AButton.ARROW_LEFT);
+        prevButton.setTransformation(Transformation.translate(156, 4, 0));
+        prevButton.onPress(() -> {
+            --currentInv;
+            if (currentInv < 0 || currentInv >= blockEntity.connectedNodes.size()) {
+                currentInv = blockEntity.connectedNodes.size() - 1;
+            }
+            updateSlots(center, blockEntity);
+        });
+        center.add(prevButton);
+
+        List<ASlot> hotbar = new ArrayList<>();
+        nodeSlots = new ArrayList<>();
+        updateSlots(center, blockEntity);
 
         for (int inventoryRow = 0; inventoryRow < 3; ++inventoryRow) {
             for (int inventoryColumn = 0; inventoryColumn < 9; ++inventoryColumn) {
@@ -69,7 +88,23 @@ public class CoreGui {
                 hotbarSlot.link(container, slot);
             }
         }
+    }
 
+    private static void updateSlots(ACenteringPanel center, StorageCoreBlockEntity core) {
+        nodeSlots.forEach(center::remove);
+        nodeSlots.forEach(center::removeClient);
+        nodeSlots.clear();
+        StorageNodeBlockEntity be = core.getNode(currentInv * 27);
 
+        if (be != null) {
+            for (int inventoryRow = 0; inventoryRow < be.size() / 9; ++inventoryRow) {
+                for (int inventoryColumn = 0; inventoryColumn < 9; ++inventoryColumn) {
+                    ASlot slot = new ABlockEntityInventorySlot<>(be, inventoryColumn + inventoryRow * 9);
+                    slot.setTransformation(Transformation.translate(6 + inventoryColumn * 18, 15 + inventoryRow * 18, 0));
+                    center.add(slot);
+                    nodeSlots.add(slot);
+                }
+            }
+        }
     }
 }

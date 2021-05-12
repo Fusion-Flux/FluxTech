@@ -21,7 +21,6 @@ import java.util.List;
 public class StorageCoreBlockEntity extends BlockEntity implements Inventory, Nameable, BlockEntityClientSerializable {
 
     public final List<BlockPos> connectedNodes = new ArrayList<>();
-    //private DefaultedList<ItemStack> items = DefaultedList.ofSize(27, ItemStack.EMPTY);
 
     public StorageCoreBlockEntity() {
         super(FluxTechBlocks.STORAGE_CORE_BLOCK_ENTITY);
@@ -127,12 +126,13 @@ public class StorageCoreBlockEntity extends BlockEntity implements Inventory, Na
         return new TranslatableText("container.core");
     }
 
-    private @Nullable Inventory getInventory(int slot) {
+    @SuppressWarnings("ConstantConditions")
+    public @Nullable StorageNodeBlockEntity getNode(int slot) {
         if (slot < this.connectedNodes.size() * 27) {
             BlockEntity blockEntity = this.world.getBlockEntity(this.connectedNodes.get(slot / 27));
 
-            if (blockEntity instanceof Inventory) {
-                return (Inventory) blockEntity;
+            if (blockEntity instanceof StorageNodeBlockEntity) {
+                return (StorageNodeBlockEntity) blockEntity;
             }
         }
 
@@ -147,7 +147,7 @@ public class StorageCoreBlockEntity extends BlockEntity implements Inventory, Na
     @Override
     public boolean isEmpty() {
         for (int i = 0; i < this.connectedNodes.size(); ++i) {
-            Inventory child = this.getInventory(i);
+            Inventory child = this.getNode(i);
             if (child != null && !child.isEmpty()) {
                 return false;
             }
@@ -158,25 +158,25 @@ public class StorageCoreBlockEntity extends BlockEntity implements Inventory, Na
 
     @Override
     public ItemStack getStack(int slot) {
-        Inventory child = this.getInventory(slot);
+        Inventory child = this.getNode(slot);
         return child == null ? ItemStack.EMPTY : child.getStack(slot % 27);
     }
 
     @Override
     public ItemStack removeStack(int slot, int amount) {
-        Inventory child = this.getInventory(slot);
+        Inventory child = this.getNode(slot);
         return child == null ? ItemStack.EMPTY : child.removeStack(slot % 27, amount);
     }
 
     @Override
     public ItemStack removeStack(int slot) {
-        Inventory child = this.getInventory(slot);
+        Inventory child = this.getNode(slot);
         return child == null ? ItemStack.EMPTY : child.removeStack(slot % 27);
     }
 
     @Override
     public void setStack(int slot, ItemStack stack) {
-        Inventory child = this.getInventory(slot);
+        Inventory child = this.getNode(slot);
         if (child != null) {
             child.setStack(slot % 27, stack);
         }
@@ -190,7 +190,7 @@ public class StorageCoreBlockEntity extends BlockEntity implements Inventory, Na
     @Override
     public void clear() {
         for (int i = 0; i < this.connectedNodes.size(); ) {
-            Inventory child = this.getInventory(i);
+            Inventory child = this.getNode(i);
             if (child != null) {
                 child.clear();
             }
