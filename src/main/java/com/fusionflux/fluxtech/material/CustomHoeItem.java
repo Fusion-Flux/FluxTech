@@ -1,6 +1,5 @@
 package com.fusionflux.fluxtech.material;
 
-import net.minecraft.item.AxeItem;
 import net.minecraft.item.HoeItem;
 import net.minecraft.item.ToolMaterial;
 

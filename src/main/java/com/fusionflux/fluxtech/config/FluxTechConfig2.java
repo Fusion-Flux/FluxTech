@@ -9,6 +9,16 @@ import me.shedaniel.autoconfig.serializer.JanksonConfigSerializer;
 
 @Config(name = FluxTech.MOD_ID)
 public class FluxTechConfig2 implements ConfigData {
+    @ConfigEntry.Gui.TransitiveObject
+    @ConfigEntry.Category("enabled")
+    public Enabled enabled = new Enabled();
+    @ConfigEntry.Gui.TransitiveObject
+    @ConfigEntry.Category("numbers")
+    public Numbers numbers = new Numbers();
+    @ConfigEntry.Gui.TransitiveObject
+    @ConfigEntry.Category("numbersblock")
+    public NumbersBlock numbersblock = new NumbersBlock();
+
     public static void register() {
         AutoConfig.register(FluxTechConfig2.class, JanksonConfigSerializer::new);
     }
@@ -29,6 +39,7 @@ public class FluxTechConfig2 implements ConfigData {
         public boolean enableEndurium = true;
         public boolean enableSmoothEndStone = true;
     }
+
     public static class Numbers {
         public double hPDLaunchPower = 2;
         public int hPDCooldown = 10;
@@ -39,19 +50,9 @@ public class FluxTechConfig2 implements ConfigData {
         public double crushBounceMultiplier = 0.75;
         public double slimeBounceMultiplier = 0.75;
     }
+
     public static class NumbersBlock {
         public int enduriumTpRange = 64;
     }
-    @ConfigEntry.Gui.TransitiveObject
-    @ConfigEntry.Category("enabled")
-    public Enabled enabled = new Enabled();
-
-    @ConfigEntry.Gui.TransitiveObject
-    @ConfigEntry.Category("numbers")
-    public Numbers numbers = new Numbers();
-
-    @ConfigEntry.Gui.TransitiveObject
-    @ConfigEntry.Category("numbersblock")
-    public NumbersBlock numbersblock = new NumbersBlock();
 }
 

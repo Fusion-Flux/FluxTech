@@ -1,6 +1,5 @@
 package com.fusionflux.fluxtech.client.rendering;
 
-import com.fusionflux.fluxtech.FluxTech;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.Inventory;
@@ -15,13 +14,13 @@ public class BoxScreenHandler extends ScreenHandler {
     //This constructor gets called on the client when the server wants it to open the screenHandler,
     //The client will call the other constructor with an empty Inventory and the screenHandler will automatically
     //sync this empty inventory with the inventory on the server.
-    public BoxScreenHandler(int syncId, PlayerInventory playerInventory,int rows) {
-        this(syncId, playerInventory, new SimpleInventory(rows),rows);
+    public BoxScreenHandler(int syncId, PlayerInventory playerInventory, int rows) {
+        this(syncId, playerInventory, new SimpleInventory(rows), rows);
     }
 
     //This constructor gets called from the BlockEntity on the server without calling the other constructor first, the server knows the inventory of the container
     //and can therefore directly provide it as an argument. This inventory will then be synced to the client.
-    public BoxScreenHandler(int syncId, PlayerInventory playerInventory, Inventory inventory,int rows) {
+    public BoxScreenHandler(int syncId, PlayerInventory playerInventory, Inventory inventory, int rows) {
         super(null, syncId);
         checkSize(inventory, inventory.size());
         this.inventory = inventory;
@@ -34,7 +33,7 @@ public class BoxScreenHandler extends ScreenHandler {
         int m;
         int l;
         //Our inventory
-        for (m = 0; m < inventory.size()/9; ++m) {
+        for (m = 0; m < inventory.size() / 9; ++m) {
             for (l = 0; l < 9; ++l) {
                 this.addSlot(new Slot(inventory, l + m * 3, 8 + l * 18, 17 + m * 18));
             }

@@ -1,13 +1,8 @@
 package com.fusionflux.fluxtech.items;
 
 import com.fusionflux.fluxtech.FluxTech;
-import com.fusionflux.fluxtech.accessor.PlayerEntityExtensions;
 import com.fusionflux.fluxtech.blocks.FluxTechBlocks;
-import com.fusionflux.fluxtech.config.FluxTechConfig;
 import com.fusionflux.fluxtech.config.FluxTechConfig2;
-import com.fusionflux.fluxtech.material.CustomAxeItem;
-import com.fusionflux.fluxtech.material.CustomHoeItem;
-import com.fusionflux.fluxtech.material.CustomPickaxeItem;
 import com.fusionflux.fluxtech.material.LapisMaterial;
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
 import net.minecraft.entity.EquipmentSlot;
@@ -30,8 +25,6 @@ public class FluxTechItems {
     public static final Item MELTEDPEARL = new Item(new FabricItemSettings().group(FluxTech.FLUXTECH_GROUP).maxCount(16));
 
 
-
-
     public static final Item ENDURIUM_BUCKET = new BucketItem(FluxTechBlocks.ENDURIUM, new Item.Settings()
             .recipeRemainder(Items.BUCKET).maxCount(1).group(FluxTech.FLUXTECH_GROUP));
 
@@ -43,7 +36,7 @@ public class FluxTechItems {
         if (FluxTechConfig2.get().enabled.enableAeroArmor)
             Registry.register(Registry.ITEM, new Identifier(FluxTech.MOD_ID, "aeroarmor"), AEROARMOR);
         if (FluxTechConfig2.get().enabled.enableSCNB)
-        Registry.register(Registry.ITEM, new Identifier(FluxTech.MOD_ID, "slime_coated_netherite_boots"), SLIME_COATED_NETHERITE_BOOTS);
+            Registry.register(Registry.ITEM, new Identifier(FluxTech.MOD_ID, "slime_coated_netherite_boots"), SLIME_COATED_NETHERITE_BOOTS);
         if (FluxTechConfig2.get().enabled.enableEndurium) {
             Registry.register(Registry.ITEM, new Identifier(FluxTech.MOD_ID, "melted_ender_pearl"), MELTEDPEARL);
             Registry.register(Registry.ITEM, new Identifier(FluxTech.MOD_ID, "endurium_bucket"), ENDURIUM_BUCKET);

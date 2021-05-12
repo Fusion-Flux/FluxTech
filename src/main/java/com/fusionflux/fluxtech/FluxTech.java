@@ -3,32 +3,22 @@ package com.fusionflux.fluxtech;
 //import com.fusionflux.fluxtech.config.FluxTechConfig;
 
 import com.fusionflux.fluxtech.blocks.FluxTechBlocks;
-import com.fusionflux.fluxtech.client.rendering.BoxScreen;
-import com.fusionflux.fluxtech.client.rendering.BoxScreenHandler;
 import com.fusionflux.fluxtech.config.FluxTechConfig;
 import com.fusionflux.fluxtech.config.FluxTechConfig2;
 import com.fusionflux.fluxtech.delay.DelayedForLoopManager;
 import com.fusionflux.fluxtech.effects.CustomEffects;
 import com.fusionflux.fluxtech.items.FluxTechItems;
 import com.fusionflux.fluxtech.sound.FluxTechSounds;
-//import com.oroarmor.util.config.ConfigItemGroup;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.client.itemgroup.FabricItemGroupBuilder;
-import net.fabricmc.fabric.api.client.screenhandler.v1.ScreenRegistry;
-import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents;
-import net.fabricmc.fabric.api.screenhandler.v1.ScreenHandlerRegistry;
-import net.minecraft.block.Blocks;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
-import net.minecraft.screen.ScreenHandlerType;
 import net.minecraft.util.Identifier;
-import org.apache.logging.log4j.Level;
 
 public class FluxTech implements ModInitializer {
 
     public static final FluxTechConfig CONFIG = new FluxTechConfig();
-
 
 
     public static final String MOD_ID = "fluxtech";
@@ -39,8 +29,8 @@ public class FluxTech implements ModInitializer {
             new Identifier("fluxtech", "general"),
             () -> new ItemStack(FluxTechItems.HANDHELD_PROPULSION_DEVICE));
 
-    static{
-       // BOX_SCREEN_HANDLER = ScreenHandlerRegistry.registerSimple(new Identifier(MOD_ID, "core"), BoxScreenHandler::new);
+    static {
+        // BOX_SCREEN_HANDLER = ScreenHandlerRegistry.registerSimple(new Identifier(MOD_ID, "core"), BoxScreenHandler::new);
     }
 
     @Override

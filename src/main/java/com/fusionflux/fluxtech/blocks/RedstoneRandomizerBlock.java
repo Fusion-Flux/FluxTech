@@ -16,6 +16,10 @@ import java.util.Random;
 public class RedstoneRandomizerBlock extends RedstoneBlock {
     public static final IntProperty POWER;
 
+    static {
+        POWER = Properties.POWER;
+    }
+
     public RedstoneRandomizerBlock(Settings settings) {
         super(settings);
     }
@@ -35,9 +39,5 @@ public class RedstoneRandomizerBlock extends RedstoneBlock {
     protected void appendProperties(StateManager.Builder<Block, BlockState> builder) {
         super.appendProperties(builder);
         builder.add(POWER);
-    }
-
-    static {
-        POWER = Properties.POWER;
     }
 }

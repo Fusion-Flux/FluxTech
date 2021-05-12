@@ -22,6 +22,7 @@ public class DraconicFlamethrower extends Item {
         super(settings);
 
     }
+
     @Override
     public TypedActionResult<ItemStack> use(World world, PlayerEntity user, Hand hand) {
         Vec3d vec3d = user.getVelocity();
@@ -47,7 +48,7 @@ public class DraconicFlamethrower extends Item {
         double h = g;
         BlockPos.Mutable mutable = new BlockPos.Mutable(j, g, b);
 
-        while(user.world.isAir(mutable)) {
+        while (user.world.isAir(mutable)) {
             --h;
             if (h < 0.0D) {
                 h = g;
@@ -57,7 +58,7 @@ public class DraconicFlamethrower extends Item {
             mutable.set(j, h, b);
         }
 
-        h = (double)(MathHelper.floor(h) + 1);
+        h = MathHelper.floor(h) + 1;
         this.field_7051 = new AreaEffectCloudEntity(user.world, j, h, b);
         this.field_7051.setOwner(user);
         this.field_7051.setRadius(5.0F);
