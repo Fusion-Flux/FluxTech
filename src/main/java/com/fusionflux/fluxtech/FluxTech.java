@@ -17,25 +17,15 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.Identifier;
 
 public class FluxTech implements ModInitializer {
-
     public static final FluxTechConfig CONFIG = new FluxTechConfig();
-
-
     public static final String MOD_ID = "fluxtech";
-
-    //public static final ScreenHandlerType<BoxScreenHandler> BOX_SCREEN_HANDLER;
 
     public static final ItemGroup FLUXTECH_GROUP = FabricItemGroupBuilder.build(
             new Identifier("fluxtech", "general"),
             () -> new ItemStack(FluxTechItems.HANDHELD_PROPULSION_DEVICE));
 
-    static {
-        // BOX_SCREEN_HANDLER = ScreenHandlerRegistry.registerSimple(new Identifier(MOD_ID, "core"), BoxScreenHandler::new);
-    }
-
     @Override
     public void onInitialize() {
-        //ScreenRegistry.register(FluxTech.BOX_SCREEN_HANDLER, BoxScreen::new);
         //processConfig();
         FluxTechConfig2.register();
         CustomEffects.registerEffects();
@@ -47,9 +37,11 @@ public class FluxTech implements ModInitializer {
         });
 
     }
-   /* private void processConfig() {
+    /*
+    private void processConfig() {
         CONFIG.readConfigFromFile();
 
         ServerLifecycleEvents.SERVER_STOPPED.register(l -> CONFIG.saveConfigToFile());
-    }*/
+    }
+    */
 }

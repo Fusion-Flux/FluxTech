@@ -45,7 +45,6 @@ public class StorageCoreBlockEntity extends BlockEntity implements Inventory, Na
         }
 
         if (this.world != null) {
-            //    if (!this.world.isClient) {
             StorageNodeBlockEntity node;
             for (BlockPos locker : connectedNodes) {
                 node = (StorageNodeBlockEntity) this.world.getBlockEntity(locker);
@@ -55,7 +54,6 @@ public class StorageCoreBlockEntity extends BlockEntity implements Inventory, Na
             }
             connectedNodes.clear();
             updateNearbyNodes();
-            //  }
         }
     }
 
@@ -75,7 +73,6 @@ public class StorageCoreBlockEntity extends BlockEntity implements Inventory, Na
     @Override
     public void markRemoved() {
         if (this.world != null) {
-            //if (!this.world.isClient) {
             if (!this.removed) {
                 if (!connectedNodes.isEmpty()) {
                     for (BlockPos nodes : this.connectedNodes) {
@@ -86,7 +83,6 @@ public class StorageCoreBlockEntity extends BlockEntity implements Inventory, Na
                         }
                     }
                 }
-                //  }
             }
         }
         this.removed = true;
@@ -95,29 +91,18 @@ public class StorageCoreBlockEntity extends BlockEntity implements Inventory, Na
     @Override
     public void fromTag(BlockState state, CompoundTag tag) {
         super.fromTag(state, tag);
-        //Inventories.fromTag(tag, items);
         int size = tag.getInt("size");
+        long[] poslist = tag.getLongArray("poslist");
         for (int i = 0; i < size; i++) {
-            connectedNodes.add(new BlockPos(
-                    tag.getInt(i + "nodex"),
-                    tag.getInt(i + "nodey"),
-                    tag.getInt(i + "nodez")
-            ));
+            connectedNodes.add(BlockPos.fromLong(poslist[i]));
         }
-
     }
 
     @Override
     public CompoundTag toTag(CompoundTag tag) {
         super.toTag(tag);
-        //Inventories.toTag(tag,items);
         tag.putInt("size", connectedNodes.size());
-        for (int i = 0; i < connectedNodes.size(); i++) {
-            tag.putInt(i + "nodex", connectedNodes.get(i).getX());
-            tag.putInt(i + "nodey", connectedNodes.get(i).getY());
-            tag.putInt(i + "nodez", connectedNodes.get(i).getZ());
-        }
-
+        tag.putLongArray("poslist", connectedNodes.stream().mapToLong(BlockPos::asLong).toArray());
         return tag;
     }
 

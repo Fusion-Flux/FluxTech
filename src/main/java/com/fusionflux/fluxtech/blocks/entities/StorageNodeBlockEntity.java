@@ -17,7 +17,6 @@ import net.minecraft.util.Nameable;
 import net.minecraft.util.collection.DefaultedList;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
-import net.minecraft.world.World;
 
 import java.util.HashSet;
 
@@ -46,7 +45,6 @@ public class StorageNodeBlockEntity extends BlockEntity implements ImplementedIn
         }
         this.removed = true;
     }
-
 
     public void checkConnections() {
         StorageCoreBlockEntity core;
@@ -77,7 +75,6 @@ public class StorageNodeBlockEntity extends BlockEntity implements ImplementedIn
             }
         }
     }
-
 
     public void updateNearbyBlocks() {
         StorageCoreBlockEntity core;
@@ -139,7 +136,6 @@ public class StorageNodeBlockEntity extends BlockEntity implements ImplementedIn
 
         return tag;
     }
-
 
     @Override
     public Text getName() {
