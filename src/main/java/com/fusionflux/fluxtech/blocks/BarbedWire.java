@@ -53,10 +53,10 @@ public class BarbedWire extends Block {
                 double e = Math.abs(entity.getZ() - entity.lastRenderZ);
                 if (entity.isSprinting()) {
                     if (d >= 0.003000000026077032D || e >= 0.003000000026077032D) {
-                        entity.damage(DamageSource.SWEET_BERRY_BUSH, 2.0F);
+                        entity.damage(DamageSource.CACTUS, 2.0F);
                     }
                 } else if (d >= 0.003000000026077032D || e >= 0.003000000026077032D) {
-                    entity.damage(DamageSource.SWEET_BERRY_BUSH, 1.0F);
+                    entity.damage(DamageSource.CACTUS, 1.0F);
                 }
             }
 

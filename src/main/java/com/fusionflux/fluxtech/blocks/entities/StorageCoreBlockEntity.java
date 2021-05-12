@@ -1,33 +1,21 @@
 package com.fusionflux.fluxtech.blocks.entities;
 
 import com.fusionflux.fluxtech.blocks.FluxTechBlocks;
-import com.fusionflux.fluxtech.blocks.StorageNodeBlock;
-import com.fusionflux.fluxtech.blocks.inventory.ImplementedInventory;
-import com.fusionflux.fluxtech.blocks.inventory.MultiInventory;
-import com.fusionflux.fluxtech.client.rendering.BoxScreenHandler;
 import net.fabricmc.fabric.api.block.entity.BlockEntityClientSerializable;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.player.PlayerInventory;
-import net.minecraft.inventory.Inventories;
 import net.minecraft.inventory.Inventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.screen.GenericContainerScreenHandler;
-import net.minecraft.screen.NamedScreenHandlerFactory;
-import net.minecraft.screen.ScreenHandler;
 import net.minecraft.text.Text;
 import net.minecraft.text.TranslatableText;
 import net.minecraft.util.Nameable;
-import net.minecraft.util.collection.DefaultedList;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.LinkedList;
 import java.util.List;
 
 public class StorageCoreBlockEntity extends BlockEntity implements Inventory, Nameable, BlockEntityClientSerializable {
@@ -39,13 +27,13 @@ public class StorageCoreBlockEntity extends BlockEntity implements Inventory, Na
         super(FluxTechBlocks.STORAGE_CORE_BLOCK_ENTITY);
     }
 
-    public void addNewNodes(BlockPos nodeBlockPos){
-        if(this.world!=null) {
-          //  if (!this.world.isClient) {
-                if(!connectedNodes.contains(nodeBlockPos)) {
-                    connectedNodes.add(nodeBlockPos);
-                }
-        //    }
+    public void addNewNodes(BlockPos nodeBlockPos) {
+        if (this.world != null) {
+            //   if (!this.world.isClient) {
+            if (!connectedNodes.contains(nodeBlockPos)) {
+                connectedNodes.add(nodeBlockPos);
+            }
+            //    }
         }
     }
 
@@ -58,26 +46,26 @@ public class StorageCoreBlockEntity extends BlockEntity implements Inventory, Na
         }
 
         if (this.world != null) {
-           // if (!this.world.isClient) {
-                StorageNodeBlockEntity node;
-                for (BlockPos locker : connectedNodes) {
-                    node = (StorageNodeBlockEntity) this.world.getBlockEntity(locker);
-                    if(node!=null) {
-                        node.setConnectedCore();
-                    }
+            //    if (!this.world.isClient) {
+            StorageNodeBlockEntity node;
+            for (BlockPos locker : connectedNodes) {
+                node = (StorageNodeBlockEntity) this.world.getBlockEntity(locker);
+                if (node != null) {
+                    node.setConnectedCore();
                 }
-                connectedNodes.clear();
-                updateNearbyNodes();
-         //   }
+            }
+            connectedNodes.clear();
+            updateNearbyNodes();
+            //  }
         }
     }
 
-    public void updateNearbyNodes(){
+    public void updateNearbyNodes() {
         StorageNodeBlockEntity node;
         for (Direction offsetdir : Direction.values()) {
             if (this.world.getBlockState(this.getPos().offset(offsetdir)).getBlock().equals(FluxTechBlocks.STORAGE_NODE_BLOCK)) {
                 node = (StorageNodeBlockEntity) this.world.getBlockEntity(new BlockPos(this.getPos().getX(), this.getPos().getY(), this.getPos().getZ()).offset(offsetdir));
-                if(node!=null) {
+                if (node != null) {
                     node.checkConnections();
                 }
 
@@ -88,19 +76,19 @@ public class StorageCoreBlockEntity extends BlockEntity implements Inventory, Na
     @Override
     public void markRemoved() {
         if (this.world != null) {
-          //  if (!this.world.isClient) {
-                if (!this.removed) {
-                    if (!connectedNodes.isEmpty()) {
-                        for (BlockPos nodes : this.connectedNodes) {
-                            StorageNodeBlockEntity node;
-                            node = (StorageNodeBlockEntity) this.world.getBlockEntity(nodes);
-                            if (node != null) {
-                                node.removeStoredBlockPos(this.getPos());
-                            }
+            //if (!this.world.isClient) {
+            if (!this.removed) {
+                if (!connectedNodes.isEmpty()) {
+                    for (BlockPos nodes : this.connectedNodes) {
+                        StorageNodeBlockEntity node;
+                        node = (StorageNodeBlockEntity) this.world.getBlockEntity(nodes);
+                        if (node != null) {
+                            node.removeStoredBlockPos(this.getPos());
                         }
                     }
-               }
-           // }
+                }
+                //  }
+            }
         }
         this.removed = true;
     }
@@ -153,7 +141,7 @@ public class StorageCoreBlockEntity extends BlockEntity implements Inventory, Na
 
     @Override
     public int size() {
-        return connectedNodes.size()*27;
+        return connectedNodes.size() * 27;
     }
 
     @Override
@@ -177,31 +165,31 @@ public class StorageCoreBlockEntity extends BlockEntity implements Inventory, Na
     @Override
     public ItemStack removeStack(int slot, int amount) {
         Inventory child = this.getInventory(slot);
-        return child == null ? ItemStack.EMPTY:child.removeStack(slot%27,amount);
+        return child == null ? ItemStack.EMPTY : child.removeStack(slot % 27, amount);
     }
 
     @Override
     public ItemStack removeStack(int slot) {
         Inventory child = this.getInventory(slot);
-        return child == null ? ItemStack.EMPTY:child.removeStack(slot%27);
+        return child == null ? ItemStack.EMPTY : child.removeStack(slot % 27);
     }
 
     @Override
     public void setStack(int slot, ItemStack stack) {
         Inventory child = this.getInventory(slot);
-        if(child!=null){
-            child.setStack(slot%27,stack);
+        if (child != null) {
+            child.setStack(slot % 27, stack);
         }
     }
 
     @Override
     public boolean canPlayerUse(PlayerEntity player) {
-return true;
+        return true;
     }
 
     @Override
     public void clear() {
-        for (int i = 0; i < this.connectedNodes.size(); i++) {
+        for (int i = 0; i < this.connectedNodes.size(); ) {
             Inventory child = this.getInventory(i);
             if (child != null) {
                 child.clear();
@@ -215,10 +203,9 @@ return true;
     }
 
 
-
     @Override
     public void fromClientTag(CompoundTag tag) {
-        this.fromTag(null,tag);
+        this.fromTag(null, tag);
     }
 
     @Override
