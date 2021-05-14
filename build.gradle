@@ -8,6 +8,8 @@ repositories {
 	maven {
 		url = "https://storage.googleapis.com/devan-maven/"
 	}
+	maven { url = "https://server.bbkr.space/artifactory/libs-release" }
+	maven { url = "https://www.cursemaven.com" }
 }
 sourceCompatibility = JavaVersion.VERSION_1_8
 targetCompatibility = JavaVersion.VERSION_1_8
@@ -33,6 +35,11 @@ dependencies {
 	modImplementation("com.terraformersmc:modmenu:${project.modmenu_version}") {
 		exclude(group: "net.fabricmc.fabric-api")
 	}
+
+	modImplementation "io.github.cottonmc:LibCD:${project.libcd_version}"
+	include "io.github.cottonmc:LibCD:${project.libcd_version}"
+
+	modImplementation 'curse.maven:columns-385230:3107117'
 }
 
 minecraft {

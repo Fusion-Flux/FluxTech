@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "rewards": {
+    "recipes": [
+      "fluxtech:smooth_end_stone_column"
+    ]
+  },
+  "criteria": {
+    "has_smooth_end_stone": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "fluxtech:smooth_end_stone"
+          }
+        ]
+      }
+    },
+    "has_the_recipe": {
+      "trigger": "minecraft:recipe_unlocked",
+      "conditions": {
+        "recipe": "fluxtech:smooth_end_stone_column"
+      }
+    }
+  },
+  "requirements": [
+    [
+      "has_smooth_end_stone",
+      "has_the_recipe"
+    ]
+  ]
+}
