@@ -15,6 +15,7 @@ import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.tag.FluidTags;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 import org.objectweb.asm.Opcodes;
@@ -66,9 +67,10 @@ public abstract class PlayerEntityMixin extends LivingEntity implements PlayerEn
     @Inject(method = "travel", at = @At("HEAD"), cancellable = true)
     public void travel(Vec3d movementInput, CallbackInfo ci) {
         ItemStack itemStack3 = this.getEquippedStack(EquipmentSlot.LEGS);
+        ItemStack itemStackChest = this.getEquippedStack(EquipmentSlot.CHEST);
         ItemStack itemStack5 = this.getEquippedStack(EquipmentSlot.FEET);
         if (!this.isOnGround() && (itemStack3.getItem().equals(FluxTechItems.AEROARMOR))) {
-            this.flyingSpeed = this.abilities.getFlySpeed() * (float) (this.isSprinting() ? FluxTechConfig2.get().numbers.aeroarmorFlightBoost : 1);
+            this.flyingSpeed = this.abilities.getFlySpeed() * (float) FluxTechConfig2.get().numbers.aeroarmorFlightBoost;
         }
         if (!this.isOnGround() && this.getVelocity().y < -1 && (itemStack5.getItem().equals(FluxTechItems.GRAVITRONS) /*|| itemStack5.getItem().equals(FluxTechItems.UNSTABLE_GRAVITRONS)*/)) {
             super.travel(movementInput);
@@ -77,6 +79,17 @@ public abstract class PlayerEntityMixin extends LivingEntity implements PlayerEn
             super.travel(movementInput);
             super.travel(movementInput);
         }
+
+        if ((itemStack5.getItem().equals(FluxTechItems.SLIDERS))) {
+            this.onGround = false;
+            this.updateVelocity(this.getSlipSpeed(1.1f), movementInput);
+
+        }
+
+    }
+
+    private float getSlipSpeed(float slipperiness) {
+        return this.getMovementSpeed() * (0.21600002F / (slipperiness * slipperiness * slipperiness));
     }
 
     @Inject(method = "getFallSound", at = @At("HEAD"), cancellable = true)
