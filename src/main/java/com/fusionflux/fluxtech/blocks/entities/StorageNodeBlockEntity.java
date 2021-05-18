@@ -14,15 +14,18 @@ import net.minecraft.nbt.Tag;
 import net.minecraft.text.Text;
 import net.minecraft.text.TranslatableText;
 import net.minecraft.util.Nameable;
+import net.minecraft.util.Tickable;
 import net.minecraft.util.collection.DefaultedList;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
+import net.minecraft.world.TickScheduler;
 
 import java.util.HashSet;
 
-public class StorageNodeBlockEntity extends BlockEntity implements ImplementedInventory, Nameable, BlockEntityClientSerializable {
+public class StorageNodeBlockEntity extends BlockEntity implements ImplementedInventory, Nameable, BlockEntityClientSerializable, Tickable {
     private final DefaultedList<ItemStack> items = DefaultedList.ofSize(27, ItemStack.EMPTY);
     private final HashSet<BlockPos> connectedCore = new HashSet<>();
+    private boolean doCheckNextTick = false;
 
     public StorageNodeBlockEntity() {
         super(FluxTechBlocks.STORAGE_NODE_BLOCK_ENTITY);
@@ -71,30 +74,36 @@ public class StorageNodeBlockEntity extends BlockEntity implements ImplementedIn
                 }
             }
             if (!connectedCore.isEmpty()) {
-                updateNearbyBlocks();
+                updateNearbyBlocks(0);
             }
         }
     }
 
-    public void updateNearbyBlocks() {
+    public void updateNearbyBlocks(int updatechain) {
         StorageCoreBlockEntity core;
         StorageNodeBlockEntity node;
         for (Direction offsetDir : Direction.values()) {
             if (this.world != null) {
-                if (this.world.getBlockState(this.getPos().offset(offsetDir)).getBlock().equals(FluxTechBlocks.STORAGE_NODE_BLOCK)) {
-                    node = (StorageNodeBlockEntity) this.world.getBlockEntity(new BlockPos(this.getPos().getX(), this.getPos().getY(), this.getPos().getZ()).offset(offsetDir));
-                    if (node != null) {
-                        if (!node.connectedCore.containsAll(this.connectedCore)) {
-
-                            node.connectedCore.addAll(this.connectedCore);
-
-                            for (BlockPos cores : this.connectedCore) {
-                                core = (StorageCoreBlockEntity) this.world.getBlockEntity(cores);
-                                if (core != null) {
-                                    core.addNewNodes(node.pos);
+                if (!this.world.isClient) {
+                    if (this.world.getBlockState(this.getPos().offset(offsetDir)).getBlock().equals(FluxTechBlocks.STORAGE_NODE_BLOCK)) {
+                        node = (StorageNodeBlockEntity) this.world.getBlockEntity(new BlockPos(this.getPos().getX(), this.getPos().getY(), this.getPos().getZ()).offset(offsetDir));
+                        if (node != null) {
+                            if (node.world != null && node.pos != null) {
+                                if (!node.connectedCore.containsAll(this.connectedCore)) {
+                                    node.connectedCore.addAll(this.connectedCore);
+                                    for (BlockPos cores : this.connectedCore) {
+                                        core = (StorageCoreBlockEntity) this.world.getBlockEntity(cores);
+                                        if (core != null) {
+                                            core.addNewNodes(node.pos);
+                                        }
+                                    }
+                                    if(updatechain<1000) {
+                                        node.updateNearbyBlocks(updatechain+1);
+                                    }else{
+                                        node.doCheckNextTick = true;
+                                    }
                                 }
                             }
-                            node.updateNearbyBlocks();
                         }
                     }
                 }
@@ -155,6 +164,11 @@ public class StorageNodeBlockEntity extends BlockEntity implements ImplementedIn
         this.connectedCore.clear();
     }
 
+    public void addCore(BlockPos corepos){
+        connectedCore.add(corepos);
+        updateNearbyBlocks(0);
+    }
+
     @Override
     public void fromClientTag(CompoundTag tag) {
         this.fromTag(null, tag);
@@ -163,5 +177,13 @@ public class StorageNodeBlockEntity extends BlockEntity implements ImplementedIn
     @Override
     public CompoundTag toClientTag(CompoundTag tag) {
         return this.toTag(tag);
+    }
+
+    @Override
+    public void tick() {
+        if(doCheckNextTick){
+            this.doCheckNextTick = false;
+            this.updateNearbyBlocks(0);
+        }
     }
 }

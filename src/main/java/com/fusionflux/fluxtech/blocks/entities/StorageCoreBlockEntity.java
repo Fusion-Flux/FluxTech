@@ -28,11 +28,12 @@ public class StorageCoreBlockEntity extends BlockEntity implements Inventory, Na
 
     public void addNewNodes(BlockPos nodeBlockPos) {
         if (this.world != null) {
-            //   if (!this.world.isClient) {
-            if (!connectedNodes.contains(nodeBlockPos)) {
-                connectedNodes.add(nodeBlockPos);
+            if (!this.world.isClient) {
+                if (!connectedNodes.contains(nodeBlockPos)) {
+                    connectedNodes.add(nodeBlockPos);
+                    System.out.println(connectedNodes.size());
+                }
             }
-            //    }
         }
     }
 
@@ -60,12 +61,13 @@ public class StorageCoreBlockEntity extends BlockEntity implements Inventory, Na
     public void updateNearbyNodes() {
         StorageNodeBlockEntity node;
         for (Direction offsetdir : Direction.values()) {
+            if(world!=null){
             if (this.world.getBlockState(this.getPos().offset(offsetdir)).getBlock().equals(FluxTechBlocks.STORAGE_NODE_BLOCK)) {
                 node = (StorageNodeBlockEntity) this.world.getBlockEntity(new BlockPos(this.getPos().getX(), this.getPos().getY(), this.getPos().getZ()).offset(offsetdir));
                 if (node != null) {
-                    node.checkConnections();
+                    node.addCore(this.pos);
                 }
-
+            }
             }
         }
     }
