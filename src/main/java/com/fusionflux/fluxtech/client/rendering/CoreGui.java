@@ -68,7 +68,7 @@ public class CoreGui {
 
         List<ASlot> hotbar = new ArrayList<>();
         nodeSlots = new ArrayList<>();
-        updateSlots(center, blockEntity);
+
 
         for (int inventoryRow = 0; inventoryRow < 3; ++inventoryRow) {
             for (int inventoryColumn = 0; inventoryColumn < 9; ++inventoryColumn) {
@@ -88,6 +88,7 @@ public class CoreGui {
                 hotbarSlot.link(container, slot);
             }
         }
+        updateSlots(center, blockEntity);
     }
 
     private static void updateSlots(ACenteringPanel center, StorageCoreBlockEntity core) {
@@ -100,9 +101,10 @@ public class CoreGui {
             for (int inventoryRow = 0; inventoryRow < be.size() / 9; ++inventoryRow) {
                 for (int inventoryColumn = 0; inventoryColumn < 9; ++inventoryColumn) {
                     ASlot slot = new ABlockEntityInventorySlot<>(be, inventoryColumn + inventoryRow * 9);
-                    slot.setTransformation(Transformation.translate(6 + inventoryColumn * 18, 15 + inventoryRow * 18, 0));
-                    center.add(slot);
+                    slot.setTransformation(Transformation.translate(6 + inventoryColumn * 18, 15 + inventoryRow * 18, 10));
                     nodeSlots.add(slot);
+                    center.add(slot);
+
                 }
             }
         }
