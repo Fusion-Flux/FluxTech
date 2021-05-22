@@ -3,17 +3,13 @@ package com.fusionflux.fluxtech.mixin;
 import com.fusionflux.fluxtech.accessor.EnduriumToucher;
 import com.fusionflux.fluxtech.blocks.FluxTechBlocks;
 import com.fusionflux.fluxtech.config.FluxTechConfig;
-import com.fusionflux.fluxtech.config.FluxTechConfig2;
 import com.fusionflux.fluxtech.entity.EntityAttachments;
 import it.unimi.dsi.fastutil.objects.Object2DoubleMap;
-import net.minecraft.block.Blocks;
-import net.minecraft.client.MinecraftClient;
 import net.minecraft.entity.*;
 import net.minecraft.entity.data.DataTracker;
 import net.minecraft.entity.data.TrackedData;
 import net.minecraft.entity.data.TrackedDataHandlerRegistry;
 import net.minecraft.entity.passive.FoxEntity;
-import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.vehicle.BoatEntity;
 import net.minecraft.fluid.Fluid;
 import net.minecraft.sound.SoundCategory;
@@ -37,7 +33,6 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(Entity.class)
 public abstract class EntityMixin implements EntityAttachments, EnduriumToucher {
-
     private static final TrackedData<Boolean> IS_ROLLING = DataTracker.registerData(Entity.class, TrackedDataHandlerRegistry.BOOLEAN);
     private static final TrackedData<Direction> DIRECTION = DataTracker.registerData(Entity.class, TrackedDataHandlerRegistry.FACING);
 
@@ -48,32 +43,14 @@ public abstract class EntityMixin implements EntityAttachments, EnduriumToucher 
     public double maxFallSpeed = 0;
 
     @Override
-    public double getMaxFallSpeed() {
+    public double fluxtech$getMaxFallSpeed() {
         return maxFallSpeed;
     }
 
     @Override
-    public void setMaxFallSpeed(double maxFallSpeed) {
+    public void fluxtech$setMaxFallSpeed(double maxFallSpeed) {
         this.maxFallSpeed = maxFallSpeed;
     }
-
-    @Shadow
-    private float standingEyeHeight;
-
-    @Shadow
-    protected abstract float getEyeHeight(EntityPose pose, EntityDimensions dimensions);
-
-    @Shadow
-    public abstract EntityPose getPose();
-
-    @Shadow
-    public abstract EntityDimensions getDimensions(EntityPose pose);
-
-    @Shadow
-    public abstract Vec3d getVelocity();
-
-    @Shadow
-    public abstract boolean isOnGround();
 
     @Shadow public World world;
 
@@ -99,22 +76,22 @@ public abstract class EntityMixin implements EntityAttachments, EnduriumToucher 
     @Shadow protected Object2DoubleMap<Tag<Fluid>> fluidHeight;
 
     @Override
-    public boolean isRolling() {
+    public boolean fluxtech$isRolling() {
         return dataTracker.get(IS_ROLLING);
     }
 
     @Override
-    public void setRolling(boolean rolling) {
+    public void fluxtech$setRolling(boolean rolling) {
         dataTracker.set(IS_ROLLING, rolling);
     }
 
     @Override
-    public Direction getDirection() {
+    public Direction fluxtech$getDirection() {
         return dataTracker.get(DIRECTION);
     }
 
     @Override
-    public void setDirection(Direction direction) {
+    public void fluxtech$setDirection(Direction direction) {
         dataTracker.set(DIRECTION, direction);
     }
 
@@ -126,54 +103,47 @@ public abstract class EntityMixin implements EntityAttachments, EnduriumToucher 
 
     @Inject(method = "tick", at = @At("HEAD"), cancellable = true)
     public void tick(CallbackInfo ci) {
-
-
-
-
-            if(((EnduriumToucher)this).getTouchingEndurium()){
+            if(((EnduriumToucher)this).fluxtech$getTouchingEndurium()) {
                 if (((Entity) (Object) this) instanceof LivingEntity) {
-                    LivingEntity user = (LivingEntity) ((Entity) (Object) this);
+                    LivingEntity user = ((LivingEntity) (Object) this);
                     if (!world.isClient) {
-                        double d = user.getX();
-                        double e = user.getY();
-                        double f = user.getZ();
-
                         for(int i = 0; i < 16; ++i) {
-                            double g = user.getX() + (user.getRandom().nextDouble() - 0.5D) * FluxTechConfig2.get().numbersblock.enduriumTpRange;
-                            double h = MathHelper.clamp(user.getY() + (double)(user.getRandom().nextInt(FluxTechConfig2.get().numbersblock.enduriumTpRange) - 16), 0.0D, (double)(world.getDimensionHeight() - 1));
-                            double j = user.getZ() + (user.getRandom().nextDouble() - 0.5D) * FluxTechConfig2.get().numbersblock.enduriumTpRange;
+                            double g = user.getX() + (user.getRandom().nextDouble() - 0.5D) * FluxTechConfig.get().numbersblock.enduriumTpRange;
+                            double h = MathHelper.clamp(user.getY() + (double)(user.getRandom().nextInt(FluxTechConfig.get().numbersblock.enduriumTpRange) - 16), 0.0D, (double)(world.getDimensionHeight() - 1));
+                            double j = user.getZ() + (user.getRandom().nextDouble() - 0.5D) * FluxTechConfig.get().numbersblock.enduriumTpRange;
                             if (user.hasVehicle()) {
                                 user.stopRiding();
                             }
 
                             if (user.teleport(g, h, j, true)) {
                                 SoundEvent soundEvent = user instanceof FoxEntity ? SoundEvents.ENTITY_FOX_TELEPORT : SoundEvents.ENTITY_ENDERMAN_TELEPORT;
-                                world.playSound((PlayerEntity)null, g, h, j, soundEvent, SoundCategory.PLAYERS, 1.0F, 1.0F);
+                                world.playSound(null, g, h, j, soundEvent, SoundCategory.PLAYERS, 1.0F, 1.0F);
                                 user.playSound(soundEvent, 1.0F, 1.0F);
                                 break;
                             }
                         }
-
                     }
-
                 }
             }
-
-
-
-
     }
 
     @Inject(method = "isTouchingWater()Z", at = @At("TAIL"))
-    public void onisTouchingWater(CallbackInfoReturnable<Boolean> cir) { isTouchingEndurium(); }
+    public void onisTouchingWater(CallbackInfoReturnable<Boolean> cir) {
+        isTouchingEndurium();
+    }
 
     @Unique
     public boolean isTouchingEndurium(){
         return this.touchingEndurium;
     }
 
-    public void setTouchingEndurium(boolean touchingEndurium) { this.touchingEndurium = touchingEndurium; }
-    public boolean getTouchingEndurium() { return this.touchingEndurium; }
+    public void fluxtech$setTouchingEndurium(boolean touchingEndurium) {
+        this.touchingEndurium = touchingEndurium;
+    }
+
+    public boolean fluxtech$getTouchingEndurium() {
+        return this.touchingEndurium;
+    }
 
     @Inject(method = "isInLava()Z", at = @At("TAIL"))
     public void onisInLava(CallbackInfoReturnable<Boolean> cir) { isInEndurium(); }
@@ -202,14 +172,4 @@ public abstract class EntityMixin implements EntityAttachments, EnduriumToucher 
             this.touchingEndurium = false;
         }
     }
-
-
-
-
-    /*@Inject(method = "calculateDimensions", at = @At("TAIL"))
-public void calculateDimensions(CallbackInfo ci){
-        EntityPose entityPose2 = this.getPose();
-        EntityDimensions entityDimensions3 = this.getDimensions(entityPose2);
-        this.standingEyeHeight = this.getEyeHeight(entityPose2, entityDimensions3)-1;
-    }*/
 }

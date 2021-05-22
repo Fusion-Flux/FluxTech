@@ -2,17 +2,14 @@ package com.fusionflux.fluxtech.items;
 
 import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.item.ArmorMaterial;
-import net.minecraft.item.Item;
 import net.minecraft.item.Items;
 import net.minecraft.recipe.Ingredient;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.sound.SoundEvents;
 
 public class FluxTechArmor implements ArmorMaterial {
-
-    private static final int[] BASE_DURABILITY = new int[]{13, 15, 16, 11};
-    private static final int[] PROTECTION_VALUES = new int[]{3, 6, 8, 3};
-
+    private static final int[] BASE_DURABILITY = new int[] {13, 15, 16, 11};
+    private static final int[] PROTECTION_VALUES = new int[] {3, 6, 8, 3};
 
     @Override
     public int getDurability(EquipmentSlot slot) {

@@ -332,7 +332,7 @@ public class AbstractHopperBlockEntity  extends LootableContainerBlockEntity imp
 
     @Nullable
     public static Inventory getInputInventory(Hopper hopper) {
-        return getInventoryAt(hopper.getWorld(), hopper.getHopperX(), hopper.getHopperY() + ((HopperInput) hopper).getInputInventoryY(), hopper.getHopperZ());
+        return getInventoryAt(hopper.getWorld(), hopper.getHopperX(), hopper.getHopperY() + ((HopperInput) hopper).fluxtech$getInputInventoryY(), hopper.getHopperZ());
     }
 
     public static List<ItemEntity> getInputItemEntities(Hopper hopper) {

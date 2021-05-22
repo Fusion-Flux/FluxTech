@@ -1,6 +1,5 @@
 package com.fusionflux.fluxtech.fluids;
 
-import com.fusionflux.fluxtech.FluxTech;
 import com.fusionflux.fluxtech.blocks.FluxTechBlocks;
 import com.fusionflux.fluxtech.items.FluxTechItems;
 import it.unimi.dsi.fastutil.objects.Object2ByteLinkedOpenHashMap;
@@ -24,16 +23,14 @@ import net.minecraft.world.BlockView;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldAccess;
 import net.minecraft.world.WorldView;
-
-import java.util.Iterator;
 import java.util.Map;
 import java.util.Random;
 
 import static net.minecraft.state.property.Properties.LEVEL_1_8;
 
-
 public abstract class Endurium extends FlowableFluid {
     private static final ThreadLocal<Object2ByteLinkedOpenHashMap<Block.NeighborGroup>> field_15901;
+
     @Override
     public Fluid getFlowing() {
         return FluxTechBlocks.ENDURIUM_FLOWING;
@@ -64,14 +61,13 @@ public abstract class Endurium extends FlowableFluid {
             } else if (state.isStill() || !this.method_15736(world, fluidState.getFluid(), fluidPos, blockState, blockPos, blockState2)) {
                 this.method_15744(world, fluidPos, state, blockState);
             }
-
         }
     }
 
     private boolean receivesFlow(Direction face, BlockView world, BlockPos pos, BlockState state, BlockPos fromPos, BlockState fromState) {
-        Object2ByteLinkedOpenHashMap object2ByteLinkedOpenHashMap2;
+        Object2ByteLinkedOpenHashMap<Block.NeighborGroup> object2ByteLinkedOpenHashMap2;
         if (!state.getBlock().hasDynamicBounds() && !fromState.getBlock().hasDynamicBounds()) {
-            object2ByteLinkedOpenHashMap2 = (Object2ByteLinkedOpenHashMap)field_15901.get();
+            object2ByteLinkedOpenHashMap2 = field_15901.get();
         } else {
             object2ByteLinkedOpenHashMap2 = null;
         }
@@ -105,7 +101,7 @@ public abstract class Endurium extends FlowableFluid {
         if (!this.receivesFlow(Direction.UP, world, pos, state, fromPos, fromState)) {
             return false;
         } else {
-            return fromState.getFluidState().getFluid().matchesType(this) ? true : this.canFill(world, fromPos, fromState, fluid);
+            return fromState.getFluidState().getFluid().matchesType(this) || this.canFill(world, fromPos, fromState, fluid);
         }
     }
 
@@ -131,10 +127,7 @@ public abstract class Endurium extends FlowableFluid {
 
     private int method_15740(WorldView world, BlockPos pos) {
         int i = 0;
-        Iterator var4 = Direction.Type.HORIZONTAL.iterator();
-
-        while(var4.hasNext()) {
-            Direction direction = (Direction)var4.next();
+        for (Direction direction : Direction.Type.HORIZONTAL) {
             BlockPos blockPos = pos.offset(direction);
             FluidState fluidState = world.getFluidState(blockPos);
             if (this.isMatchingAndStill(fluidState)) {
@@ -147,18 +140,15 @@ public abstract class Endurium extends FlowableFluid {
 
     private void method_15744(WorldAccess world, BlockPos pos, FluidState fluidState, BlockState blockState) {
         int i = fluidState.getLevel() - this.getLevelDecreasePerBlock(world);
-        if ((Boolean)fluidState.get(FALLING)) {
+        if (fluidState.get(FALLING)) {
             i = 7;
         }
 
         if (i > 0) {
             Map<Direction, FluidState> map = this.getSpread(world, pos, blockState);
-            Iterator var7 = map.entrySet().iterator();
-
-            while(var7.hasNext()) {
-                Map.Entry<Direction, FluidState> entry = (Map.Entry)var7.next();
-                Direction direction = (Direction)entry.getKey();
-                FluidState fluidState2 = (FluidState)entry.getValue();
+            for (Map.Entry<Direction, FluidState> entry : map.entrySet()) {
+                Direction direction = entry.getKey();
+                FluidState fluidState2 = entry.getValue();
                 BlockPos blockPos = pos.offset(direction);
                 BlockState blockState2 = world.getBlockState(blockPos);
                 if (this.canFlow(world, pos, blockState, direction, blockPos, blockState2, world.getFluidState(blockPos), fluidState2.getFluid())) {

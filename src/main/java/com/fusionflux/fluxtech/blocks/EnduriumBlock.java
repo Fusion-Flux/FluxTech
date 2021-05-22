@@ -1,10 +1,9 @@
 package com.fusionflux.fluxtech.blocks;
 
-import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
+import net.minecraft.block.AbstractBlock;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.FluidBlock;
-import net.minecraft.block.Material;
 import net.minecraft.entity.Entity;
 import net.minecraft.fluid.FlowableFluid;
 import net.minecraft.fluid.FluidState;
@@ -16,9 +15,7 @@ import net.minecraft.util.math.Direction;
 import net.minecraft.util.shape.VoxelShape;
 import net.minecraft.world.World;
 
-
 public class EnduriumBlock extends FluidBlock {
-
     public static final IntProperty LEVEL;
     public static final VoxelShape COLLISION_SHAPE;
 
@@ -27,10 +24,8 @@ public class EnduriumBlock extends FluidBlock {
         COLLISION_SHAPE = Block.createCuboidShape(0.0D, 0.0D, 0.0D, 16.0D, 8.0D, 16.0D);
     }
 
-    protected boolean FirstUpdate;
-
-    public EnduriumBlock(FlowableFluid baseFluid) {
-        super(baseFluid, FabricBlockSettings.of(Material.WATER).noCollision().strength(100.0F, 100.0F).dropsNothing().velocityMultiplier(0.95F));
+    public EnduriumBlock(FlowableFluid baseFluid, AbstractBlock.Settings settings) {
+        super(baseFluid, settings);
     }
 
     @Override
@@ -74,7 +69,8 @@ public class EnduriumBlock extends FluidBlock {
 
     @Override
     public void onEntityCollision(BlockState state, World world, BlockPos position, Entity entity) {
-        /*if (entity instanceof LivingEntity) {
+        /*
+        if (entity instanceof LivingEntity) {
             LivingEntity user = (LivingEntity) entity;
             if (!world.isClient) {
                 double d = user.getX();
@@ -96,10 +92,9 @@ public class EnduriumBlock extends FluidBlock {
                         break;
                     }
                 }
-
             }
-
-        }*/
+        }
+        */
 
         super.onEntityCollision(state, world, position, entity);
     }

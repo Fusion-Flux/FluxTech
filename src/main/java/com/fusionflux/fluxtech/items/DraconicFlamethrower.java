@@ -16,12 +16,10 @@ import net.minecraft.world.World;
 
 public class DraconicFlamethrower extends Item {
 
-    private AreaEffectCloudEntity field_7051;
-
     public DraconicFlamethrower(Settings settings) {
         super(settings);
-
     }
+
     @Override
     public TypedActionResult<ItemStack> use(World world, PlayerEntity user, Hand hand) {
         Vec3d vec3d = user.getVelocity();
@@ -57,14 +55,14 @@ public class DraconicFlamethrower extends Item {
             mutable.set(j, h, b);
         }
 
-        h = (double)(MathHelper.floor(h) + 1);
-        this.field_7051 = new AreaEffectCloudEntity(user.world, j, h, b);
-        this.field_7051.setOwner(user);
-        this.field_7051.setRadius(5.0F);
-        this.field_7051.setDuration(200);
-        this.field_7051.setParticleType(ParticleTypes.DRAGON_BREATH);
-        this.field_7051.addEffect(new StatusEffectInstance(StatusEffects.INSTANT_DAMAGE));
-        user.world.spawnEntity(this.field_7051);
+        h = (MathHelper.floor(h) + 1);
+        AreaEffectCloudEntity AoECloudEntity = new AreaEffectCloudEntity(user.world, j, h, b);
+        AoECloudEntity.setOwner(user);
+        AoECloudEntity.setRadius(5.0F);
+        AoECloudEntity.setDuration(200);
+        AoECloudEntity.setParticleType(ParticleTypes.DRAGON_BREATH);
+        AoECloudEntity.addEffect(new StatusEffectInstance(StatusEffects.INSTANT_DAMAGE));
+        user.world.spawnEntity(AoECloudEntity);
         return TypedActionResult.pass(user.getStackInHand(hand));
     }
 }

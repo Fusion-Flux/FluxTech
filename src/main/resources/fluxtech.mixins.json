@@ -6,19 +6,14 @@
   "mixins": [
     "ArmorItemMixin",
     "BlockMixin",
-    "EntityAccessor",
     "EntityMixin",
     "FluidBlockMixin",
     "HopperMixin",
     "ItemEntityMixin",
-    "LavaFluidMixin",
     "PlayerEntityMixin"
   ],
   "client": [
-    "EnderDragonEntityRendererMixin",
-    "EntityRenderDispatcherMixin",
-    "GameRendererMixin",
-    "PlayerEntityRendererMixin"
+    "GameRendererMixin"
   ],
   "injectors": {
     "defaultRequire": 1

@@ -1,6 +1,5 @@
 package com.fusionflux.fluxtech.mixin;
 
-
 import com.fusionflux.fluxtech.accessor.EnduriumToucher;
 import com.fusionflux.fluxtech.blocks.FluxTechBlocks;
 import net.minecraft.entity.Entity;
@@ -16,12 +15,12 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(ItemEntity.class)
 public abstract class ItemEntityMixin extends Entity {
+    @Shadow
+    protected abstract void applyBuoyancy();
+    @Shadow
+    public abstract ItemStack getStack();
 
-    @Shadow protected abstract void applyBuoyancy();
-
-    @Shadow public abstract ItemStack getStack();
-
-    public ItemEntityMixin(EntityType<?> type, World world) {
+    protected ItemEntityMixin(EntityType<?> type, World world) {
         super(type, world);
     }
 
@@ -31,11 +30,10 @@ public abstract class ItemEntityMixin extends Entity {
             this.remove();
         } else {
             float f = this.getStandingEyeHeight() - 0.11111111F;
-            if (((EnduriumToucher)this).getTouchingEndurium() && this.getFluidHeight(FluxTechBlocks.ENDURIUM_TAG) > (double) f) {
+            if (((EnduriumToucher) this).fluxtech$getTouchingEndurium() && this.getFluidHeight(FluxTechBlocks.ENDURIUM_TAG) > (double) f) {
                 this.applyBuoyancy();
                 this.addVelocity(0,0.045,0);
             }
         }
     }
-
 }
