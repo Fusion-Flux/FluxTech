@@ -23,27 +23,13 @@ import net.minecraft.world.BlockView;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldAccess;
 import net.minecraft.world.WorldView;
-
-import java.util.Iterator;
 import java.util.Map;
 import java.util.Random;
 
 import static net.minecraft.state.property.Properties.LEVEL_1_8;
 
-
 public abstract class Endurium extends FlowableFluid {
     private static final ThreadLocal<Object2ByteLinkedOpenHashMap<Block.NeighborGroup>> field_15901;
-
-    static {
-        field_15901 = ThreadLocal.withInitial(() -> {
-            Object2ByteLinkedOpenHashMap<Block.NeighborGroup> object2ByteLinkedOpenHashMap = new Object2ByteLinkedOpenHashMap<Block.NeighborGroup>(200) {
-                protected void rehash(int i) {
-                }
-            };
-            object2ByteLinkedOpenHashMap.defaultReturnValue((byte) 127);
-            return object2ByteLinkedOpenHashMap;
-        });
-    }
 
     @Override
     public Fluid getFlowing() {
@@ -75,12 +61,11 @@ public abstract class Endurium extends FlowableFluid {
             } else if (state.isStill() || !this.method_15736(world, fluidState.getFluid(), fluidPos, blockState, blockPos, blockState2)) {
                 this.method_15744(world, fluidPos, state, blockState);
             }
-
         }
     }
 
     private boolean receivesFlow(Direction face, BlockView world, BlockPos pos, BlockState state, BlockPos fromPos, BlockState fromState) {
-        Object2ByteLinkedOpenHashMap object2ByteLinkedOpenHashMap2;
+        Object2ByteLinkedOpenHashMap<Block.NeighborGroup> object2ByteLinkedOpenHashMap2;
         if (!state.getBlock().hasDynamicBounds() && !fromState.getBlock().hasDynamicBounds()) {
             object2ByteLinkedOpenHashMap2 = field_15901.get();
         } else {
@@ -106,7 +91,7 @@ public abstract class Endurium extends FlowableFluid {
                 object2ByteLinkedOpenHashMap2.removeLastByte();
             }
 
-            object2ByteLinkedOpenHashMap2.putAndMoveToFirst(neighborGroup2, (byte) (bl ? 1 : 0));
+            object2ByteLinkedOpenHashMap2.putAndMoveToFirst(neighborGroup2, (byte)(bl ? 1 : 0));
         }
 
         return bl;
@@ -142,10 +127,7 @@ public abstract class Endurium extends FlowableFluid {
 
     private int method_15740(WorldView world, BlockPos pos) {
         int i = 0;
-        Iterator var4 = Direction.Type.HORIZONTAL.iterator();
-
-        while (var4.hasNext()) {
-            Direction direction = (Direction) var4.next();
+        for (Direction direction : Direction.Type.HORIZONTAL) {
             BlockPos blockPos = pos.offset(direction);
             FluidState fluidState = world.getFluidState(blockPos);
             if (this.isMatchingAndStill(fluidState)) {
@@ -164,10 +146,7 @@ public abstract class Endurium extends FlowableFluid {
 
         if (i > 0) {
             Map<Direction, FluidState> map = this.getSpread(world, pos, blockState);
-            Iterator var7 = map.entrySet().iterator();
-
-            while (var7.hasNext()) {
-                Map.Entry<Direction, FluidState> entry = (Map.Entry) var7.next();
+            for (Map.Entry<Direction, FluidState> entry : map.entrySet()) {
                 Direction direction = entry.getKey();
                 FluidState fluidState2 = entry.getValue();
                 BlockPos blockPos = pos.offset(direction);
@@ -293,6 +272,17 @@ public abstract class Endurium extends FlowableFluid {
         protected boolean isInfinite() {
             return false;
         }
+    }
+
+    static{
+        field_15901 = ThreadLocal.withInitial(() -> {
+            Object2ByteLinkedOpenHashMap<Block.NeighborGroup> object2ByteLinkedOpenHashMap = new Object2ByteLinkedOpenHashMap<Block.NeighborGroup>(200) {
+                protected void rehash(int i) {
+                }
+            };
+            object2ByteLinkedOpenHashMap.defaultReturnValue((byte)127);
+            return object2ByteLinkedOpenHashMap;
+        });
     }
 }
 

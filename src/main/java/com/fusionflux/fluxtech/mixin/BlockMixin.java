@@ -1,6 +1,6 @@
 package com.fusionflux.fluxtech.mixin;
 
-import com.fusionflux.fluxtech.config.FluxTechConfig2;
+import com.fusionflux.fluxtech.config.FluxTechConfig;
 import com.fusionflux.fluxtech.items.FluxTechItems;
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
@@ -21,7 +21,7 @@ public abstract class BlockMixin {
         if (entity instanceof LivingEntity && entity.getVelocity().length() > 0.5) {
             for (ItemStack stack : entity.getArmorItems()) {
                 if (stack.getItem() == FluxTechItems.SLIME_COATED_NETHERITE_BOOTS) {
-                    entity.setVelocity(entity.getVelocity().multiply(1.0F, -FluxTechConfig2.get().numbers.slimeBounceMultiplier * (entity.isSneaking() ? 0 : 1), 1.0F));
+                    entity.setVelocity(entity.getVelocity().multiply(1.0F, -FluxTechConfig.get().numbers.slimeBounceMultiplier * (entity.isSneaking() ? 0 : 1), 1.0F));
                     entity.world.playSound(null, entity.getBlockPos(), SoundEvents.BLOCK_SLIME_BLOCK_FALL, SoundCategory.PLAYERS, 1.0F, 0.5F);
                     ci.cancel();
                 }

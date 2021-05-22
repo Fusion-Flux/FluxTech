@@ -1,6 +1,5 @@
 package com.fusionflux.fluxtech.mixin;
 
-
 import com.fusionflux.fluxtech.blocks.FluxTechBlocks;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
@@ -22,24 +21,18 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 @Mixin(FluidBlock.class)
 public abstract class FluidBlockMixin {
     @Shadow
+    protected abstract void playExtinguishSound(WorldAccess world, BlockPos pos);
+    @Shadow
     @Final
     protected FlowableFluid fluid;
 
-    @Shadow
-    protected abstract void playExtinguishSound(WorldAccess world, BlockPos pos);
-
     /**
-     * @author Gives Fluid Functionality
+     * @reason Gives Fluid Functionality
      */
-
     @Inject(method = "receiveNeighborFluids", at = @At("RETURN"), cancellable = true)
     public void receiveNeighborFluids(World world, BlockPos pos, BlockState state, CallbackInfoReturnable<Boolean> cir) {
         if (this.fluid.isIn(FluidTags.LAVA)) {
-            Direction[] var5 = Direction.values();
-            int var6 = var5.length;
-
-            for (int var7 = 0; var7 < var6; ++var7) {
-                Direction direction = var5[var7];
+            for (Direction direction : Direction.values()) {
                 if (direction != Direction.DOWN) {
                     BlockPos blockPos = pos.offset(direction);
                     if (world.getFluidState(blockPos).isIn(FluxTechBlocks.ENDURIUM_TAG)) {
@@ -52,17 +45,13 @@ public abstract class FluidBlockMixin {
             }
         }
         if (this.fluid.isIn(FluidTags.WATER)) {
-            Direction[] var5 = Direction.values();
-            int var6 = var5.length;
-
-            for (int var7 = 0; var7 < var6; ++var7) {
-                Direction direction = var5[var7];
+            for (Direction direction : Direction.values()) {
                 if (direction != Direction.DOWN) {
                     BlockPos blockPos = pos.offset(direction);
                     if (world.getFluidState(blockPos).isIn(FluxTechBlocks.ENDURIUM_TAG)) {
                         Block block = world.getFluidState(pos).isStill() ? Blocks.PACKED_ICE : Blocks.ICE;
                         world.setBlockState(pos, block.getDefaultState());
-                        //this.playExtinguishSound(world, pos);
+                        // this.playExtinguishSound(world, pos);
                         cir.setReturnValue(false);
                     }
                 }

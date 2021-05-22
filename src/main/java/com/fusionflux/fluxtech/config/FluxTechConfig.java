@@ -8,30 +8,17 @@ import me.shedaniel.autoconfig.annotation.ConfigEntry;
 import me.shedaniel.autoconfig.serializer.JanksonConfigSerializer;
 
 @Config(name = FluxTech.MOD_ID)
-public class FluxTechConfig2 implements ConfigData {
-    @ConfigEntry.Gui.TransitiveObject
-    @ConfigEntry.Category("enabled")
-    public Enabled enabled = new Enabled();
-    @ConfigEntry.Gui.TransitiveObject
-    @ConfigEntry.Category("numbers")
-    public Numbers numbers = new Numbers();
-    @ConfigEntry.Gui.TransitiveObject
-    @ConfigEntry.Category("numbersblock")
-    public NumbersBlock numbersblock = new NumbersBlock();
-    @ConfigEntry.Gui.TransitiveObject
-    @ConfigEntry.Category("cloakingnumbers")
-    public CloakingNumbers cloakingNumbers = new CloakingNumbers();
-
+public class FluxTechConfig implements ConfigData {
     public static void register() {
-        AutoConfig.register(FluxTechConfig2.class, JanksonConfigSerializer::new);
+        AutoConfig.register(FluxTechConfig.class, JanksonConfigSerializer::new);
     }
 
-    public static FluxTechConfig2 get() {
-        return AutoConfig.getConfigHolder(FluxTechConfig2.class).getConfig();
+    public static FluxTechConfig get() {
+        return AutoConfig.getConfigHolder(FluxTechConfig.class).getConfig();
     }
 
     public static void save() {
-        AutoConfig.getConfigHolder(FluxTechConfig2.class).save();
+        AutoConfig.getConfigHolder(FluxTechConfig.class).save();
     }
 
     public static class Enabled {
@@ -42,7 +29,6 @@ public class FluxTechConfig2 implements ConfigData {
         public boolean enableEndurium = true;
         public boolean enableSmoothEndStone = true;
     }
-
     public static class Numbers {
         public double hPDLaunchPower = 2;
         public int hPDCooldown = 10;
@@ -53,14 +39,19 @@ public class FluxTechConfig2 implements ConfigData {
         public double crushBounceMultiplier = 0.75;
         public double slimeBounceMultiplier = 0.75;
     }
-
     public static class NumbersBlock {
         public int enduriumTpRange = 64;
     }
+    @ConfigEntry.Gui.TransitiveObject
+    @ConfigEntry.Category("enabled")
+    public Enabled enabled = new Enabled();
 
-    public static class CloakingNumbers {
-        public int cloakingRenderRadius = 10;
-        public int cloakingDepth = 16;
-    }
+    @ConfigEntry.Gui.TransitiveObject
+    @ConfigEntry.Category("numbers")
+    public Numbers numbers = new Numbers();
+
+    @ConfigEntry.Gui.TransitiveObject
+    @ConfigEntry.Category("numbersblock")
+    public NumbersBlock numbersblock = new NumbersBlock();
 }
 

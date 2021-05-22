@@ -1,7 +1,7 @@
 package com.fusionflux.fluxtech.accessor;
 
 public interface EnduriumToucher {
-    boolean getTouchingEndurium();
+    void fluxtech$setTouchingEndurium(boolean touchingEndurium);
 
-    void setTouchingEndurium(boolean touchingEndurium);
+    boolean fluxtech$getTouchingEndurium();
 }

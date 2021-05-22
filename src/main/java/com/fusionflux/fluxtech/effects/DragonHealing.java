@@ -8,7 +8,5 @@ public class DragonHealing extends StatusEffect {
         super(StatusEffectType.BENEFICIAL, // whether beneficial or harmful for entities
                 0); // color in RGB
     }
-
-
 }
 

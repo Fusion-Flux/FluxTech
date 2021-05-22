@@ -2,7 +2,6 @@ package com.fusionflux.fluxtech.blocks.entities;
 
 import com.fusionflux.fluxtech.blocks.FluxTechBlocks;
 import com.fusionflux.fluxtech.entity.EntityAttachments;
-import com.fusionflux.fluxtech.mixin.EntityAccessor;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityDimensions;
@@ -33,8 +32,7 @@ public class StarCoreEntity extends BlockEntity implements Tickable {
             List<Entity> listb = this.world.getEntitiesByClass(Entity.class, gravityBox2, null);
 
             for (Entity entity : list) {
-                EntityAttachments accessor = ((EntityAttachments) entity);
-                EntityAccessor dimention = ((EntityAccessor) entity);
+                EntityAttachments attachments = ((EntityAttachments) entity);
 
                 Box boundingBox = entity.getBoundingBox();
                 listb.remove(entity);
@@ -90,8 +88,8 @@ public class StarCoreEntity extends BlockEntity implements Tickable {
                         }
 
 
-                        accessor.setRolling(true);
-                        accessor.setDirection(Direction.UP);
+                        attachments.fluxtech$setRolling(true);
+                        attachments.fluxtech$setDirection(Direction.UP);
                     }
 
                     if (this.pos.getY() > entity.getPos().getY()) {
@@ -122,8 +120,8 @@ public class StarCoreEntity extends BlockEntity implements Tickable {
                             entity.setBoundingBox(newBB);
                         }
 
-                        accessor.setRolling(true);
-                        accessor.setDirection(Direction.DOWN);
+                        attachments.fluxtech$setRolling(true);
+                        attachments.fluxtech$setDirection(Direction.DOWN);
                     }
                 }
 
@@ -167,8 +165,8 @@ public class StarCoreEntity extends BlockEntity implements Tickable {
                             ((EntityAccessor)entity).setStandingEyeHeight(newEyeHeight);*/
                         }
 
-                        accessor.setRolling(true);
-                        accessor.setDirection(Direction.SOUTH);
+                        attachments.fluxtech$setRolling(true);
+                        attachments.fluxtech$setDirection(Direction.SOUTH);
                     }
 
                     if (this.pos.getZ() > entity.getPos().getZ()) {
@@ -199,8 +197,8 @@ public class StarCoreEntity extends BlockEntity implements Tickable {
                             entity.setBoundingBox(newBB);
                         }
 
-                        accessor.setRolling(true);
-                        accessor.setDirection(Direction.NORTH);
+                        attachments.fluxtech$setRolling(true);
+                        attachments.fluxtech$setDirection(Direction.NORTH);
                     }
                 }
 
@@ -239,8 +237,8 @@ public class StarCoreEntity extends BlockEntity implements Tickable {
                             entity.setBoundingBox(newBB);
                         }
 
-                        accessor.setRolling(true);
-                        accessor.setDirection(Direction.EAST);
+                        attachments.fluxtech$setRolling(true);
+                        attachments.fluxtech$setDirection(Direction.EAST);
                     }
 
                     if (this.pos.getX() > entity.getPos().getX()) {
@@ -271,8 +269,8 @@ public class StarCoreEntity extends BlockEntity implements Tickable {
                             entity.setBoundingBox(newBB);
                         }
 
-                        accessor.setRolling(true);
-                        accessor.setDirection(Direction.WEST);
+                        attachments.fluxtech$setRolling(true);
+                        attachments.fluxtech$setDirection(Direction.WEST);
                     }
                 }
             }
@@ -297,7 +295,7 @@ public class StarCoreEntity extends BlockEntity implements Tickable {
                     entity.setBoundingBox(newBB);
                 }
 
-                ((EntityAttachments) entity).setRolling(false);
+                ((EntityAttachments) entity).fluxtech$setRolling(false);
             }
         }
     }

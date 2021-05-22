@@ -3,18 +3,15 @@ package com.fusionflux.fluxtech.entity;
 import net.minecraft.util.math.Direction;
 
 public interface EntityAttachments {
+    boolean fluxtech$isRolling();
 
-    boolean isRolling();
+    void fluxtech$setRolling(boolean rolling);
 
-    void setRolling(boolean rolling);
+    Direction fluxtech$getDirection();
 
-    Direction getDirection();
+    void fluxtech$setDirection(Direction direction);
 
-    void setDirection(Direction direction);
+    double fluxtech$getMaxFallSpeed();
 
-    double getMaxFallSpeed();
-
-    void setMaxFallSpeed(double maxFallSpeed);
-
-
+    void fluxtech$setMaxFallSpeed(double maxFallSpeed);
 }

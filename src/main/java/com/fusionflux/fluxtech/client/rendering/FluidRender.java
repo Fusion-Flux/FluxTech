@@ -23,24 +23,22 @@ import java.util.function.Function;
 
 @Environment(EnvType.CLIENT)
 public class FluidRender {
-
     @SuppressWarnings("deprecation")
     public static void setupFluidRendering(final Fluid still, final Fluid flowing, final Identifier stillTextureFluidId, final Identifier flowTextureFluidId, final int color) {
         // If they're not already present, add the sprites to the block atlas
-        ClientSpriteRegistryCallback.event(SpriteAtlasTexture.BLOCK_ATLAS_TEXTURE).register((atlasTexture, registry) ->
-        {
+        ClientSpriteRegistryCallback.event(SpriteAtlasTexture.BLOCK_ATLAS_TEXTURE).register((atlasTexture, registry) -> {
             registry.register(stillTextureFluidId);
             registry.register(flowTextureFluidId);
         });
 
         final Identifier fluidId = Registry.FLUID.getId(still);
         final Identifier listenerId = new Identifier(fluidId.getNamespace(), fluidId.getPath() + "_reload_listener");
-
-        final Sprite[] fluidSprites = {null, null};
+        final Sprite[] fluidSprites = { null, null };
 
         ResourceManagerHelper.get(ResourceType.CLIENT_RESOURCES).registerReloadListener(new SimpleSynchronousResourceReloadListener() {
             @Override
-            public Identifier getFabricId() {
+            public Identifier getFabricId()
+            {
                 return listenerId;
             }
 

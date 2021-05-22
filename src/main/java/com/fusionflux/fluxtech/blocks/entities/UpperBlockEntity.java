@@ -31,7 +31,7 @@ public class UpperBlockEntity extends AbstractHopperBlockEntity {
     }
 
     @Override
-    public double getInputInventoryY() {
+    public double fluxtech$getInputInventoryY() {
         return -1.0D;
     }
 }

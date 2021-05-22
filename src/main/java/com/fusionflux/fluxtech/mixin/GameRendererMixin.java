@@ -14,17 +14,15 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(GameRenderer.class)
 public class GameRendererMixin {
-
     @Shadow
     @Final
     private Camera camera;
 
     @Inject(method = "renderWorld", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/render/WorldRenderer;render(Lnet/minecraft/client/util/math/MatrixStack;FJZLnet/minecraft/client/render/Camera;Lnet/minecraft/client/render/GameRenderer;Lnet/minecraft/client/render/LightmapTextureManager;Lnet/minecraft/util/math/Matrix4f;)V"))
     private void preWorldRender(float tickDelta, long limitTime, MatrixStack matrix, CallbackInfo callbackInfo) {
-        EntityAttachments accessor = (EntityAttachments) camera.getFocusedEntity();
-
-        if (accessor.isRolling()) {
-            Quaternion quaternion = accessor.getDirection().getRotationQuaternion();
+        EntityAttachments attachments = (EntityAttachments) camera.getFocusedEntity();
+        if (attachments.fluxtech$isRolling()) {
+            Quaternion quaternion = attachments.fluxtech$getDirection().getRotationQuaternion();
             quaternion.conjugate();
             matrix.multiply(quaternion);
         }
