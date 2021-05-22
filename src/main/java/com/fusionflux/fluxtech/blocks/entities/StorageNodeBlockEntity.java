@@ -25,7 +25,8 @@ import java.util.HashSet;
 public class StorageNodeBlockEntity extends BlockEntity implements ImplementedInventory, Nameable, BlockEntityClientSerializable, Tickable {
     private final DefaultedList<ItemStack> items = DefaultedList.ofSize(27, ItemStack.EMPTY);
     private final HashSet<BlockPos> connectedCore = new HashSet<>();
-    private boolean doCheckNextTick = false;
+    private boolean doCheckNextTickSnake = false;
+    private int ticker=0;
 
     public StorageNodeBlockEntity() {
         super(FluxTechBlocks.STORAGE_NODE_BLOCK_ENTITY);
@@ -86,7 +87,7 @@ public class StorageNodeBlockEntity extends BlockEntity implements ImplementedIn
             if (this.world != null) {
                 if (!this.world.isClient) {
                     if (this.world.getBlockState(this.getPos().offset(offsetDir)).getBlock().equals(FluxTechBlocks.STORAGE_NODE_BLOCK)) {
-                        node = (StorageNodeBlockEntity) this.world.getBlockEntity(new BlockPos(this.getPos().getX(), this.getPos().getY(), this.getPos().getZ()).offset(offsetDir));
+                        node = (StorageNodeBlockEntity) this.world.getBlockEntity(this.getPos().offset(offsetDir));
                         if (node != null) {
                             if (node.world != null && node.pos != null) {
                                 if (!node.connectedCore.containsAll(this.connectedCore)) {
@@ -99,8 +100,12 @@ public class StorageNodeBlockEntity extends BlockEntity implements ImplementedIn
                                     }
                                     if(updatechain<1000) {
                                         node.updateNearbyBlocks(updatechain+1);
+                                        this.doCheckNextTickSnake = true;
+                                        break;
                                     }else{
-                                        node.doCheckNextTick = true;
+                                        node.doCheckNextTickSnake = true;
+                                        this.doCheckNextTickSnake = true;
+                                        break;
                                     }
                                 }
                             }
@@ -181,9 +186,14 @@ public class StorageNodeBlockEntity extends BlockEntity implements ImplementedIn
 
     @Override
     public void tick() {
-        if(doCheckNextTick){
-            this.doCheckNextTick = false;
-            this.updateNearbyBlocks(0);
+        if (!world.isClient) {
+            ticker++;
+            if (ticker % 20 == 1) {
+                if (doCheckNextTickSnake) {
+                    this.doCheckNextTickSnake = false;
+                    this.updateNearbyBlocks(0);
+                }
+            }
         }
     }
 }
