@@ -9,6 +9,7 @@ import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.blockrenderlayer.v1.BlockRenderLayerMap;
 import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
 import net.fabricmc.fabric.api.tag.TagRegistry;
+import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.block.*;
 import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.client.render.RenderLayer;
@@ -111,6 +112,10 @@ public class FluxTechBlocks {
         REDSTONE_RANDOMIZER_BLOCK_ENTITY = Registry.register(Registry.BLOCK_ENTITY_TYPE, new Identifier(FluxTech.MOD_ID, "redstone_randomizer_entity"), BlockEntityType.Builder.create(RedstoneRandomizerBlockEntity::new, REDSTONE_RANDOMIZER_BLOCK).build(null));
         Registry.register(Registry.BLOCK, new Identifier(FluxTech.MOD_ID, "redstone_randomizer"), REDSTONE_RANDOMIZER_BLOCK);
         Registry.register(Registry.ITEM, new Identifier(FluxTech.MOD_ID, "redstone_randomizer"), new BlockItem(REDSTONE_RANDOMIZER_BLOCK, new Item.Settings().group(FluxTech.FLUXTECH_GROUP)));
+
+        if (FabricLoader.getInstance().isModLoaded("columns")) {
+            FluxTechColumnBlocks.registerColumnBlocks();
+        }
     }
 
     @Environment(EnvType.CLIENT)
