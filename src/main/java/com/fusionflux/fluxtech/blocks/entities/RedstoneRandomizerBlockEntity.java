@@ -19,7 +19,7 @@ public class RedstoneRandomizerBlockEntity extends BlockEntity implements Tickab
     public void tick() {
         Random random = new Random();
         if (world != null) {
-            if(this.age % 40 == 0)
+            if(this.age % 100 == 0)
             world.setBlockState(pos, world.getBlockState(pos).with(Properties.POWER, random.nextInt(16)));
         }
         age++;

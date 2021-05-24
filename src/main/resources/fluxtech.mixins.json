@@ -14,8 +14,7 @@
     "ItemEntityMixin",
     "LavaFluidMixin",
     "PlayerEntityMixin",
-    "ServerChunkManagerInvoker",
-    "ServerPlayerEntityCloakMixin"
+    "ServerChunkManagerInvoker"
   ],
   "client": [
     "client.WorldRendererMixin"

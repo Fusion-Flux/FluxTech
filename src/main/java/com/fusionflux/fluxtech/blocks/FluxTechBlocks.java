@@ -35,8 +35,6 @@ public class FluxTechBlocks {
     public static final Block SMOOTH_END_STONE_SLAB = new SlabBlock(FabricBlockSettings.copy(FluxTechBlocks.SMOOTH_END_STONE));
     public static final Block SMOOTH_END_STONE_STAIRS = new CustomStairs(FluxTechBlocks.SMOOTH_END_STONE);
     public static final Block SMOOTH_END_STONE_WALL = new WallBlock(FabricBlockSettings.copy(FluxTechBlocks.SMOOTH_END_STONE));
-    public static final StorageNodeBlock STORAGE_NODE_BLOCK = new StorageNodeBlock(FabricBlockSettings.of(Material.STONE).hardness(3.5f));
-    public static final StorageCoreBlock STORAGE_CORE_BLOCK = new StorageCoreBlock(FabricBlockSettings.of(Material.STONE).hardness(3.5f));
 
     public static final BarbedWire BARBEDWIRE = new BarbedWire(FabricBlockSettings.of(Material.STONE).hardness(3.5f).noCollision().nonOpaque());
 
@@ -50,14 +48,9 @@ public class FluxTechBlocks {
     public static final UpperBlock SKUPPER_BLOCK = new UpperBlock(FabricBlockSettings.copyOf(Blocks.HOPPER), 2);
     public static final UpperBlock JUPPER_BLOCK = new UpperBlock(FabricBlockSettings.copyOf(Blocks.HOPPER), 3);
 
-    public static final CloakingDeviceBlock CLOAKING_DEVICE_BLOCK = new CloakingDeviceBlock(FabricBlockSettings.copyOf(Blocks.IRON_BLOCK));
-    public static final PointOfInterestType CLOAKING_DEVICE = PointOfInterestType.register(
-            "cloaking_device", PointOfInterestType.getAllStatesOf(CLOAKING_DEVICE_BLOCK), 0, 1
-    );
+
     public static BlockEntityType<StarCoreEntity> STAR_CORE_ENTITY;
-    public static BlockEntityType<CloakingDeviceBlockEntity> CLOAKING_DEVICE_BLOCK_ENTITY;
-    public static BlockEntityType<StorageNodeBlockEntity> STORAGE_NODE_BLOCK_ENTITY;
-    public static BlockEntityType<StorageCoreBlockEntity> STORAGE_CORE_BLOCK_ENTITY;
+
     public static BlockEntityType<HopperBlockEntity> HOPPER_BLOCK_ENTITY;
     public static BlockEntityType<UpperBlockEntity> UPPER_BLOCK_ENTITY;
 
@@ -79,18 +72,7 @@ public class FluxTechBlocks {
             Registry.register(Registry.ITEM, new Identifier(FluxTech.MOD_ID, "smooth_end_stone_wall"), new BlockItem(SMOOTH_END_STONE_WALL, new Item.Settings().group(FluxTech.FLUXTECH_GROUP)));
         }
 
-        CLOAKING_DEVICE_BLOCK_ENTITY = Registry.register(Registry.BLOCK_ENTITY_TYPE, new Identifier(FluxTech.MOD_ID, "cloaking_device_entity"), BlockEntityType.Builder.create(CloakingDeviceBlockEntity::new, CLOAKING_DEVICE_BLOCK).build(null));
-        Registry.register(Registry.BLOCK, new Identifier(FluxTech.MOD_ID, "cloaking_device"), CLOAKING_DEVICE_BLOCK);
-        Registry.register(Registry.ITEM, new Identifier(FluxTech.MOD_ID, "cloaking_device"), new BlockItem(CLOAKING_DEVICE_BLOCK, new Item.Settings().group(FluxTech.FLUXTECH_GROUP)));
 
-
-        STORAGE_NODE_BLOCK_ENTITY = Registry.register(Registry.BLOCK_ENTITY_TYPE, new Identifier(FluxTech.MOD_ID, "locker_entity"), BlockEntityType.Builder.create(StorageNodeBlockEntity::new, STORAGE_NODE_BLOCK).build(null));
-        Registry.register(Registry.BLOCK, new Identifier(FluxTech.MOD_ID, "node"), STORAGE_NODE_BLOCK);
-        Registry.register(Registry.ITEM, new Identifier(FluxTech.MOD_ID, "node"), new BlockItem(STORAGE_NODE_BLOCK, new Item.Settings().group(FluxTech.FLUXTECH_GROUP)));
-
-        STORAGE_CORE_BLOCK_ENTITY = Registry.register(Registry.BLOCK_ENTITY_TYPE, new Identifier(FluxTech.MOD_ID, "core_entity"), BlockEntityType.Builder.create(StorageCoreBlockEntity::new, STORAGE_CORE_BLOCK).build(null));
-        Registry.register(Registry.BLOCK, new Identifier(FluxTech.MOD_ID, "core"), STORAGE_CORE_BLOCK);
-        Registry.register(Registry.ITEM, new Identifier(FluxTech.MOD_ID, "core"), new BlockItem(STORAGE_CORE_BLOCK, new Item.Settings().group(FluxTech.FLUXTECH_GROUP)));
 
         HOPPER_BLOCK_ENTITY = Registry.register(Registry.BLOCK_ENTITY_TYPE, new Identifier(FluxTech.MOD_ID, "hopper_entity"), BlockEntityType.Builder.create(HopperBlockEntity::new, SKIPPER_BLOCK, JUMPER_BLOCK).build(null));
         Registry.register(Registry.BLOCK, new Identifier(FluxTech.MOD_ID, "skipper"), SKIPPER_BLOCK);

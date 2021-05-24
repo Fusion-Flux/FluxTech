@@ -3,11 +3,9 @@ package com.fusionflux.fluxtech;
 import com.fusionflux.fluxtech.blocks.FluxTechBlocks;
 import com.fusionflux.fluxtech.config.FluxTechConfig2;
 import com.fusionflux.fluxtech.delay.DelayedForLoopManager;
-import com.fusionflux.fluxtech.dim.CloakDimension;
 import com.fusionflux.fluxtech.effects.CustomEffects;
 import com.fusionflux.fluxtech.items.FluxTechItems;
 import com.fusionflux.fluxtech.sound.FluxTechSounds;
-import com.fusionflux.fluxtech.teb.CloakingEvents;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.client.itemgroup.FabricItemGroupBuilder;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents;
@@ -34,8 +32,7 @@ public class FluxTech implements ModInitializer {
         ServerTickEvents.END_SERVER_TICK.register(minecraftServer -> {
             DelayedForLoopManager.tick();
         });
-        CloakingEvents.registerCloakingEvents();
-        CloakDimension.registerCloakedDimension();
+
     }
     /*
     private void processConfig() {
