@@ -4,7 +4,6 @@ import com.fusionflux.fluxtech.blocks.entities.RedstoneRandomizerBlockEntity;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.BlockWithEntity;
-import net.minecraft.block.RedstoneBlock;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.state.StateManager;
@@ -17,6 +16,7 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.Random;
 
+@SuppressWarnings("deprecation")
 public class RedstoneRandomizerBlock extends BlockWithEntity {
     public static final IntProperty POWER;
 

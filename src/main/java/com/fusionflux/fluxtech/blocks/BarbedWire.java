@@ -15,6 +15,7 @@ import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.BlockView;
 import net.minecraft.world.World;
 
+@SuppressWarnings("deprecation")
 public class BarbedWire extends Block {
     public BarbedWire(Settings settings) {
         super(settings);

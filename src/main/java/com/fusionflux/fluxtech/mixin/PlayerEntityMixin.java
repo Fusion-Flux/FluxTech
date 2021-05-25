@@ -1,9 +1,7 @@
 package com.fusionflux.fluxtech.mixin;
 
-import com.fusionflux.fluxtech.accessor.PlayerEntityExtensions;
 import com.fusionflux.fluxtech.config.FluxTechConfig;
 import com.fusionflux.fluxtech.items.FluxTechItems;
-import com.fusionflux.fluxtech.util.FluxTechTags;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.LivingEntity;
@@ -14,8 +12,6 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.sound.SoundEvents;
-import net.minecraft.tag.FluidTags;
-import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 import org.spongepowered.asm.mixin.Final;
@@ -109,8 +105,8 @@ public abstract class PlayerEntityMixin extends LivingEntity {
                 fluxtech$fallSpeedMax = Math.abs(this.getVelocity().y);
             }
 
-            if (this.getVelocity().y < fallSpeedMax && this.getVelocity().y < 0) {
-                fallSpeedMax = Math.abs(this.getVelocity().y);
+            if (this.getVelocity().y < fluxtech$fallSpeedMax && this.getVelocity().y < 0) {
+                fluxtech$fallSpeedMax = Math.abs(this.getVelocity().y);
             }
             
             if (this.getVelocity().y < -1) {

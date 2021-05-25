@@ -20,6 +20,7 @@ import net.minecraft.util.shape.VoxelShape;
 import net.minecraft.util.shape.VoxelShapes;
 import net.minecraft.world.BlockView;
 
+@SuppressWarnings("deprecation")
 public class HopperBlock extends AbstractHopperBlock {
     public static final DirectionProperty FACING;
     private static final VoxelShape TOP_SHAPE;

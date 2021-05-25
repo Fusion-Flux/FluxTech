@@ -6,7 +6,6 @@ import net.minecraft.block.BlockState;
 import net.minecraft.block.FluidBlock;
 import net.minecraft.entity.Entity;
 import net.minecraft.fluid.FlowableFluid;
-import net.minecraft.fluid.FluidState;
 import net.minecraft.state.property.IntProperty;
 import net.minecraft.state.property.Properties;
 import net.minecraft.tag.FluidTags;
@@ -15,6 +14,7 @@ import net.minecraft.util.math.Direction;
 import net.minecraft.util.shape.VoxelShape;
 import net.minecraft.world.World;
 
+@SuppressWarnings("deprecation")
 public class EnduriumBlock extends FluidBlock {
     public static final IntProperty LEVEL;
     public static final VoxelShape COLLISION_SHAPE;
@@ -46,7 +46,7 @@ public class EnduriumBlock extends FluidBlock {
 
         }
         if (flag) {
-            FluidState ifluidstate = world.getFluidState(pos);
+            // FluidState ifluidstate = world.getFluidState(pos);
             // if (ifluidstate.isStill()) {
             world.setBlockState(pos, FluxTechBlocks.SMOOTH_END_STONE.getDefaultState());
             this.triggerMixEffects(world, pos);

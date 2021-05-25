@@ -2,6 +2,7 @@ package com.fusionflux.fluxtech.blocks;
 
 import com.fusionflux.fluxtech.FluxTech;
 import com.fusionflux.fluxtech.blocks.entities.HopperBlockEntity;
+import com.fusionflux.fluxtech.blocks.entities.RedstoneRandomizerBlockEntity;
 import com.fusionflux.fluxtech.blocks.entities.StarCoreEntity;
 import com.fusionflux.fluxtech.blocks.entities.UpperBlockEntity;
 import com.fusionflux.fluxtech.config.FluxTechConfig;

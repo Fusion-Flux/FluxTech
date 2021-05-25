@@ -26,8 +26,6 @@ public class FluxTech implements ModInitializer {
         FluxTechItems.registerItems();
         FluxTechBlocks.registerBlocks();
         FluxTechSounds.registerSounds();
-        ServerTickEvents.END_SERVER_TICK.register(minecraftServer -> {
-            DelayedForLoopManager.tick();
-        });
+        ServerTickEvents.END_SERVER_TICK.register(minecraftServer -> DelayedForLoopManager.tick());
     }
 }
