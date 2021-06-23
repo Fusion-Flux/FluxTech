@@ -1,0 +1,6 @@
+{
+    "parent": "fluxtech:block/bluestone/bluestone_dust_side_alt",
+    "textures": {
+        "line": "fluxtech:block/bluestone/bluestone_dust_line1"
+    }
+}

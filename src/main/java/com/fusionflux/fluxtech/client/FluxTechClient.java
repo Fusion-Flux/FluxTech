@@ -1,11 +1,14 @@
 package com.fusionflux.fluxtech.client;
 
+import com.fusionflux.fluxtech.blocks.ColoredRedstone;
 import com.fusionflux.fluxtech.client.rendering.FluidRender;
 import com.fusionflux.fluxtech.FluxTech;
 import com.fusionflux.fluxtech.blocks.FluxTechBlocks;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
+import net.fabricmc.fabric.api.client.rendering.v1.ColorProviderRegistry;
+import net.minecraft.state.property.Properties;
 import net.minecraft.util.Identifier;
 
 @Environment(EnvType.CLIENT)
@@ -17,6 +20,7 @@ public class FluxTechClient implements ClientModInitializer {
 	public void onInitializeClient() {
 		FluidRender.setupFluidRendering(FluxTechBlocks.ENDURIUM, FluxTechBlocks.ENDURIUM_FLOWING, FLUID_STILL, FLUID_FLOWING, 0x084537);
 		FluxTechBlocks.registerRenderLayers();
+		ColorProviderRegistry.BLOCK.register((state, view, pos, tintIndex) -> ColoredRedstone.COLORS[state.get(Properties.POWER)], FluxTechBlocks.BLUESTONE);
 	}
 
 }

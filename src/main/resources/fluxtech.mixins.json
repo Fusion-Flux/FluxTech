@@ -10,7 +10,8 @@
     "FluidBlockMixin",
     "HopperMixin",
     "ItemEntityMixin",
-    "PlayerEntityMixin"
+    "PlayerEntityMixin",
+    "RedstoneWireBlockMixin"
   ],
   "client": [
     "GameRendererMixin"

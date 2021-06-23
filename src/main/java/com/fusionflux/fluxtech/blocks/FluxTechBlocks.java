@@ -10,6 +10,7 @@ import com.fusionflux.fluxtech.fluids.Endurium;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.blockrenderlayer.v1.BlockRenderLayerMap;
+import net.fabricmc.fabric.api.client.rendering.v1.ColorProviderRegistry;
 import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
 import net.fabricmc.fabric.api.tag.TagRegistry;
 import net.fabricmc.loader.api.FabricLoader;
@@ -35,6 +36,8 @@ public class FluxTechBlocks {
     public static final Block SMOOTH_END_STONE_SLAB = new SlabBlock(FabricBlockSettings.copy(FluxTechBlocks.SMOOTH_END_STONE));
     public static final Block SMOOTH_END_STONE_STAIRS = new CustomStairs(FluxTechBlocks.SMOOTH_END_STONE);
     public static final Block SMOOTH_END_STONE_WALL = new WallBlock(FabricBlockSettings.copy(FluxTechBlocks.SMOOTH_END_STONE));
+
+    public static final ColoredRedstone BLUESTONE = new ColoredRedstone(FabricBlockSettings.of(Material.STONE).noCollision().breakInstantly());
 
     public static final BarbedWire BARBEDWIRE = new BarbedWire(FabricBlockSettings.of(Material.STONE).hardness(3.5f).noCollision().nonOpaque());
 
@@ -82,6 +85,10 @@ public class FluxTechBlocks {
         Registry.register(Registry.BLOCK, new Identifier(FluxTech.MOD_ID, "jupper"), JUPPER_BLOCK);
         Registry.register(Registry.ITEM, new Identifier(FluxTech.MOD_ID, "jupper"), new BlockItem(JUPPER_BLOCK, new Item.Settings().group(FluxTech.FLUXTECH_GROUP)));
 
+        Registry.register(Registry.BLOCK, new Identifier(FluxTech.MOD_ID, "bluestone"), BLUESTONE);
+        Registry.register(Registry.ITEM, new Identifier(FluxTech.MOD_ID, "bluestone"), new BlockItem(BLUESTONE, new Item.Settings().group(FluxTech.FLUXTECH_GROUP)));
+        ColorProviderRegistry.ITEM.register((stack, tintIndex) -> 0x3495eb, BLUESTONE);
+
         Registry.register(Registry.BLOCK, new Identifier(FluxTech.MOD_ID, "barbed_wire"), BARBEDWIRE);
         Registry.register(Registry.ITEM, new Identifier(FluxTech.MOD_ID, "barbed_wire"), new BlockItem(BARBEDWIRE, new Item.Settings().group(FluxTech.FLUXTECH_GROUP)));
 
@@ -97,8 +104,10 @@ public class FluxTechBlocks {
     @Environment(EnvType.CLIENT)
     public static void registerRenderLayers() {
         BlockRenderLayerMap.INSTANCE.putFluid(FluxTechBlocks.ENDURIUM, RenderLayer.getTranslucent());
+        BlockRenderLayerMap.INSTANCE.putBlock(FluxTechBlocks.BLUESTONE, RenderLayer.getCutout());
         BlockRenderLayerMap.INSTANCE.putFluid(FluxTechBlocks.ENDURIUM_FLOWING, RenderLayer.getTranslucent());
         BlockRenderLayerMap.INSTANCE.putBlock(FluxTechBlocks.BARBEDWIRE, RenderLayer.getTranslucent());
+
     }
 
     public static Tag<Fluid> fluidTagRegister(String id) {
