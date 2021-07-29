@@ -64,11 +64,11 @@ public abstract class PlayerEntityMixin extends LivingEntity {
             this.flyingSpeed = this.abilities.getFlySpeed() * (float) FluxTechConfig.get().numbers.aeroarmorFlightBoost;
         }
 
-        if (!this.isOnGround() && this.getVelocity().y < -1 && feetStack.getItem() == FluxTechItems.GRAVITRONS) {
+        if (!this.isOnGround() && this.getVelocity().y < -1 && feetStack.getItem() == FluxTechItems.SLIDERS) {
             super.travel(movementInput);
         }
 
-        if (!this.isOnGround() && this.getVelocity().y < -2.5 && feetStack.getItem() == FluxTechItems.GRAVITRONS) {
+        if (!this.isOnGround() && this.getVelocity().y < -2.5 && feetStack.getItem() == FluxTechItems.SLIDERS) {
             super.travel(movementInput);
             super.travel(movementInput);
         }
@@ -100,7 +100,7 @@ public abstract class PlayerEntityMixin extends LivingEntity {
     @Inject(method = "tick", at = @At("HEAD"), cancellable = true)
     public void tick(CallbackInfo ci) {
         ItemStack feetStack = this.getEquippedStack(EquipmentSlot.FEET);
-        if (!this.isOnGround() && (feetStack.getItem() == FluxTechItems.GRAVITRONS) || feetStack.getItem() == FluxTechItems.SLIME_COATED_NETHERITE_BOOTS) {
+        if (!this.isOnGround() && (feetStack.getItem() == FluxTechItems.SLIDERS) || feetStack.getItem() == FluxTechItems.SLIME_COATED_NETHERITE_BOOTS) {
             if (this.getVelocity().y < fluxtech$fallSpeedMax && this.getVelocity().y < 0) {
                 fluxtech$fallSpeedMax = Math.abs(this.getVelocity().y);
             }
@@ -130,8 +130,8 @@ public abstract class PlayerEntityMixin extends LivingEntity {
             }
         }
 
-        if (fluxtech$doGroundPound && feetStack.getItem() == FluxTechItems.GRAVITRONS) {
-            List<LivingEntity> stompableEntities = this.world.getEntitiesByClass(LivingEntity.class, this.getBoundingBox(), null);
+        if (fluxtech$doGroundPound && feetStack.getItem() == FluxTechItems.SLIDERS) {
+            List<LivingEntity> stompableEntities = this.world.getEntitiesByClass(LivingEntity.class, this.getBoundingBox(), e -> true);
             stompableEntities.remove(this);
             for (LivingEntity entity : stompableEntities) {
                 fluxtech$doCrunch = true;

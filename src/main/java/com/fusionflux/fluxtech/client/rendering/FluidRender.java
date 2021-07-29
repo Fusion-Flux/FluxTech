@@ -37,6 +37,11 @@ public class FluidRender {
 
         ResourceManagerHelper.get(ResourceType.CLIENT_RESOURCES).registerReloadListener(new SimpleSynchronousResourceReloadListener() {
             @Override
+            public void reload(ResourceManager manager) {
+
+            }
+
+            @Override
             public Identifier getFabricId()
             {
                 return listenerId;
@@ -45,7 +50,7 @@ public class FluidRender {
             /**
              * Get the sprites from the block atlas when resources are reloaded
              */
-            @Override
+
             public void apply(ResourceManager resourceManager) {
                 final Function<Identifier, Sprite> atlas = MinecraftClient.getInstance().getSpriteAtlas(SpriteAtlasTexture.BLOCK_ATLAS_TEXTURE);
                 fluidSprites[0] = atlas.apply(stillTextureFluidId);

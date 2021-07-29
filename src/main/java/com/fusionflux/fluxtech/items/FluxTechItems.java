@@ -21,8 +21,8 @@ public class FluxTechItems {
 
     public static final Item MELTEDPEARL = new Item(new FabricItemSettings().group(FluxTech.FLUXTECH_GROUP).maxCount(16));
 
-    public static final Item ENDURIUM_BUCKET = new BucketItem(FluxTechBlocks.ENDURIUM, new Item.Settings()
-            .recipeRemainder(Items.BUCKET).maxCount(1).group(FluxTech.FLUXTECH_GROUP));
+   // public static final Item ENDURIUM_BUCKET = new BucketItem(FluxTechBlocks.ENDURIUM, new Item.Settings()
+       //     .recipeRemainder(Items.BUCKET).maxCount(1).group(FluxTech.FLUXTECH_GROUP));
 
     public static void registerItems() {
         if (FluxTechConfig.get().enabled.enableHPD)
@@ -35,7 +35,7 @@ public class FluxTechItems {
         Registry.register(Registry.ITEM, new Identifier(FluxTech.MOD_ID, "slime_coated_netherite_boots"), SLIME_COATED_NETHERITE_BOOTS);
         if (FluxTechConfig.get().enabled.enableEndurium) {
             Registry.register(Registry.ITEM, new Identifier(FluxTech.MOD_ID, "melted_ender_pearl"), MELTEDPEARL);
-            Registry.register(Registry.ITEM, new Identifier(FluxTech.MOD_ID, "endurium_bucket"), ENDURIUM_BUCKET);
+         //   Registry.register(Registry.ITEM, new Identifier(FluxTech.MOD_ID, "endurium_bucket"), ENDURIUM_BUCKET);
         }
         Registry.register(Registry.ITEM, new Identifier(FluxTech.MOD_ID, "sliders"), SLIDERS);
 

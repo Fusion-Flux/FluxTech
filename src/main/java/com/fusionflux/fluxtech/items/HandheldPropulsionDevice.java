@@ -4,6 +4,7 @@ import com.fusionflux.fluxtech.config.FluxTechConfig;
 import com.fusionflux.fluxtech.util.FluxTechTags;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.projectile.PersistentProjectileEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemUsageContext;
@@ -37,7 +38,7 @@ public class HandheldPropulsionDevice extends Item {
 
         context.getPlayer().getItemCooldownManager().set(this, FluxTechConfig.get().numbers.hPDCooldown);
 
-        List<Entity> list = context.getPlayer().world.getOtherEntities(null, context.getPlayer().getBoundingBox().expand(5.0D, 2.5D, 5.0D), null);
+        List<Entity> list = context.getPlayer().world.getOtherEntities(null, context.getPlayer().getBoundingBox().expand(5.0D, 2.5D, 5.0D), e -> true);
         if (!list.isEmpty()) {
             Vec3d direction;
             for (Entity entity : list) {

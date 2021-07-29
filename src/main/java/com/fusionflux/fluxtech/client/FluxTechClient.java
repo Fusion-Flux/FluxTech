@@ -18,9 +18,9 @@ public class FluxTechClient implements ClientModInitializer {
 
 	@Override
 	public void onInitializeClient() {
-		FluidRender.setupFluidRendering(FluxTechBlocks.ENDURIUM, FluxTechBlocks.ENDURIUM_FLOWING, FLUID_STILL, FLUID_FLOWING, 0x084537);
+		//FluidRender.setupFluidRendering(FluxTechBlocks.ENDURIUM, FluxTechBlocks.ENDURIUM_FLOWING, FLUID_STILL, FLUID_FLOWING, 0x084537);
 		FluxTechBlocks.registerRenderLayers();
-		ColorProviderRegistry.BLOCK.register((state, view, pos, tintIndex) -> ColoredRedstone.COLORS[state.get(Properties.POWER)], FluxTechBlocks.BLUESTONE);
+		//ColorProviderRegistry.BLOCK.register((state, view, pos, tintIndex) -> ColoredRedstone.COLORS[state.get(Properties.POWER)], FluxTechBlocks.BLUESTONE);
 	}
 
 }

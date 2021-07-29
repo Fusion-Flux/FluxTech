@@ -103,28 +103,7 @@ public abstract class EntityMixin implements EntityAttachments, EnduriumToucher 
 
     @Inject(method = "tick", at = @At("HEAD"), cancellable = true)
     public void tick(CallbackInfo ci) {
-            if(((EnduriumToucher)this).fluxtech$getTouchingEndurium()) {
-                if (((Entity) (Object) this) instanceof LivingEntity) {
-                    LivingEntity user = ((LivingEntity) (Object) this);
-                    if (!world.isClient) {
-                        for(int i = 0; i < 16; ++i) {
-                            double g = user.getX() + (user.getRandom().nextDouble() - 0.5D) * FluxTechConfig.get().numbersblock.enduriumTpRange;
-                            double h = MathHelper.clamp(user.getY() + (double)(user.getRandom().nextInt(FluxTechConfig.get().numbersblock.enduriumTpRange) - 16), 0.0D, (double)(world.getDimensionHeight() - 1));
-                            double j = user.getZ() + (user.getRandom().nextDouble() - 0.5D) * FluxTechConfig.get().numbersblock.enduriumTpRange;
-                            if (user.hasVehicle()) {
-                                user.stopRiding();
-                            }
 
-                            if (user.teleport(g, h, j, true)) {
-                                SoundEvent soundEvent = user instanceof FoxEntity ? SoundEvents.ENTITY_FOX_TELEPORT : SoundEvents.ENTITY_ENDERMAN_TELEPORT;
-                                world.playSound(null, g, h, j, soundEvent, SoundCategory.PLAYERS, 1.0F, 1.0F);
-                                user.playSound(soundEvent, 1.0F, 1.0F);
-                                break;
-                            }
-                        }
-                    }
-                }
-            }
     }
 
     @Inject(method = "isTouchingWater()Z", at = @At("TAIL"))

@@ -3,26 +3,27 @@ package com.fusionflux.fluxtech.blocks.entities;
 import com.fusionflux.fluxtech.blocks.FluxTechBlocks;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntity;
-import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.state.property.Properties;
-import net.minecraft.util.Tickable;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.World;
 
 import java.util.Random;
 
-public class RedstoneRandomizerBlockEntity extends BlockEntity implements Tickable {
-    private int age;
-    public RedstoneRandomizerBlockEntity() {
-        super(FluxTechBlocks.REDSTONE_RANDOMIZER_BLOCK_ENTITY);
+public class RedstoneRandomizerBlockEntity extends BlockEntity {
+    private int age = 1;
+
+    public RedstoneRandomizerBlockEntity(BlockPos pos, BlockState state) {
+        super(FluxTechBlocks.REDSTONE_RANDOMIZER_BLOCK_ENTITY,pos,state);
     }
 
-    @Override
-    public void tick() {
+
+    public static void tick(World world, BlockPos pos, BlockState state, RedstoneRandomizerBlockEntity blockEntity) {
         Random random = new Random();
         if (world != null) {
-            if(this.age % 100 == 0)
+            if(blockEntity.age % 100 == 0)
             world.setBlockState(pos, world.getBlockState(pos).with(Properties.POWER, random.nextInt(16)));
         }
-        age++;
+        blockEntity.age++;
     }
 
 
