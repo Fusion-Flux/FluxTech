@@ -1,24 +1,18 @@
 package com.fusionflux.fluxtech.mixin;
 
-import com.fusionflux.fluxtech.accessor.EnduriumToucher;
+import com.fusionflux.fluxtech.accessor.LaunchAccessors;
 import com.fusionflux.fluxtech.blocks.FluxTechBlocks;
-import com.fusionflux.fluxtech.config.FluxTechConfig;
 import com.fusionflux.fluxtech.entity.EntityAttachments;
 import it.unimi.dsi.fastutil.objects.Object2DoubleMap;
 import net.minecraft.entity.*;
 import net.minecraft.entity.data.DataTracker;
 import net.minecraft.entity.data.TrackedData;
 import net.minecraft.entity.data.TrackedDataHandlerRegistry;
-import net.minecraft.entity.passive.FoxEntity;
 import net.minecraft.entity.vehicle.BoatEntity;
 import net.minecraft.fluid.Fluid;
-import net.minecraft.sound.SoundCategory;
-import net.minecraft.sound.SoundEvent;
-import net.minecraft.sound.SoundEvents;
 import net.minecraft.tag.Tag;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
-import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
@@ -32,7 +26,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(Entity.class)
-public abstract class EntityMixin implements EntityAttachments, EnduriumToucher {
+public abstract class EntityMixin implements EntityAttachments, LaunchAccessors {
     private static final TrackedData<Boolean> IS_ROLLING = DataTracker.registerData(Entity.class, TrackedDataHandlerRegistry.BOOLEAN);
     private static final TrackedData<Direction> DIRECTION = DataTracker.registerData(Entity.class, TrackedDataHandlerRegistry.FACING);
 
@@ -114,6 +108,18 @@ public abstract class EntityMixin implements EntityAttachments, EnduriumToucher 
     @Unique
     public boolean isTouchingEndurium(){
         return this.touchingEndurium;
+    }
+
+    Vec3d storedLaunchVelocity = Vec3d.ZERO;
+
+    @Override
+    public void setLaunchVelocity(Vec3d launchVelocity){
+        storedLaunchVelocity = launchVelocity;
+    }
+
+    @Override
+    public Vec3d getLaunchVelocity(){
+        return storedLaunchVelocity;
     }
 
     public void fluxtech$setTouchingEndurium(boolean touchingEndurium) {

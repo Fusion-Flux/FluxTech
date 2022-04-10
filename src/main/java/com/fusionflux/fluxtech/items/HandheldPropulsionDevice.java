@@ -1,5 +1,6 @@
 package com.fusionflux.fluxtech.items;
 
+import com.fusionflux.fluxtech.accessor.LaunchAccessors;
 import com.fusionflux.fluxtech.config.FluxTechConfig;
 import com.fusionflux.fluxtech.util.FluxTechTags;
 import net.minecraft.block.BlockState;
@@ -36,6 +37,7 @@ public class HandheldPropulsionDevice extends Item {
             }
         }
 
+        //context.getPlayer().getInventory().remove()
         context.getPlayer().getItemCooldownManager().set(this, FluxTechConfig.get().numbers.hPDCooldown);
 
         List<Entity> list = context.getPlayer().world.getOtherEntities(null, context.getPlayer().getBoundingBox().expand(5.0D, 2.5D, 5.0D), e -> true);
@@ -49,7 +51,9 @@ public class HandheldPropulsionDevice extends Item {
                 } else {
                     direction = context.getPlayer().getRotationVector().multiply(-1.0F).normalize();
                 }
+                ((LaunchAccessors) entity).setLaunchVelocity(entity.getVelocity().add(direction.multiply(magnitude)));
                 entity.setVelocity(entity.getVelocity().add(direction.multiply(magnitude)));
+
             }
             context.getPlayer().playSound(SoundEvents.ENTITY_GENERIC_EXPLODE, 2F, 3F);
             context.getPlayer().world.addParticle(ParticleTypes.EXPLOSION_EMITTER, context.getPlayer().getX(), context.getPlayer().getY(), context.getPlayer().getZ(), 0, 0, 0);
