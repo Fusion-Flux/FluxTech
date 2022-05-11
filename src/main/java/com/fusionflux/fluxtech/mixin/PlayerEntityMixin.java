@@ -37,7 +37,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import java.util.List;
 
 @Mixin(PlayerEntity.class)
-public abstract class PlayerEntityMixin extends LivingEntity {
+public abstract class PlayerEntityMixin extends LivingEntity implements LaunchAccessors {
     @Shadow
     public abstract ItemStack getEquippedStack(EquipmentSlot slot);
     @Shadow
@@ -46,13 +46,6 @@ public abstract class PlayerEntityMixin extends LivingEntity {
     @Final
     public PlayerAbilities abilities;
 
-    @Shadow public abstract void increaseTravelMotionStats(double dx, double dy, double dz);
-
-
-    @Shadow protected abstract boolean clipAtLedge();
-
-    @Shadow protected abstract boolean method_30263();
-
     @Unique
     private boolean fluxtech$doGroundPound;
     @Unique
@@ -60,10 +53,6 @@ public abstract class PlayerEntityMixin extends LivingEntity {
     @Unique
     private boolean fluxtech$doCrunch;
 
-    @Unique
-    private Vec3d pretendVelocity = Vec3d.ZERO;
-
-    public boolean fallPls = false;
 
     protected PlayerEntityMixin(EntityType<? extends LivingEntity> entityType, World world) {
         super(entityType, world);
@@ -74,8 +63,7 @@ public abstract class PlayerEntityMixin extends LivingEntity {
     public void isInvulnerableTo(DamageSource damageSource, CallbackInfoReturnable<Boolean> cir) {
         ItemStack feetStack = this.getEquippedStack(EquipmentSlot.FEET);
         if (damageSource == DamageSource.FALL
-                && (feetStack.getItem() == FluxTechItems.GRAVITRONS
-                    || feetStack.getItem() == FluxTechItems.SLIME_COATED_NETHERITE_BOOTS)) {
+                && (feetStack.getItem() == FluxTechItems.GRAVITRONS)) {
             cir.setReturnValue(true);
         }
     }
@@ -87,6 +75,9 @@ public abstract class PlayerEntityMixin extends LivingEntity {
             ItemStack itemFeet = this.getEquippedStack(EquipmentSlot.FEET);
             if (!this.isOnGround() && !this.abilities.flying && !this.isFallFlying() && itemFeet.getItem().equals(FluxTechItems.GRAVITRONS)) {
                 Vec3d maxSpeed = ((LaunchAccessors) this).getLaunchVelocity();
+                if(maxSpeed == null){
+                    maxSpeed = Vec3d.ZERO;
+                }
                 if(maxSpeed != Vec3d.ZERO) {
                 //the maximum velocity a player can have while in midair
 
@@ -171,6 +162,10 @@ public abstract class PlayerEntityMixin extends LivingEntity {
             ((LaunchAccessors) this).setLaunchVelocity(Vec3d.ZERO);
         }
 
+        if(this.isOnGround() || this.abilities.flying || this.isFallFlying()){
+            ((LaunchAccessors) this).setBlastJumping(false);
+        }
+
 
 
         if (!this.isOnGround() && (feetStack.getItem() == FluxTechItems.GRAVITRONS)) {
@@ -182,36 +177,66 @@ public abstract class PlayerEntityMixin extends LivingEntity {
                 fluxtech$fallSpeedMax = Math.abs(this.getVelocity().y);
             }
 
-            if (this.getVelocity().y < -.2) {
+            if (this.getVelocity().y < -.4) {
                 fluxtech$doGroundPound = true;
             }
         }
 
 
         if (fluxtech$doGroundPound && feetStack.getItem() == FluxTechItems.GRAVITRONS) {
-            List<LivingEntity> stompableEntities = this.world.getEntitiesByClass(LivingEntity.class, this.getBoundingBox().expand(2), e -> true);
+            List<LivingEntity> stompableEntities = this.world.getEntitiesByClass(LivingEntity.class, this.getBoundingBox(), e -> true);
             stompableEntities.remove(this);
             for (LivingEntity entity : stompableEntities) {
                 fluxtech$doCrunch = true;
                 if (!this.world.isClient) {
-                    entity.damage(DamageSource.GENERIC, FluxTechConfig.get().numbers.gravitronCrushDamage);
+                    ((LaunchAccessors) this).setBlastJumping(false);
+                    entity.damage(DamageSource.GENERIC, (float)fluxtech$fallSpeedMax*5);
                     world.playSound(null,this.getPos().getX(),this.getPos().getY(),this.getPos().getZ(),SoundEvents.ENTITY_TURTLE_EGG_CRACK, SoundCategory.NEUTRAL, 1, 1);
                     world.playSound(null,this.getPos().getX(),this.getPos().getY(),this.getPos().getZ(),SoundEvents.BLOCK_HONEY_BLOCK_STEP, SoundCategory.NEUTRAL, 2, 1);
                     break;
                 }
             }
             if (fluxtech$doCrunch) {
+                this.setVelocity(this.getVelocity().x, 0, this.getVelocity().z);
+                fluxtech$doCrunch = false;
+                fluxtech$doGroundPound = false;
+            }
+            /*if (fluxtech$doCrunch) {
                 this.setVelocity(this.getVelocity().x, fluxtech$fallSpeedMax / FluxTechConfig.get().numbers.crushBounceMultiplier, this.getVelocity().z);
                 fluxtech$doGroundPound = false;
                 fluxtech$doCrunch = false;
                 fluxtech$fallSpeedMax = 0;
-            }
+            }*/
             if ((this.isOnGround() || this.isFallFlying()) && !fluxtech$doCrunch) {
                 fluxtech$doGroundPound = false;
                 fluxtech$fallSpeedMax = 0;
             }
         }
 
+    }
+
+    Vec3d storedLaunchVelocity = Vec3d.ZERO;
+
+    @Override
+    public void setLaunchVelocity(Vec3d launchVelocity){
+        storedLaunchVelocity = launchVelocity;
+    }
+
+    @Override
+    public Vec3d getLaunchVelocity(){
+        return storedLaunchVelocity;
+    }
+
+    boolean isBlastJumping = false;
+
+    @Override
+    public void setBlastJumping(boolean isBlastJumping){
+        this.isBlastJumping = isBlastJumping;
+    }
+
+    @Override
+    public boolean getBlastJumping(){
+        return isBlastJumping;
     }
 
 

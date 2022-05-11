@@ -17,41 +17,14 @@ public class FluxTechConfig implements ConfigData {
         return AutoConfig.getConfigHolder(FluxTechConfig.class).getConfig();
     }
 
-    public static void save() {
-        AutoConfig.getConfigHolder(FluxTechConfig.class).save();
-    }
-
-    public static class Enabled {
-        public boolean enableHPD = true;
-        public boolean enableAeroArmor = true;
-        public boolean enableGravitrons = true;
-        public boolean enableSCNB = true;
-        public boolean enableEndurium = true;
-        public boolean enableSmoothEndStone = true;
-    }
     public static class Numbers {
-        public double hPDLaunchPower = 2;
+        public double hPDLaunchPower = 1.25;
         public int hPDCooldown = 10;
-        public boolean hPDReturnsProjectiles = false;
-        public boolean enableHPDLaunchPreventer = true;
-        public double aeroarmorFlightBoost = 2;
-        public int gravitronCrushDamage = 30;
-        public double crushBounceMultiplier = 0.75;
-        public double slimeBounceMultiplier = 0.75;
     }
-    public static class NumbersBlock {
-        public int enduriumTpRange = 64;
-    }
-    @ConfigEntry.Gui.TransitiveObject
-    @ConfigEntry.Category("enabled")
-    public Enabled enabled = new Enabled();
 
     @ConfigEntry.Gui.TransitiveObject
     @ConfigEntry.Category("numbers")
     public Numbers numbers = new Numbers();
 
-    @ConfigEntry.Gui.TransitiveObject
-    @ConfigEntry.Category("numbersblock")
-    public NumbersBlock numbersblock = new NumbersBlock();
 }
 

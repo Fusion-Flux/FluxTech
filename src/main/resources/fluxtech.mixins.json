@@ -4,17 +4,9 @@
   "package": "com.fusionflux.fluxtech.mixin",
   "compatibilityLevel": "JAVA_8",
   "mixins": [
-    "ArmorItemMixin",
-    "BlockMixin",
-    "EntityMixin",
-    "FluidBlockMixin",
-    "HopperMixin",
-    "ItemEntityMixin",
-    "PlayerEntityMixin",
-    "RedstoneWireBlockMixin"
+    "PlayerEntityMixin"
   ],
   "client": [
-    "GameRendererMixin"
   ],
   "injectors": {
     "defaultRequire": 1

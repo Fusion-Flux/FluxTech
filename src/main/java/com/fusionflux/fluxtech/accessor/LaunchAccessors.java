@@ -8,4 +8,8 @@ public interface LaunchAccessors {
     void setLaunchVelocity(Vec3d launchVelocity);
 
     Vec3d getLaunchVelocity();
+
+    void setBlastJumping(boolean isBlastJumping);
+
+    boolean getBlastJumping();
 }

@@ -1,6 +1,0 @@
-{
-  "parent": "columns:block/column_end",
-  "textures": {
-    "all": "fluxtech:block/smooth_end_stone"
-  }
-}
