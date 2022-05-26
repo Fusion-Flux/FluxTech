@@ -1,0 +1,29 @@
+{
+    "type": "minecraft:crafting_shaped",
+    "pattern": [
+        "cGc",
+        "cCF",
+        "  i"
+    ],
+    "key": {
+        "c": {
+            "item": "minecraft:copper_ingot"
+        },
+        "G": {
+            "item": "minecraft:gunpowder"
+        },
+        "C": {
+            "item": "minecraft:copper_block"
+        },
+        "F": {
+            "item": "minecraft:flint_and_steel"
+        },
+        "i": {
+            "item": "minecraft:iron_ingot"
+        }
+    },
+    "result": {
+        "item": "fluxtech:copper_creeper",
+        "count": 1
+    }
+}

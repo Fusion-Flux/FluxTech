@@ -15,8 +15,8 @@ public class FluxTechItems {
     public static final MarketGardner MARKETGARNDER = new MarketGardner(new FabricItemSettings().group(FluxTech.FLUXTECH_GROUP).maxCount(1).fireproof());
     public static void registerItems() {
             Registry.register(Registry.ITEM, new Identifier(FluxTech.MOD_ID, "copper_creeper"), COPPER_CREEPER);
-            Registry.register(Registry.ITEM, new Identifier(FluxTech.MOD_ID, "mantreads"), GRAVITRONS);
-        Registry.register(Registry.ITEM, new Identifier(FluxTech.MOD_ID, "marketgardner"), MARKETGARNDER);
+            Registry.register(Registry.ITEM, new Identifier(FluxTech.MOD_ID, "pigstomps"), GRAVITRONS);
+        Registry.register(Registry.ITEM, new Identifier(FluxTech.MOD_ID, "phantom_farmer"), MARKETGARNDER);
 
     }
 }

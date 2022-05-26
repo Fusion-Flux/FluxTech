@@ -71,63 +71,62 @@ public abstract class PlayerEntityMixin extends LivingEntity implements LaunchAc
     @ModifyVariable(method = "travel", at = @At("HEAD"), argsOnly = true)
     private Vec3d uhhhhhhh(Vec3d travelVectorOriginal) {
 
-
+        if (!this.hasNoGravity()) {
             ItemStack itemFeet = this.getEquippedStack(EquipmentSlot.FEET);
             if (!this.isOnGround() && !this.abilities.flying && !this.isFallFlying() && itemFeet.getItem().equals(FluxTechItems.GRAVITRONS)) {
                 Vec3d maxSpeed = ((LaunchAccessors) this).getLaunchVelocity();
-                if(maxSpeed == null){
+                if (maxSpeed == null) {
                     maxSpeed = Vec3d.ZERO;
                 }
-                if(maxSpeed != Vec3d.ZERO) {
-                //the maximum velocity a player can have while in midair
+                if (maxSpeed != Vec3d.ZERO) {
+                    //the maximum velocity a player can have while in midair
 
-                maxSpeed = new Vec3d(maxSpeed.x, 0, maxSpeed.z);
+                    maxSpeed = new Vec3d(maxSpeed.x, 0, maxSpeed.z);
 
-                //the speed generated from the player input
-                Vec3d addVelocity = calcMovementInputToVelocity(travelVectorOriginal, .1f, this.getYaw());
+                    //the speed generated from the player input
+                    Vec3d addVelocity = calcMovementInputToVelocity(travelVectorOriginal, .1f, this.getYaw());
 
-                //the input speed added to the players current velocity
-                Vec3d wishVelocity = this.getVelocity().add(addVelocity);
+                    //the input speed added to the players current velocity
+                    Vec3d wishVelocity = this.getVelocity().add(addVelocity);
 
-                //the current players velocity
-                Vec3d currentVelocity = this.getVelocity().multiply(new Vec3d(1, 0, 1));
+                    //the current players velocity
+                    Vec3d currentVelocity = this.getVelocity().multiply(new Vec3d(1, 0, 1));
 
-                wishVelocity = currentVelocity.add(addVelocity);
-                   // System.out.println("inital creation" + wishVelocity.length());
+                    wishVelocity = currentVelocity.add(addVelocity);
+                    // System.out.println("inital creation" + wishVelocity.length());
 
 
-                if (wishVelocity.length() < maxSpeed.length()) {
-                    wishVelocity = wishVelocity.normalize().multiply(maxSpeed);
-                    //System.out.println("before subtract" + wishVelocity.length());
+                    if (wishVelocity.length() < maxSpeed.length()) {
+                        wishVelocity = wishVelocity.normalize().multiply(maxSpeed);
+                        //System.out.println("before subtract" + wishVelocity.length());
 
-                    wishVelocity.subtract( currentVelocity );
+                        wishVelocity.subtract(currentVelocity);
 
-                    //System.out.println("after subtract" + wishVelocity.length());
-                    this.airStrafingSpeed = .1f * (float) wishVelocity.length();
-                }else{
+                        //System.out.println("after subtract" + wishVelocity.length());
+                        this.airStrafingSpeed = .1f * (float) wishVelocity.length();
+                    } else {
+                        double mathval = 1;
+                        double horizontalvelocity = Math.abs(this.getVelocity().x) + Math.abs(this.getVelocity().z);
+                        if (horizontalvelocity / 0.01783440120041885 > 1) {
+                            mathval = horizontalvelocity / 0.01783440120041885;
+                        }
+
+                        travelVectorOriginal = new Vec3d(travelVectorOriginal.x / mathval, travelVectorOriginal.y, travelVectorOriginal.z / mathval);
+                    }
+
+
+                } else {
                     double mathval = 1;
                     double horizontalvelocity = Math.abs(this.getVelocity().x) + Math.abs(this.getVelocity().z);
                     if (horizontalvelocity / 0.01783440120041885 > 1) {
                         mathval = horizontalvelocity / 0.01783440120041885;
                     }
 
-                    travelVectorOriginal = new Vec3d(travelVectorOriginal.x / mathval,travelVectorOriginal.y,travelVectorOriginal.z / mathval);
+                    travelVectorOriginal = new Vec3d(travelVectorOriginal.x / mathval, travelVectorOriginal.y, travelVectorOriginal.z / mathval);
                 }
 
-
-
-            }else{
-                    double mathval = 1;
-                    double horizontalvelocity = Math.abs(this.getVelocity().x) + Math.abs(this.getVelocity().z);
-                    if (horizontalvelocity / 0.01783440120041885 > 1) {
-                        mathval = horizontalvelocity / 0.01783440120041885;
-                    }
-
-                    travelVectorOriginal = new Vec3d(travelVectorOriginal.x / mathval,travelVectorOriginal.y,travelVectorOriginal.z / mathval);
-                }
-
+            }
         }
-
         return travelVectorOriginal;
     }
 
@@ -143,14 +142,21 @@ public abstract class PlayerEntityMixin extends LivingEntity implements LaunchAc
             return new Vec3d(vec3d.x * (double)g - vec3d.z * (double)f, vec3d.y, vec3d.z * (double)g + vec3d.x * (double)f);
         }
     }
-
+private boolean enableNoDrag = false;
 
     @Inject(method = "tick", at = @At("HEAD"), cancellable = true)
     public void tick(CallbackInfo ci) {
 
         ItemStack feetStack = this.getEquippedStack(EquipmentSlot.FEET);
-        this.setNoDrag(!this.isOnGround() && !this.abilities.flying && !this.isFallFlying() && feetStack.getItem().equals(FluxTechItems.GRAVITRONS));
-
+        if((!this.isOnGround() && !this.abilities.flying && !this.isFallFlying() && feetStack.getItem().equals(FluxTechItems.GRAVITRONS))){
+            if(!enableNoDrag) {
+                enableNoDrag = true;
+            }
+                this.setNoDrag(true);
+        }else if (enableNoDrag){
+            enableNoDrag = false;
+            this.setNoDrag(false);
+        }
         //((LaunchAccessors) this).getLaunchVelocity();
 
         //if(initalflyspeed == Vec3d.ZERO && !this.isOnGround() && !this.abilities.flying && !this.isFallFlying() && feetStack.getItem().equals(FluxTechItems.GRAVITRONS)){

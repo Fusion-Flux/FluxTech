@@ -1,8 +1,8 @@
 {
   "itemGroup.fluxtech.general": "FluxTech",
-  "subtitles.fluxtech.hpdblast": "HPD Blast",
+  "subtitles.fluxtech.hpdblast": "Copper Creeper Blast",
   "item.fluxtech.copper_creeper": "Copper Creeper",
-  "item.fluxtech.mantreads": "Mantreads",
-  "item.fluxtech.market_gardner": "Market Gardner",
-  "text.autoconfig.fluxtech.option.numbers.hPDCooldown": "HPD Cooldown"
+  "item.fluxtech.pigstomps": "Pigstomps",
+  "item.fluxtech.phantom_farmer": "Phantom Farmer",
+  "text.autoconfig.fluxtech.option.numbers.hPDCooldown": "Copper Creeper Cooldown"
 }
