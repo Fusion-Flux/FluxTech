@@ -189,7 +189,7 @@ private boolean enableNoDrag = false;
         }
 
 
-        if (fluxtech$doGroundPound && feetStack.getItem() == FluxTechItems.GRAVITRONS) {
+        if (fluxtech$doGroundPound && feetStack.getItem() == FluxTechItems.GRAVITRONS && FluxTechConfig.get().numbers.doCrunch) {
             List<LivingEntity> stompableEntities = this.world.getEntitiesByClass(LivingEntity.class, this.getBoundingBox(), e -> true);
             stompableEntities.remove(this);
             for (LivingEntity entity : stompableEntities) {

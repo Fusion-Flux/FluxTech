@@ -20,6 +20,7 @@ public class FluxTechConfig implements ConfigData {
     public static class Numbers {
         public double hPDLaunchPower = 1.25;
         public int hPDCooldown = 10;
+        public boolean doCrunch = false;
     }
 
     @ConfigEntry.Gui.TransitiveObject
