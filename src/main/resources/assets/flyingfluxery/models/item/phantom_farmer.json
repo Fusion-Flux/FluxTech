@@ -1,6 +1,6 @@
 {
   "parent": "minecraft:item/handheld",
   "textures": {
-    "layer0": "fluxtech:item/phantom_farmer"
+    "layer0": "flyingfluxery:item/phantom_farmer"
   }
 }

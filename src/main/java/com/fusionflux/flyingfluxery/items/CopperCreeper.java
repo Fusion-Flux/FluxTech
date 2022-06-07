@@ -1,7 +1,7 @@
-package com.fusionflux.fluxtech.items;
+package com.fusionflux.flyingfluxery.items;
 
-import com.fusionflux.fluxtech.accessor.LaunchAccessors;
-import com.fusionflux.fluxtech.config.FluxTechConfig;
+import com.fusionflux.flyingfluxery.accessor.LaunchAccessors;
+import com.fusionflux.flyingfluxery.config.FluxTechConfig;
 import me.andrew.gravitychanger.api.GravityChangerAPI;
 import me.andrew.gravitychanger.util.RotationUtil;
 import net.minecraft.item.Item;

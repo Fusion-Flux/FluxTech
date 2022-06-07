@@ -1,9 +1,9 @@
 {
   "schemaVersion": 1,
-  "id": "fluxtech",
+  "id": "flyingfluxery",
   "version": "${version}",
-  "name": "FluxTech",
-  "description": "A \"tech\" mod focused around cool movement",
+  "name": "Flying Fluxery",
+  "description": "Trolldier TF2",
   "authors": [
     "Fusion Flux"
   ],
@@ -13,16 +13,16 @@
     "issues": "https://github.com/Fusion-Flux/FluxTech/issues"
   },
   "license": "MIT",
-  "icon": "assets/fluxtech/icon.png",
+  "icon": "assets/flyingfluxery/icon.png",
   "environment": "*",
   "entrypoints": {
     "main": [
-      "com.fusionflux.fluxtech.FluxTech"
+      "com.fusionflux.flyingfluxery.FlyingFluxery"
     ]
   },
 
   "mixins": [
-    "fluxtech.mixins.json"
+    "flyingfluxery.mixins.json"
   ],
   "depends": {
     "fabricloader": ">=0.7.4",

@@ -1,13 +1,13 @@
-package com.fusionflux.fluxtech.config;
+package com.fusionflux.flyingfluxery.config;
 
-import com.fusionflux.fluxtech.FluxTech;
+import com.fusionflux.flyingfluxery.FlyingFluxery;
 import me.shedaniel.autoconfig.AutoConfig;
 import me.shedaniel.autoconfig.ConfigData;
 import me.shedaniel.autoconfig.annotation.Config;
 import me.shedaniel.autoconfig.annotation.ConfigEntry;
 import me.shedaniel.autoconfig.serializer.JanksonConfigSerializer;
 
-@Config(name = FluxTech.MOD_ID)
+@Config(name = FlyingFluxery.MOD_ID)
 public class FluxTechConfig implements ConfigData {
     public static void register() {
         AutoConfig.register(FluxTechConfig.class, JanksonConfigSerializer::new);

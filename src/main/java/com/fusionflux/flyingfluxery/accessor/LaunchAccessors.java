@@ -1,4 +1,4 @@
-package com.fusionflux.fluxtech.accessor;
+package com.fusionflux.flyingfluxery.accessor;
 
 import net.minecraft.util.math.Vec3d;
 

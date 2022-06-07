@@ -1,6 +1,6 @@
 {
   "parent": "item/generated",
   "textures": {
-    "layer0": "fluxtech:item/pigstomps"
+    "layer0": "flyingfluxery:item/pigstomps"
   }
 }

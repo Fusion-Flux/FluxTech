@@ -1,4 +1,4 @@
-package com.fusionflux.fluxtech.items;
+package com.fusionflux.flyingfluxery.items;
 
 import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.item.ArmorMaterial;
